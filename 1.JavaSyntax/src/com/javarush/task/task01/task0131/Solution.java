@@ -11,8 +11,6 @@ public class Solution {
 
     public static int getMetreFromCentimetre(int centimetre) {
         //напишите тут ваш код
-        int metre = centimetre / 100;
-        // возращаем значение переменной metre как результат работы метода
-        return metre;
+        return centimetre / 100;
     }
 }

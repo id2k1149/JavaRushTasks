@@ -11,13 +11,9 @@ public class Solution {
 
     public static int sumDigitsInNumber(int number) {
         //напишите тут ваш код
-
-        int sum = 0;
         int hundreds = number / 100;
         int tens = (number - hundreds * 100) / 10;
         int numbers = number - hundreds * 100 - tens * 10;
-        sum = hundreds + tens + numbers;
-        return sum;
-
+        return hundreds + tens + numbers;
     }
 }
