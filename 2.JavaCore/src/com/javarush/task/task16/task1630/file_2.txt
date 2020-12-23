@@ -1,0 +1,3 @@
+line 1 file 2
+line 2 file 2
+/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task16/task1630/file_2.txt

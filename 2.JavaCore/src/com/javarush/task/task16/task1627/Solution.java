@@ -53,25 +53,18 @@ public class Solution {
         @Override
         public void run() {
             //Add your code here - добавь код тут
-            while (!isInterrupted()){
-                try {
-                    for (int i = 0; i < 4; i++) {
-                        System.out.println(this.getName() + ":" + OnlineGame.steps.get(i));
-                        Thread.sleep(1000/this.rating);
-                    }
-                    if (!OnlineGame.isWinnerFound){
-                        System.out.println(this.getName() + ":победитель!");
-                        OnlineGame.isWinnerFound = true;
-                        break;
-                    }
-                    else System.out.println(this.getName() + ":проиграл");
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
+            try {
+                for (int i = 0; i < OnlineGame.steps.size(); i++) {
+                    System.out.println(getName() + ":" + OnlineGame.steps.get(i));
+                    Thread.sleep(1000/rating);
                 }
-
+                if (!OnlineGame.isWinnerFound){
+                    System.out.println(this.getName() + ":победитель!");
+                    OnlineGame.isWinnerFound = true;
+                }
+            } catch (Exception exception) {
+                System.out.println(getName() + ":проиграл");
             }
-
         }
     }
 }
