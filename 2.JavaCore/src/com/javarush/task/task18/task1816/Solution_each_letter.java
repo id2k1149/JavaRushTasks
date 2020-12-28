@@ -25,9 +25,7 @@ public class Solution_each_letter {
             hashMap.put(each, 0);
         }
 
-
-
-        String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task18/task1816/file.txt";
+        String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task18/task1816/file_1.txt";
 
         FileInputStream inputStream = new FileInputStream(fileName);
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream, 200);

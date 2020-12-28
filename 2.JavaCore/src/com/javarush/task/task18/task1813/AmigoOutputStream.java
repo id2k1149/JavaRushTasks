@@ -7,7 +7,7 @@ AmigoOutputStream
 */
 
 public class AmigoOutputStream extends FileOutputStream {
-//    public static String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task18/task1813/file.txt";
+//    public static String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task18/task1813/file_1.txt";
     public static String fileName = "C:/tmp/result.txt";
 
     FileOutputStream fileOutputStream;

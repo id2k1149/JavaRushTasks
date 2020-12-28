@@ -66,7 +66,7 @@ public class Solution {
         // 6
         FileInputStream input1 = null;
         try {
-            input1 = new FileInputStream("D:/file.txt");
+            input1 = new FileInputStream("D:/file_1.txt");
         } catch (Exception e) {
             exceptions.add(e);
         }
