@@ -5,6 +5,8 @@ import com.javarush.task.task17.task1710_java.Person;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,87 +16,106 @@ import java.util.Date;
 */
 
 public class Solution {
-    public static void main(String[] args) throws IOException  {
+    public static void main(String[] args) throws IOException {
 //        String fileName;
 //        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in)))
 //        {
 //            fileName = bufferedReader.readLine();
 //        }
 
-        String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task19/task1918/file.txt";
-        String all_tags = "";
+        String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task19/task1918/data_file.txt";
+        String string = "";
+        int count_begin = 0;
+        int count_end = 0;
+        String a_tag = "span";
+        String the_tag_1 = ".*<" + a_tag + ".*";
+        String the_tag_2 = ".*</" + a_tag + ".*";
+        System.out.println(the_tag_1 + " " + the_tag_2);
+        ArrayList<String> splitedList = new ArrayList<>();
+        String result;
+        int index_begin = 0;
+        int index_end = 0;
 
         try (BufferedReader fileReader = new BufferedReader(new FileReader(fileName))) {
             while (fileReader.ready()) {
                 String line = fileReader.readLine();
-                all_tags = all_tags + line.replaceAll("\\n", "");
-            }
-        }
-        
-        System.out.println(all_tags);
-        System.out.println("--------------");
+                System.out.println(line);
+                String[] splitedLine = line.replaceAll("><", "> <").split(" ");
 
-        if (!(args == null || args.length < 1)){
-            String tag_to_find = args[0];
-            String start = "<" + tag_to_find;
-            String finish = "</" +tag_to_find + ">";
-            System.out.println(start + " " + finish);
-            System.out.println("--------------");
-            
-//            while (all_tags.length() != 0){
-//            }
-
-            int k = 1;
-            if (all_tags.charAt(0) != '<') {
-                while (all_tags.charAt(k) != '<') {
-                    k++;
+                for (String each: splitedLine) {
+                    splitedList.add(each);
                 }
             }
-            String to_remove = all_tags.substring(0, k);
-            System.out.println(to_remove);
 
-            all_tags = all_tags.replace(to_remove, "");
-            System.out.println(all_tags);
-            System.out.println(all_tags.charAt(0));
+            int end = splitedList.size();
 
-            int start_index;
-            int tag_count = 0;
-            while (all_tags.length() != 0){
-                for (int i = 0; i < all_tags.length(); i++) {
-                    if (all_tags.charAt(0) == '<') {
-                        String tag_to_check = all_tags.substring(0, start.length());
-                        if (tag_to_check.equals(start)) {
-                            start_index = 0;
-                            tag_count++;
-                            System.out.println("tag_count = " + tag_count);
+            for (String each: splitedList) {
+                string += each + " ";
+            }
+
+            System.out.println(string);
+            String[] splitedLine2 = string.split(" ");
+            System.out.println("----------------");
+
+            for (int i = 0; i < splitedLine2.length; i++) {
+                System.out.println("i = " + i + " " + splitedLine2[i]);
+                if (splitedLine2[i].matches(the_tag_1)) {
+                    if (count_begin == 0) index_begin = i;
+                    count_begin++;
+                    System.out.println("----->" + i + " " + splitedLine2[i] + " " + count_begin);
+                    System.out.println("begin j cicle " + (i + 1));
+                    for (int j = i + 1; j < splitedLine2.length; j++) {
+                        if (splitedLine2[j].matches(the_tag_2)) {
+                            count_end++;
+                            System.out.println("jjjj->" + j + " " + splitedLine2[j] + " " + count_end);
+
+                            if (count_end == count_begin) {
+                                System.out.println("+++++++++");
+                                for (int k = index_begin; k < j+1; k++) {
+                                    System.out.print(splitedLine2[k] + " ");
+                                }
+                                System.out.println("+++++++++");
+                            }
                         }
                     }
-                    if (tag_count == 5) {
-                        String to_print = all_tags.substring(0, i);
-                        System.out.println(to_print);
-                        break;
-                    }
                 }
-
-
-
             }
 
+//                    for (String word : splitedLine) {
+//                        if (word.matches(the_tag_1)) {
+//                            count_begin++;
+//                            System.out.println(word + " " + count_begin);
+//                        }
+//
+//                    }
+
+//                string += line.replaceAll("><", "> <");
 
 
-            
-
-            
-
+//        System.out.println(string);
+            System.out.println("--------------");
 
 
+//        String the_tag_1 = "<" + a_tag + ">(\\S+)</" + a_tag + ">";
+
+            //Creating a pattern object
+//        Pattern pattern = Pattern.compile(the_tag_1);
+
+            //Matching the compiled pattern in the String
+//        Matcher matcher = pattern.matcher(string);
+
+//        while(matcher.find()) {
+//            String tag = matcher.group(0);
+//            System.out.println(tag);
+//        }
+
+
+//        while (list.size() != 0) {
+
+//        }
+
+//        if (!(args == null || args.length < 1)){
+//        }
         }
-        else throw new RuntimeException();
-
-
-
-
-
-
     }
 }
