@@ -83,7 +83,6 @@ public class Solution {
                 }
             }
             printWriter.close();
-
         }
 
         public void load(InputStream inputStream) throws Exception {

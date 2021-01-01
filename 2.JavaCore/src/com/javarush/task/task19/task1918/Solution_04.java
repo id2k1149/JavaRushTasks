@@ -6,35 +6,32 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-
 /* 
 Знакомство с тегами
 */
 
-public class Solution {
+public class Solution_04 {
 
 
     public static void main(String[] args) throws IOException {
-
         String fileName;
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in)))
         {
             fileName = bufferedReader.readLine();
-
         }
 
 //        String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task19/task1918/file.properties";
 
         StringBuilder readFileContent = new StringBuilder();//создаем заполняемое поле для хранения данных html файла
 
+        try(BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-        try(BufferedReader fileReader = new BufferedReader(new FileReader(fileName))) {//вводим имя html файла, который нужно читать
+            BufferedReader fileReader = new BufferedReader(new FileReader(fileName))) {//вводим имя html файла, который нужно читать
+
             while (fileReader.ready()) {//выполнять следующее, пока файлРидер не прочитает файл полностью
                 readFileContent = readFileContent.append(fileReader.readLine());//циклами заполняем данными дополняемое поле
             }
-
         }
-
 
         String fileContent = readFileContent.toString().replaceAll("\r\n", "");//перемещаем все данные из стрингБафера в стринг без переносов строки
 
