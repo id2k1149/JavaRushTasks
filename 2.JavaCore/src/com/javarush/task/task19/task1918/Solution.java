@@ -23,8 +23,6 @@ public class Solution {
 
         }
 
-//        String fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/2.JavaCore/src/com/javarush/task/task19/task1918/file.properties";
-
         StringBuilder readFileContent = new StringBuilder();//создаем заполняемое поле для хранения данных html файла
 
 
@@ -67,6 +65,5 @@ public class Solution {
         for (String tag : tags) {
             System.out.println(tag);
         }
-
     }
 }
