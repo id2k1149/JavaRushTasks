@@ -29,38 +29,50 @@ same - (1, 1) - (4, 1)
         int n = crossword.length;
         int m = crossword[0].length;
 
-        int nn = n + 2;
-        int mm = m + 2;
-        int[][] b = new int[nn][mm];
-        for (int i = 0; i < nn ; i++) {
-            for (int j = 0; j < mm; j++) {
-                if (i == 0 || i == nn -1 || j == 0 || j == mm -1 ) b[i][j] = 0;
-                else b[i][j] = crossword[i-1][j-1];
-            }
-        }
+//        int nn = n + 2;
+//        int mm = m + 2;
+//        int[][] b = new int[nn][mm];
+//        for (int i = 0; i < nn ; i++) {
+//            for (int j = 0; j < mm; j++) {
+//                if (i == 0 || i == nn -1 || j == 0 || j == mm -1 ) b[i][j] = 0;
+//                else b[i][j] = crossword[i-1][j-1];
+//            }
+//        }
 
         ArrayList<String> words_list = new ArrayList<>();
         for (String each: words) {
             words_list.add(each);
         }
-//        for (String each: words_list) {
-//            System.out.println(each);
-//            char[] letters = each.toCharArray();
-//            for (char letter: letters) {
-//                System.out.print(letter + " ");
-//                for (int i = 0; i < n; i++) {
-//                    for (int j = 0; j < m; j++) {
-//                        if (crossword[i][j] == letter) {
-//
-//                        }
-//                    }
-//                }
-//            }
-//            System.out.println(" ");
-//        }
+        for (String each: words_list) {
+            System.out.println(each);
+            char[] letters = each.toCharArray();
+            while (true) {
+                letter_check(crossword, letters[0]);
+            }
+
+
+        }
 
 
         return null;
+    }
+
+    public static int letter_check(int[][] crossword, char letter){
+        int n = crossword.length;
+        int m = crossword[0].length;
+        int[][] find_letter = new int[1][1];
+        for (int i = 0; i < n ; i++) {
+            for (int j = 0; j < m; j++) {
+                if (crossword[i][j] == letter) {
+                    find_letter[0][0] = {i, j};
+                }
+
+            }
+        }
+
+
+
+        return ;
     }
 
     public static class Word {
