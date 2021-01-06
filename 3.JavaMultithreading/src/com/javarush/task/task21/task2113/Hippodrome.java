@@ -34,7 +34,12 @@ public class Hippodrome {
 
     // Метод print будет отрисовывать всех лошадей на экран.
     void print() {
-
+        for (Horse each: horses) {
+            each.print();
+        }
+        for (int i = 0; i < 10; i++) {
+            System.out.println();
+        }
     }
 
     // метод run будет управлять всем этим.
@@ -49,9 +54,13 @@ public class Hippodrome {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // инициализировать поле game
 //        game = new Hippodrome(new ArrayList());
+//        game.getHorses().add(new Horse("Lucky", 3, 0));
+//        game.getHorses().add(new Horse("Slevin", 3, 0));
+//        game.getHorses().add(new Horse("Homer", 3, 0));
+
 
         // Создать список лошадей (horses)
         List<Horse> horses = new ArrayList<>();
@@ -72,10 +81,14 @@ public class Hippodrome {
 //        game.horses.addAll(horses);
         game = new Hippodrome(horses);
 
+
 //        for (Horse h : game.getHorses()){
 //            System.out.println("" + h.getName() + h.getSpeed() + h.getDistance());
 //        }
 
+
+        // Добавь в конец метода main вызов run().
+        game.run();
 
 
     }
