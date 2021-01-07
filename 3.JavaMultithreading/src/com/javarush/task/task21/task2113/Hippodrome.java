@@ -54,6 +54,40 @@ public class Hippodrome {
         }
     }
 
+    // Метод должен возвращать лошадь пробежавшую самую большую дистанцию.
+    public Horse getWinner() {
+        double max = 0;
+        Horse winner = null;
+        for (Horse each: horses) {
+            if (each.distance > max) {
+                max = each.distance;
+                winner = each;
+            }
+        }
+        return winner;
+    }
+
+    // java
+//    public Horse getWinner() {
+//        Horse result = horses.get(0);
+//        for (Horse horse : horses) {
+//            if (horse.getDistance() > result.getDistance())
+//                result = horse;
+//        }
+//        return result;
+//    }
+
+    // Метод выводит на экран имя победителя
+    public void printWinner() {
+        System.out.println("Winner is " + getWinner().name + "!");
+    }
+
+    // java
+//    public void printWinner() {
+//        System.out.println("Winner is " + getWinner().getName() + "!");
+//    }
+
+
     public static void main(String[] args) throws InterruptedException {
         // инициализировать поле game
 //        game = new Hippodrome(new ArrayList());
@@ -89,6 +123,9 @@ public class Hippodrome {
 
         // Добавь в конец метода main вызов run().
         game.run();
+
+        // Добавь вызов метода printWinner в конец метода main.
+        game.printWinner();
 
 
     }

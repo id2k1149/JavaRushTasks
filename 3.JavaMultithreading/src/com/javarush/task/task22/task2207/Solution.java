@@ -13,45 +13,64 @@ public class Solution {
     public static void main(String[] args) {
 
         String fileName = null;
-//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-//            fileName = reader.readLine();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            fileName = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/3.JavaMultithreading/src/com/javarush/task/task22/task2207/file.txt";
+//        fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/3.JavaMultithreading/src/com/javarush/task/task22/task2207/file.txt";
 
         ArrayList<String> fileContent = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String[] splitedLine;
             String line;
-
             while ((line = br.readLine()) != null) {
                 splitedLine = line.split(" ");
                 for (String each: splitedLine) {
-                    fileContent.add(each);
+                    if (!(each.isEmpty())) fileContent.add(each.trim());
                 }
             }
         } catch (IOException ignore) {
             /*NOP */
         }
 
+//        for (String each: fileContent) {
+//            System.out.println(each.trim());
+//        }
+
         int count = 0;
-        for (int i = 0; i < fileContent.size(); i++) {
-            StringBuilder word = new StringBuilder(fileContent.get(i));
-            for (int j = i + 1; j < fileContent.size(); j++) {
-                if  (fileContent.get(j).equals(word.reverse().toString())) {
+        while (fileContent.size() > 1) {
+//            System.out.println("---------------------");
+//            System.out.println("length = " + fileContent.size());
+//            System.out.println("while starts");
+            StringBuilder word = new StringBuilder(fileContent.get(0));
+//            System.out.println("i = 0 -> " + word.toString());
+            String reverse = word.reverse().toString();
+//            System.out.println(" reverse = " + reverse);
+//            System.out.println("---------------------");
+            for (int i = 1; i < fileContent.size(); i++) {
+//                System.out.println(" i = " + i + " -> " + fileContent.get(i));
+                if (fileContent.get(i).equals(reverse)) {
+//                    System.out.println("if works");
                     Pair pair = new Pair();
-                    pair.first = fileContent.get(i);
-                    pair.second = fileContent.get(j);
-//                    && !(result.contains(Pair.reversePlace(pair)))
-                    if (!(result.contains(pair))) {
-                        result.add(count, pair);
-                        count++;
-                    }
+                    pair.first = fileContent.get(0);
+                    pair.second = fileContent.get(i);
+                    result.add(count, pair);
+                    count++;
+                    fileContent.remove(i);
+                    break;
                 }
             }
+            fileContent.remove(0);
         }
+
+//        Iterator<String> iterator = word_array.iterator();
+//        while (iterator.hasNext()) {
+//    .......
+//            iterator.remove();
+//    .......
+//        }
 
         for (Pair each: result) {
             System.out.println(each.first + " " + each.second);
