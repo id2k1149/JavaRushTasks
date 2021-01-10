@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
 
 public class Solution {
     public static void main(String[] args) {
-        //...
+
         String fileName = null;
 //        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
 //            fileName = reader.readLine();
@@ -23,6 +23,7 @@ public class Solution {
         fileName = "/Users/mikepol/IdeaProjects/JavaRushTasks/3.JavaMultithreading/src/com/javarush/task/task22/task2209/file.txt";
 
         ArrayList<String> fileContent = new ArrayList<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String[] splitedLine;
             String line;
@@ -46,9 +47,8 @@ public class Solution {
         System.out.println(result.toString());
     }
 
-    public static StringBuilder getLine(String... words) {
+    public static StringBuilder getLine(String... words)  {
         StringBuilder result = new StringBuilder("");
-        StringBuilder copy = new StringBuilder("");
         if (words.length == 0) {
             return result;
         }
@@ -57,57 +57,116 @@ public class Solution {
 
         System.out.println("---------");
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
+            System.out.print(list.get(i) + " ");
         }
+        System.out.println();
         System.out.println("list.size = " + list.size());
+
+        String word = "";
+        String word2 = "";
+
+
+        for (int i = 0; i < list.size(); i++) {
+
+            System.out.println("i = " + i);
+            word = list.get(i);
+            char w_first_letter = word.charAt(0);
+            char w_last_letter = word.charAt(word.length() - 1);
+            if (w_first_letter == w_last_letter) {
+                System.out.println("we found word " + word);
+                list.remove(i);
+                for (int j = 0; j < list.size(); j++) {
+                    System.out.println("list.size = " + list.size());
+                    word2 = list.get(j);
+                    System.out.println("word2 = " + word2);
+                    char l_first_letter = word2.charAt(0);
+                    char l_last_letter = word2.charAt(word2.length() - 1);
+                    if (w_last_letter == l_first_letter) {
+                        word += (" " + word2);
+                        System.out.println("< " + word + " >");
+                        list.remove(j);
+                        list.add(word);
+                        System.out.println("---------");
+                        System.out.println("list.size = " + list.size());
+                        for (int k = 0; k < list.size(); k++) {
+                            System.out.print("<" + list.get(k) + " > ");
+                        }
+                        System.out.println();
+                        System.out.println("---------");
+                        break;
+
+                    } else if (w_first_letter == l_last_letter) {
+                        word2 += (" " + word);
+                        System.out.println("< " + word2 + " >");
+                        list.remove(j);
+                        list.add(word2);
+                        System.out.println("---------");
+                        System.out.println("list.size = " + list.size());
+                        for (int k = 0; k < list.size(); k++) {
+                            System.out.print("<" + list.get(k) + " > ");
+                        }
+                        System.out.println();
+                        System.out.println("---------");
+                        break;
+                    }
+                }
+            }
+        }
+
         System.out.println("---------");
+        System.out.println("list.size = " + list.size());
 
-        int random_index = (int) Math.random() * list.size();
-        System.out.println("random_index = " + random_index);
-        result = new StringBuilder(list.get(random_index));
-        list.remove(random_index);
-
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print("<" + list.get(i) + " > ");
+        }
+        System.out.println();
+        System.out.println("---------");
 
         while (list.size() > 1) {
 
             System.out.println("---------");
-            System.out.println(result.toString());
+            System.out.println("list.size = " + list.size());
             for (int i = 0; i < list.size(); i++) {
-                System.out.println(list.get(i));
+                System.out.print("<" + list.get(i) + " > ");
             }
-            System.out.println("---------");
+            System.out.println();
+//            System.out.println("---------");
 
-
-
-            char r_first_letter = result.toString().toLowerCase().charAt(0);
-            char r_last_letter = result.charAt(result.length() - 1);
-
-            System.out.println("r_first_letter = " + r_first_letter + " r_last_letter = " + r_last_letter);
-
+            word = list.get(0);
+            list.remove(0);
+            char last_letter = word.charAt(word.length() - 1);
+            System.out.println("word = " + word +  " last_letter = " + last_letter);
 
             for (int i = 0; i < list.size(); i++) {
                 char first_letter = list.get(i).toLowerCase().charAt(0);
-                char last_letter = list.get(i).charAt(list.get(i).length() - 1);
-
-                System.out.println("first_letter = " + first_letter + " last_letter = " + last_letter);
-                if (r_last_letter == first_letter && r_first_letter != last_letter) {
-                    result.append(" " + list.get(i));
+                System.out.println("first_letter = " + first_letter);
+                if (last_letter == first_letter) {
+                    word += " " + list.get(i);
                     list.remove(i);
-                    System.out.println(result.toString());
-                    break;
-                }
-                else if (r_first_letter == last_letter && r_last_letter != first_letter) {
-                    copy = new StringBuilder(list.get(i));
-                    copy.append(" " + result);
-                    result = copy;
-                    list.remove(i);
-                    System.out.println(result.toString());
                     break;
                 }
             }
+            System.out.println("word --->" + word);
+            char w_first_letter = word.charAt(0);
+            char w_last_letter = word.charAt(word.length() - 1);
+            if (w_first_letter == w_last_letter) {
+                String[] splited = word.split(" ");
+                System.out.println(splited);
+                String word3 = splited[0];
+                System.out.println("word3 --->" + word3);
+                word = word.substring(word3.length() + 1);
+                word += (" " + word3);
+                System.out.println("new word --->" + word);
+            }
+
+            list.add(word);
+
+
         }
 
-        result = new StringBuilder(list.get(0));
+        System.out.println("WORD = " + word);
+
+        result = new StringBuilder(word.trim());
 
         return result;
     }
