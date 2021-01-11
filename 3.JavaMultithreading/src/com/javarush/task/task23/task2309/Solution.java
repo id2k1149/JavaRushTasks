@@ -11,29 +11,61 @@ import java.util.List;
 public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
-//        print(solution.getUsers());
-//        print(solution.getLocations());
+        print(solution.getUsers());
+        print(solution.getLocations());
+        print(solution.getServers());
+        print(solution.getSubjects());
+        print(solution.getSubscriptions());
     }
 
-//    public List<Location> getLocations() {
-//        return new AbstractDbSelectExecutor;
-//    }
-//
-//    public List<Server> getServers() {
-//        return new AbstractDbSelectExecutor;
-//    }
-//
-//    public List<Subject> getSubjects() {
-//        return new AbstractDbSelectExecutor;
-//    }
-//
-//    public List<Subscription> getSubscriptions() {
-//        return new AbstractDbSelectExecutor;
-//    }
-//
-//    public List<User> getUsers() {
-//        return new AbstractDbSelectExecutor<User>();
-//    }
+    public List<Location> getLocations() {
+        return new AbstractDbSelectExecutor<Location>() {
+            @Override
+            public String getQuery() {
+                return "SELECT * FROM LOCATION";
+                // java
+//                return ("select * from " + "Location").toUpperCase();
+            }
+        }.execute();
+    }
+
+    public List<Server> getServers() {
+        return new AbstractDbSelectExecutor<Server>() {
+            @Override
+            public String getQuery() {
+                return "SELECT * FROM SERVER";
+            }
+        }.execute();
+    }
+
+    public List<Subject> getSubjects() {
+        return new AbstractDbSelectExecutor<Subject>() {
+            @Override
+            public String getQuery() {
+                return "SELECT * FROM SUBJECT";
+            }
+        }.execute();
+    }
+
+    public List<Subscription> getSubscriptions() {
+        return new AbstractDbSelectExecutor<Subscription>() {
+            @Override
+            public String getQuery() {
+                return "SELECT * FROM SUBSCRIPTION";
+            }
+        }.execute();
+    }
+
+    public List<User> getUsers() {
+        return new AbstractDbSelectExecutor<User>() {
+            @Override
+            public String getQuery() {
+                return "SELECT * FROM USER";
+                // java
+//                return ("select * from " + "User").toUpperCase();
+            }
+        }.execute();
+    }
 
 
 

@@ -1,19 +1,16 @@
 package com.javarush.task.task23.task2312;
 
-
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
-/**
- * Основной класс программы.
- */
-public class Room {
+public class Room_14 {
     private int width;
     private int height;
     private Snake snake;
     private Mouse mouse;
 
-    public Room(int width, int height, Snake snake) {
+    public static Room_14 game;
+
+    public Room_14(int width, int height, Snake snake) {
         this.width = width;
         this.height = height;
         this.snake = snake;
@@ -56,7 +53,7 @@ public class Room {
      * Основной цикл программы.
      * Тут происходят все важные действия
      */
-    public void run() {
+    public void run() throws InterruptedException {
         //Создаем объект "наблюдатель за клавиатурой" и стартуем его.
         KeyboardObserver keyboardObserver = new KeyboardObserver();
         keyboardObserver.start();
@@ -88,82 +85,89 @@ public class Room {
             sleep();        //пауза между ходами
         }
 
-        //Выводим сообщение "Game Over"
         System.out.println("Game Over!");
     }
 
-    /**
-     * Выводим на экран текущее состояние игры
-     */
     public void print() {
         //Создаем массив, куда будем "рисовать" текущее состояние игры
-        int[][] matrix = new int[height][width];
-
-        //Рисуем все кусочки змеи
-        ArrayList<SnakeSection> sections = new ArrayList<SnakeSection>(snake.getSections());
-        for (SnakeSection snakeSection : sections) {
-            matrix[snakeSection.getY()][snakeSection.getX()] = 1;
+        int[][] screen = new int[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (i == 0) screen[i][j] = 8;
+                if (j == 0) screen[i][j] = 8;
+                if (i == height - 1) screen[i][j] = 8;
+                if (j == width - 1) screen[i][j] = 8;
+            }
         }
 
-        //Рисуем голову змеи (4 - если змея мертвая)
-        matrix[snake.getY()][snake.getX()] = snake.isAlive() ? 2 : 4;
+        //Рисуем все кусочки змеи
+        int x_head = game.snake.getX();
+        int y_head = game.snake.getY();
+        screen[y_head][x_head] = 2;
+
+        for (int i = 1; i < game.snake.getSections().size(); i++) {
+            screen[game.snake.getSections().get(i).getY()][game.snake.getSections().get(i).getX()] = 1;
+        }
 
         //Рисуем мышь
-        matrix[mouse.getY()][mouse.getX()] = 3;
+        int x_mouse = game.mouse.getX();
+        int y_mouse = game.mouse.getY();
+        screen[y_mouse][x_mouse] = 3;
 
         //Выводим все это на экран
-        String[] symbols = {" . ", " x ", " X ", "^_^", "RIP"};
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                System.out.print(symbols[matrix[y][x]]);
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+//                System.out.print(screen[i][j]);
+                if (screen[i][j] == 8) System.out.print(".");
+                if (screen[i][j] == 0) System.out.print(" ");
+                if (screen[i][j] == 1) System.out.print("x");
+                if (screen[i][j] == 2) System.out.print("X");
+                if (screen[i][j] == 3) System.out.print("^");
             }
             System.out.println();
         }
-        System.out.println();
-        System.out.println();
-        System.out.println();
     }
 
-    /**
-     * Метод вызывается, когда мышь съели
-     */
     public void eatMouse() {
         createMouse();
     }
 
-    /**
-     * Создает новую мышь
-     */
     public void createMouse() {
         int x = (int) (Math.random() * width);
         int y = (int) (Math.random() * height);
-
         mouse = new Mouse(x, y);
     }
 
-
-    public static Room game;
-
-    public static void main(String[] args) {
-        game = new Room(20, 20, new Snake(10, 10));
+    public static void main(String[] args) throws InterruptedException {
+        game = new Room_14(30, 10, new Snake(10, 5));
         game.snake.setDirection(SnakeDirection.DOWN);
         game.createMouse();
         game.run();
+        game.print();
     }
-
-
-    private int initialDelay = 520;
-    private int delayStep = 20;
 
     /**
-     * Программа делает паузу, длинна которой зависит от длинны змеи.
+     * Программа делает паузу, длинна которой зависит от длины змеи.
      */
-    public void sleep() {
-        try {
-            int level = snake.getSections().size();
-            int delay = level < 15 ? (initialDelay - delayStep * level) : 200;
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-        }
+    public void sleep() throws InterruptedException {
+        // делаем паузу, длинна которой зависит от длинны змеи
+        int level = snake.getSections().size();
+        int time1 = 520 - 20 * level;
+        int time2 = 200 + 25 * (15 - level);
+        if (level <= 11) Thread.sleep(time1);
+        else if (level <= 15) Thread.sleep(time2);
+        else Thread.sleep(200);
     }
+
+    //java
+//    private int initialDelay = 520;
+//    private int delayStep = 20;
+//    public void sleep() {
+//        try {
+//            int level = snake.getSections().size();
+//            int delay = level < 15 ? (initialDelay - delayStep * level) : 200;
+//            Thread.sleep(delay);
+//        } catch (InterruptedException e) {
+//        }
+//    }
 }

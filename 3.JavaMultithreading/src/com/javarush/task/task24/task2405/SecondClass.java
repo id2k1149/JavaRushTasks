@@ -12,11 +12,7 @@ public class SecondClass implements Action {
 
     protected StringBuilder sb = new StringBuilder(SECOND_CLASS_METHOD_STRING);
 
-//    public void someAction() {
-//        System.out.println(sb.toString());
-//    }
-
     public void someAction() {
-        System.out.print(sb.toString());
+        System.out.println(sb.toString());
     }
 }

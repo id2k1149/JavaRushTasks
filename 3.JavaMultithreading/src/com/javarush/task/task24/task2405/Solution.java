@@ -14,14 +14,13 @@ public class Solution implements Action {
 
         public void someAction() {
             //напишите тут ваш код
-            for (int i = param; i > 0 ; i--) {
-                System.out.println(i);
+            while (param > 0){
+                System.out.println(param--);
             }
+            param += 1;
 
             if (param > 0) {
-
                 FirstClass firstClass = new FirstClass() {
-
                     @Override
                     public Action getDependantAction() {
                         return null;
@@ -33,26 +32,19 @@ public class Solution implements Action {
                     }
                 };
                 firstClass.someAction();
-                SecondClass secondClass = new SecondClass() {
-                    @Override
-                    public void someAction() {
-                        System.out.println(sb.toString());
-                    }
-                };
+
+                SecondClass secondClass = new SecondClass();
+                secondClass.sb.append(SecondClass.SPECIFIC_ACTION_FOR_ANONYMOUS_SECOND_CLASS_PARAM);
+                secondClass.sb.append(param-1);
                 secondClass.someAction();
+
             }
             else {
-                SecondClass secondClass = new SecondClass() {
-                    @Override
-                    public void someAction() {
-                        System.out.println(sb.toString());
-                    }
-                };
+                SecondClass secondClass = new SecondClass();
+                secondClass.sb.append(SecondClass.SPECIFIC_ACTION_FOR_ANONYMOUS_SECOND_CLASS_PARAM);
+                secondClass.sb.append(param-1);
                 secondClass.someAction();
             }
-
-
-
         }
     };
 
