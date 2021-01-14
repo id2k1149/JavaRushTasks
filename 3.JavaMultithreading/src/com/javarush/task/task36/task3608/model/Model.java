@@ -5,3 +5,5 @@ public interface Model {
 
     void loadUsers();
 }
+
+

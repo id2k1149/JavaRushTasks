@@ -3,7 +3,7 @@ package com.javarush.task.task25.task2503;
 import java.util.LinkedList;
 import java.util.List;
 
-public enum Column implements Columnable {
+public enum Column_java implements Columnable {
     Customer("Customer"),
     BankName("Bank Name"),
     AccountNumber("Account Number"),
@@ -13,7 +13,7 @@ public enum Column implements Columnable {
 
     private static int[] realOrder;
 
-    private Column(String columnName) {
+    private Column_java(String columnName) {
         this.columnName = columnName;
     }
 
@@ -24,9 +24,9 @@ public enum Column implements Columnable {
      * @param newOrder новая последовательность колонок, в которой они будут отображаться в таблице
      * @throws IllegalArgumentException при дубликате колонки
      */
-    public static void configureColumns(Column... newOrder) {
+    public static void configureColumns(Column_java... newOrder) {
         realOrder = new int[values().length];
-        for (Column column : values()) {
+        for (Column_java column : values()) {
             realOrder[column.ordinal()] = -1;
             boolean isFound = false;
 
@@ -48,12 +48,24 @@ public enum Column implements Columnable {
      *
      * @return список колонок
      */
-    public static List<Column> getVisibleColumns() {
-        List<Column> result = new LinkedList<>();
-        for (int i = 0;  i < realOrder.length;  i++) {
-            for (int j = 0; j < realOrder.length; j++) {
-                if (realOrder [j] ==  i )
-                    result.add(values() [j] );
+    public static List<Column_java> getVisibleColumns() {
+        List<Column_java> result = new LinkedList<>();
+        int nextIndex = 0;
+        boolean hasNextElement = true;
+        while (hasNextElement) {
+            hasNextElement = false;
+            for (int i = 0; i < realOrder.length; i++) {
+                if (realOrder[i] == nextIndex) {
+                    result.add(values()[i]);
+                    break;
+                }
+            }
+            for (int i = 0; i < realOrder.length; i++) {
+                if (realOrder[i] == nextIndex + 1) {
+                    hasNextElement = true;
+                    nextIndex++;
+                    break;
+                }
             }
         }
         return result;
@@ -66,11 +78,20 @@ public enum Column implements Columnable {
 
     @Override
     public boolean isShown() {
-        return realOrder[ordinal()] >= 0;
+        return realOrder != null && realOrder[ordinal()] != -1;
     }
 
     @Override
     public void hide() {
+        int oldOrder = realOrder[ordinal()];
+        if (oldOrder == -1) return; //already hidden
         realOrder[ordinal()] = -1;
+        //reorder
+        for (int i = 0; i < realOrder.length; i++) {
+            int currentIndex = realOrder[i];
+            if (currentIndex != -1 && currentIndex > oldOrder) {
+                realOrder[i] -= 1;
+            }
+        }
     }
 }
