@@ -14,13 +14,18 @@ public class Human {
 
     protected int[] size;
 
-    protected boolean isSoldier;
+//    protected boolean isSoldier;
 
     public static final int FIRST = 1;
     public static final int SECOND = 2;
     public static final int THIRD = 3;
     public static final int FOURTH = 4;
     private int bloodGroup;
+
+    public Human(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
 
     public List<Human> getChildren() {
         return Collections.unmodifiableList(children);
@@ -42,11 +47,11 @@ public class Human {
         return bloodGroup;
     }
 
-    public Human(boolean isSoldier) {
-        this.isSoldier = isSoldier;
-        this.id = nextId;
-        nextId++;
-    }
+//    public Human(boolean isSoldier) {
+//        this.isSoldier = isSoldier;
+//        this.id = nextId;
+//        nextId++;
+//    }
 
     public int getAge() {
         return age;
@@ -69,12 +74,12 @@ public class Human {
     }
 
     public void live() {
-        if (isSoldier)
-            fight();
+//        if (isSoldier)
+//            fight();
     }
 
-    public void fight() {
-    }
+//    public void fight() {
+//    }
 
     public int getId() {
         return id;
