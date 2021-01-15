@@ -16,21 +16,27 @@ public class Solution extends TimerTask {
         }
         this.original = original;
         //init handler here
-        class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+        class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-                String s = e.getMessage();
-                s = s.replace("Blah", " ").trim();
-                s = s.replace("blah-blah-blah", " ").trim();
-//                System.out.println(s);
-                String stars = "";
-                for (int i = 0; i < s.length(); i++) {
-                    stars += "*";
-                }
-                System.out.println("Blah " + stars + " blah-blah-blah");
+//                System.out.println(t.getName());
+                    String stars = "";
+                    for (int i = 0; i < t.getName().length(); i++) {
+                        stars += "*";
+                    }
+
+                    String[] e_message = e.getMessage().split(t.getName());
+                    String result = "";
+                    for (int i = 0; i < e_message.length; ++i) {
+                        result += e_message[i];
+                        if (i != e_message.length - 1) {
+                            result += stars;
+                        }
+                    }
+                    System.out.println(result);
             }
         }
-        this.handler = new MyUncaughtExceptionHandler();
+        this.handler = new UncaughtExceptionHandler();
     }
 
     public void run() {
@@ -63,7 +69,24 @@ public class Solution extends TimerTask {
 //            public void run() {
 //                throw new UnsupportedOperationException();
 //            }
-//        })).start();
+//        })).run();
+
+//        TimerTask timerTask = new TimerTask() {  //original
+//            @Override
+//            public void run() {
+//                throw new ArithmeticException();
+//            }
+//        };
+//        Solution solution = new Solution(timerTask);
+//        solution.run();
+
+//        Thread thread = new Thread(new Solution(new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println(5/0);
+//            }
+//        }));
+//        thread.start();
 
     }
 }

@@ -10,7 +10,7 @@ public class Solution extends Thread  {
 
 
     public Solution() {
-        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler()
+        setUncaughtExceptionHandler(new UncaughtExceptionHandler()
         {
             @Override
             public void uncaughtException(Thread t, Throwable e)
@@ -18,11 +18,30 @@ public class Solution extends Thread  {
                 /*проверки*/
                 if (e instanceof Error) System.out.println("Нельзя дальше работать");
                 else if (e instanceof Exception) System.out.println("Надо обработать");
-                else System.out.println("Поживем - увидим");
+                else if (e.getClass() == Throwable.class) System.out.println("Поживем - увидим");
+
+//                  #2
+//                switch (e.getClass().getSimpleName()) {
+//                    case "Error":
+//                        System.out.println("Нельзя дальше работать");
+//                        break;
+//                    case "Exception":
+//                        System.out.println("Надо обработать");
+//                        break;
+//                    case "Throwable":
+//                        System.out.println("Поживем - увидим");
+//                        break;
+//                }
              }
         });
     }
 
+//    public void run(){
+//        throw new Error("error");
+//    }
+
     public static void main(String[] args) {
+//        Solution solution = new Solution();
+//        solution.start();
     }
 }
