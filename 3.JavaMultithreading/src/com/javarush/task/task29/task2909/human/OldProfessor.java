@@ -1,7 +1,8 @@
 package com.javarush.task.task29.task2909.human;
 
-public class Professor extends Teacher {
-    Professor(String name, int age, int numberOfStudents) {
+// previous class Professor
+public class OldProfessor extends Teacher {
+    OldProfessor(String name, int age, int numberOfStudents) {
         super(name, age, numberOfStudents);
     }
 

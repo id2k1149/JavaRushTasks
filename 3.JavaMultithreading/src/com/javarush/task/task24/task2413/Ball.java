@@ -3,14 +3,18 @@ package com.javarush.task.task24.task2413;
 public class Ball extends BaseObject {
     //скорость шарика
     private double speed;
+
     //направление движения шарика (в градусах от 0 до 360)
     private double direction;
+
     // расстояние по x, которое проходит шарик за один шаг.
     // вычисляется на основе speed и direction
     private double dx;
+
     // расстояние по y, которое проходит шарик за один шаг.
     // вычисляется на основе speed и direction)
     private double dy;
+
     // "истина" если шарик "заморожен" - не двигается)
     private boolean isFrozen;
 
@@ -55,5 +59,16 @@ public class Ball extends BaseObject {
 
     public double getDy() {
         return dy;
+    }
+
+    public void setDirection(double direction) {
+        this.direction = direction;
+        double angle = Math.toRadians(direction);
+        dx = Math.cos(angle) * speed;
+        dy = -Math.sin(angle) * speed;
+    }
+
+    public void checkRebound(int minx, int maxx, int miny, int maxy) {
+
     }
 }
