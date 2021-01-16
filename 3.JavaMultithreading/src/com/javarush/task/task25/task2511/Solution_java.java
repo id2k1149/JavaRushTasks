@@ -6,44 +6,26 @@ import java.util.TimerTask;
 Вооружаемся до зубов!
 */
 
-public class Solution extends TimerTask {
+public class Solution_java extends TimerTask {
     protected TimerTask original;
     protected final Thread.UncaughtExceptionHandler handler;
 
-    public Solution(TimerTask original) {
+    public Solution_java(TimerTask original) {
         if (original == null) {
             throw new NullPointerException();
         }
         this.original = original;
         //init handler here
-        class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+        this.handler = new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-//                System.out.println(t.getName());
-//                String stars = "";
-//                for (int i = 0; i < t.getName().length(); i++) {
-//                    stars += "*";
-//                }
-
-//                String[] e_message = e.getMessage().split(t.getName());
-//                String result = "";
-//                for (int i = 0; i < e_message.length; ++i) {
-//                    result += e_message[i];
-//                    if (i != e_message.length - 1) {
-//                        result += stars;
-//                    }
-//                }
-
-                String stars = t.getName().replaceAll(".","*");
-//                String stars = t.getName().replaceAll("[\\S\\s]","*");
-                String newMess = e.getMessage().replace(t.getName(),stars);
-                e = new Exception(newMess, e);
-                System.out.println(e.getMessage());
-                t.setName(stars);
-
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < t.getName().length(); i++) {
+                    builder.append('*');
+                }
+                System.out.println(e.getMessage().replaceAll(t.getName(), builder.toString()));
             }
-        }
-        this.handler = new UncaughtExceptionHandler();
+        };
     }
 
     public void run() {
@@ -87,13 +69,13 @@ public class Solution extends TimerTask {
 //        Solution solution = new Solution(timerTask);
 //        solution.run();
 //
-//        Thread thread = new Thread(new Solution(new TimerTask() {
-//            @Override
-//            public void run() {
-//                System.out.println(5/0);
-//            }
-//        }));
-//        thread.start();
+        Thread thread = new Thread(new Solution(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(5/0);
+            }
+        }));
+        thread.start();
 
     }
 }
