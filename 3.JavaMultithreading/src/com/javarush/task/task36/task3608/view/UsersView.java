@@ -9,24 +9,25 @@ public class UsersView implements View {
     private Controller controller;
 
     @Override
-    public void setController(Controller controller) {
-        this.controller = controller;
+    public void refresh(ModelData modelData) {
+//        if (modelData.isDisplayDeletedUserList()) {
+//            System.out.println("All deleted users:");
+//        }
+//        else {
+//            System.out.println("All users:");
+//        }
+
+        System.out.println("All " + (modelData.isDisplayDeletedUserList() ? "deleted " : "") + "users:");
+
+        for (User each: modelData.getUsers()) {
+            System.out.println("\t" + each);
+        }
+        System.out.println("===================================================");
     }
 
     @Override
-    public void refresh(ModelData modelData) {
-        if (modelData.isDisplayDeletedUserList()) {
-            System.out.println("All deleted users:");
-        }
-        else {
-            System.out.println("All users:");
-        }
-
-        for (User each: modelData.getUsers()) {
-            System.out.print("\t" + each);
-            System.out.println();
-        }
-        System.out.println("===================================================");
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public void fireEventShowAllUsers() {

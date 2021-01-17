@@ -12,6 +12,10 @@ public class Solution {
     int var4;
     private Object lock1 = new Object();
     private Object lock2 = new Object();
+    // java
+//    public final Object lock1 = new Object();
+//    public final Object lock2 = new Object();
+
 
     public Solution(int var1, int var2, int var3, int var4) {
         this.var1 = var1;

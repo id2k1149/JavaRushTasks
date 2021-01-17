@@ -34,4 +34,9 @@ public class MainModel implements Model {
         //refresh model data
         modelData.setUsers(usersList);
     }
+
+    public void loadUserById(long userId) {
+        User user = userService.getUsersById(userId);
+        modelData.setActiveUser(user);
+    }
 }
