@@ -20,8 +20,6 @@ public class EditUserView implements View {
         this.controller = controller;
     }
 
-    public void fireEventOpenUserEditForm(long id) {
-        controller.onOpenUserEditForm(id);
-    }
+
 }
 

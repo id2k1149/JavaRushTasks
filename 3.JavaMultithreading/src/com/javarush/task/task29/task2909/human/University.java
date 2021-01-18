@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class University {
-    private String name;
-    private int age;
+    String name;
+    int age;
     private List<Student> students = new ArrayList<>();
+
 
     public String getName() {
         return name;
@@ -24,17 +25,18 @@ public class University {
         this.age = age;
     }
 
+    public University(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
     public List<Student> getStudents() {
         return students;
     }
-
+    
     public void setStudents(List<Student> students) {
         this.students = students;
     }
-
-    //    public University(String name, int age) {
-//        super(name, age, 0);
-//    }
 
     public Student getStudentWithAverageGrade() {
         //TODO:

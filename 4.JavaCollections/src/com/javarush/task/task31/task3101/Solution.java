@@ -1,6 +1,7 @@
 package com.javarush.task.task31.task3101;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -9,6 +10,7 @@ import java.util.*;
 /* 
 Проход по дереву файлов
 https://javarush.ru/groups/posts/2275-files-path
+Убедись, что в файл allFilesContent.txt не записываются лишние данные.
 */
 
 public class Solution {
@@ -52,7 +54,7 @@ public class Solution {
                     int read = in.read();
                     out.write(read);
                 }
-                out.write("\n".getBytes());
+                out.write("\n".getBytes(StandardCharsets.UTF_8));
                 in.close();
             }
         }
@@ -64,11 +66,15 @@ public class Solution {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException, IOException {
 
+            // check if file name contains search string
+            if (!file.toString().endsWith(".txt")) return FileVisitResult.CONTINUE;
+
             byte[] content = Files.readAllBytes(file);
 
-            if(content.length < 50) {
+            if(content.length <= 50 && content.length > 0) {
                 foundFiles.add(file.getFileName()   + " " + file.toAbsolutePath().toString());
             }
+
             return FileVisitResult.CONTINUE;
         }
     }
