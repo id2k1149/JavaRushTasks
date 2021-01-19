@@ -12,21 +12,28 @@ public class Solution {
         // before
 //        Model model = new FakeModel();
         // after
+
+        //Создаём новые объекты для паттерна
         Model model = new MainModel();
-
-        Controller controller = new Controller();
-        controller.setModel(model);
-        
         UsersView usersView = new UsersView();
-        usersView.setController(controller);
-        controller.setUsersView(usersView);
-
         EditUserView editUserView = new EditUserView();
-        editUserView.setController(controller);
+        Controller controller = new Controller();
+
+        //Инициализация контроллера
+        controller.setModel(model);
+        controller.setUsersView(usersView);
         controller.setEditUserView(editUserView);
 
+        //Прописваем контроллер в наши въюшки
+        usersView.setController(controller);
+        editUserView.setController(controller);
+
+        //Вызовы въюшек
         usersView.fireEventShowAllUsers();
         usersView.fireEventOpenUserEditForm(126);
+        editUserView.fireEventUserDeleted(124L);
+        editUserView.fireEventUserChanged("new Sidorov", 126, 5);
+
         usersView.fireEventShowDeletedUsers();
 
     }

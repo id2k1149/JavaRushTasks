@@ -1,6 +1,8 @@
 package com.javarush.task.task29.task2909.human;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class University {
@@ -38,17 +40,52 @@ public class University {
         this.students = students;
     }
 
-    public Student getStudentWithAverageGrade() {
-        //TODO:
-        return null;
+    public Student getStudentWithAverageGrade(double averageGrade) {
+//        for (Student each: students) {
+//            if (each.getAverageGrade() == averageGrade) return each;
+//        }
+//        return null;
+        return students
+                .stream()
+                .filter(x -> averageGrade == x.getAverageGrade())
+                .findFirst()
+                .get();
     }
 
-    public Student getStudentWithMaxAverageGrade(double averageGrade) {
-        //TODO:
-        return null;
+    public Student getStudentWithMaxAverageGrade() {
+        //метод должен возвращать студента с максимальным средним балом
+//        double max = 0;
+//        int number = 0;
+//        for (int i = 0; i < students.size(); i++) {
+//            if (students.get(i).getAverageGrade() > max) {
+//                max = students.get(i).getAverageGrade();
+//                number = i;
+//            }
+//        }
+//        return students.get(number);
+        return Collections.max(students, Comparator.comparingDouble(Student::getAverageGrade));
+
     }
 
-    public void getStudentWithMinAverageGradeAndExpel() {
-        //TODO:
+//    public void getStudentWithMinAverageGradeAndExpel() {
+//    }
+
+    public Student getStudentWithMinAverageGrade(){
+        // метод должен возвратить студента с минимальным средним балом
+//        double min = students.get(0).getAverageGrade();
+//        int number = 0;
+//        for (int i = 0; i < students.size(); i++) {
+//            if (students.get(i).getAverageGrade() < min) {
+//                min = students.get(i).getAverageGrade();
+//                number = i;
+//            }
+//        }
+//        return students.get(number);
+        return Collections.min(students, Comparator.comparingDouble(Student::getAverageGrade));
+
+    }
+
+    public void expel(Student student) {
+        students.remove(student);
     }
 }

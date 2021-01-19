@@ -1,6 +1,7 @@
 package com.javarush.task.task20.task2027;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /* 
@@ -15,132 +16,95 @@ public class Solution {
                 {'l', 'n', 'g', 'r', 'o', 'v'},
                 {'m', 'l', 'p', 'r', 'r', 'h'},
                 {'p', 'o', 'e', 'e', 'j', 'j'}
-//                {'s', 'd', 'e', 'r', 'l', 'k'},
-//                {'u', 's', 'a', 'm', 'e', 'o'},
-//                {'s', 'n', 'g', 'r', 'o', 'v'},
-//                {'u', 'l', 'p', 'r', 'r', 'h'},
-//                {'s', 'u', 's', 'e', 'j', 'j'}
         };
-        detectAllWords(crossword,  "home", "same");
+        List<Word> list = detectAllWords(crossword,  "home", "same");
+
         /*
 Ожидаемый результат
 home - (5, 3) - (2, 0)
 same - (1, 1) - (4, 1)
          */
+
+        for (Word each: list) {
+            System.out.println(each.toString());
+        }
+    }
+
+    enum Directions {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+        RIGHT_UP,
+        LEFT_UP,
+        RIGHT_DOWN,
+        LEFT_DOWN
     }
 
     public static List<Word> detectAllWords(int[][] crossword, String... words) {
-
-        int n = crossword.length;
-        int m = crossword[0].length;
-        int end[] = new int[2];
         List<Word> list = new ArrayList<>();
+        int crosswordHeight = crossword.length;
+        int crosswordWidth = crossword[0].length;
+        boolean rightBorder, leftBorder, upBorder, downBorder;
+        for(String s : words) {
+            int firstCh = s.charAt(0);
+            int wordLength = s.length();
+            for(int h = 0; h < crosswordHeight; h++) {
+                for(int w = 0; w < crosswordWidth; w++) {
+                    rightBorder = leftBorder = upBorder = downBorder = false;
+                    if(crossword[h][w] == firstCh) {
 
-        ArrayList<String> words_list = new ArrayList<>();
-        for (String each: words) {
-            words_list.add(each);
+                        if((crosswordWidth - w) >= wordLength) rightBorder = true;
+                        if((w + 1) >= wordLength) leftBorder = true;
+                        if((h + 1) >= wordLength) upBorder = true;
+                        if((crosswordHeight - h) >= wordLength) downBorder = true;
 
-        }
-        for (String each: words_list) {
-            System.out.println(each + " " + each.length());
-
-            Word word = new Word(each);
-
-            char first = each.charAt(0);
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    if (crossword[i][j] == first) {
-                        System.out.println((char) crossword[i][j] + " " + i + " " + j);
-                        end = check(i, j, each, crossword);
-
-                        word.startX = j;
-                        word.startY = i;
-
-                        System.out.println("XY --->" + end[0] + " " + end[1]);
-
-                        word.endX = end[1];
-                        word.endY = end[0];
-                        list.add(word);
-
-
+                        if(rightBorder) searchAndAdd(list, crossword, w, h, Directions.RIGHT, s);
+                        if(leftBorder) searchAndAdd(list, crossword, w, h, Directions.LEFT, s);
+                        if(upBorder) searchAndAdd(list, crossword, w, h, Directions.UP, s);
+                        if(downBorder) searchAndAdd(list, crossword, w, h, Directions.DOWN, s);
+                        if(rightBorder && upBorder) searchAndAdd(list, crossword, w, h, Directions.RIGHT_UP, s);
+                        if(leftBorder && upBorder) searchAndAdd(list, crossword, w, h, Directions.LEFT_UP, s);
+                        if(rightBorder && downBorder) searchAndAdd(list, crossword, w, h, Directions.RIGHT_DOWN, s);
+                        if(leftBorder && downBorder) searchAndAdd(list, crossword, w, h, Directions.LEFT_DOWN, s);
                     }
                 }
             }
         }
-
-
-        for (Word each: list) {
-            System.out.println("---->" + each.toString());
-        }
-
-
         return list;
     }
 
-    public static int[] check(int i, int j, String word, int[][] crossword) {
-        System.out.println("start to check " + word);
-
-        int end[] = new int[2];
-        int[][] directions = new int[][]{
-                {1, 1},
-                {1, 0},
-                {1, -1},
-                {0, -1},
-                {-1, -1},
-                {-1, 0},
-                {-1, 1},
-                {0, 1},
-        };
-        for (int k = 0; k < 8; k++) {
-            System.out.println(directions[k][0] + " " + directions[k][1]);
-
-            if (i + word.length()*directions[k][0] > crossword.length ||
-                    j + word.length()*directions[k][1] > crossword[0].length ||
-                    i + word.length()*directions[k][0] < 0 ||
-                    j + word.length()*directions[k][1] < 0
-            ) {
-                System.out.println(" go to another direction ");
-                continue;
+    public static void searchAndAdd(List<Word> list, int[][]crossword, int x, int y, Directions direction, String word) {
+        int wordLength = word.length();
+        int endX = 0;
+        int endY = 0;
+        boolean wordIsFind = false;
+        char[] wordChars = word.toCharArray();
+        for(int ch = 1; ch < wordLength; ch++) {
+            switch (direction) {
+                case RIGHT: endX = x + ch; endY = y; break;
+                case LEFT: endX = x - ch; endY = y; break;
+                case UP: endX = x; endY = y - ch; break;
+                case DOWN: endX = x; endY = y + ch; break;
+                case RIGHT_UP: endX = x + ch; endY = y - ch; break;
+                case LEFT_UP: endX = x - ch; endY = y - ch; break;
+                case RIGHT_DOWN: endX = x + ch; endY = y + ch; break;
+                case LEFT_DOWN: endX = x - ch; endY = y + ch; break;
             }
-            int ii = i + directions[k][0];
-            int jj = j +directions[k][1];
-
-            char letter =  (char )(crossword[ii][jj]);
-            System.out.println(letter);
-
-            if (letter == word.charAt(1)) {
-                System.out.println(" we found direction !!!!" + directions[k][0] + " " + directions[k][1]);
-
-                end = go_this_way(directions[k][0], directions[k][1], ii, jj, word, crossword);
-
-
-
+            if(wordChars[ch] == (char) crossword[endY][endX])
+                wordIsFind = true;
+            else {
+                wordIsFind = false;
+                break;
             }
         }
-
-        return end;
-    }
-
-    public static int[] go_this_way(int x, int y, int ii, int jj, String word, int[][] crossword) {
-        System.out.println("we go - > " + x + " " + y + " " + ii + " " + jj);
-        int[] end = new int[2];
-        for (int i = 2; i < word.length(); i++) {
-            ii += x;
-            jj += y;
-            char letter = (char )(crossword[ii][jj]);
-            System.out.println(letter);
-            if (letter == word.charAt(i)) {
-                end[0] = ii;
-                end[1] = jj;
-                continue;
-            }
-            else break;
+        if(wordIsFind) {
+            Word word_to_add = new Word(word);
+            word_to_add.setStartPoint(x, y);
+            word_to_add.setEndPoint(endX, endY);
+            list.add(word_to_add);
         }
-        System.out.println("we have whole word!!! " + end[0]  + " " + end[1]);
-        return end;
     }
-
-
 
     public static class Word {
         private String text;
