@@ -17,13 +17,14 @@ https://javarush.ru/groups/posts/2275-files-path
 Убедись, что в файл allFilesContent.txt не записываются лишние данные.
 */
 
-public class Solution_01 {
+public class Solution_02 {
     public static void main(String[] args) throws IOException {
-//        String path = args[0];
-//        String resultFileAbsolutePath.txt = args[1];
 
-        String path = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101";
-        String resultFileAbsolutePath = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101/resultFileAbsolutePath.txt";
+//        String path = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101";
+//        String resultFileAbsolutePath.txt = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101/resultFileAbsolutePath.txt";
+
+        String path = args[0];
+        String resultFileAbsolutePath = args[1];
 
         File source = new File(resultFileAbsolutePath);
         File destination = new File(source.getParent() + "/allFilesContent.txt");
@@ -50,19 +51,17 @@ public class Solution_01 {
 
 
         try (FileOutputStream out = new FileOutputStream(destination)) {
-            int count = 0;
+            boolean separator = false;
             for(String file : finalList){
-
-                if(count !=0 ) {
-                    out.write("\n".getBytes());
+                if(separator) {
+                    out.write("\n".getBytes(StandardCharsets.UTF_8));
                 }
                 FileInputStream in = new FileInputStream(file);
-                count = 1;
                 while (in.available() > 0) {
                     int read = in.read();
                     out.write(read);
                 }
-                out.write("\n".getBytes(StandardCharsets.UTF_8));
+                separator = true;
                 in.close();
             }
         }
@@ -79,7 +78,7 @@ public class Solution_01 {
 
             byte[] content = Files.readAllBytes(file);
 
-            if(content.length <= 50 && content.length > 0) {
+            if(content.length <= 50) {
                 foundFiles.add(file.getFileName()   + " " + file.toAbsolutePath().toString());
             }
 

@@ -67,8 +67,6 @@ public class University {
 
     }
 
-//    public void getStudentWithMinAverageGradeAndExpel() {
-//    }
 
     public Student getStudentWithMinAverageGrade(){
         // метод должен возвратить студента с минимальным средним балом

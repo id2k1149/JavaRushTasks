@@ -34,7 +34,6 @@ public class RealEstate {
         for (Apartment apartment : allApartments) {
             boolean randomValue = Math.random() * 2 % 2 == 0;
             synchronized (apartment) {
-//            synchronized (RealEstate.class) {
                 apartment.revalidate(randomValue);
             }
         }
