@@ -19,11 +19,11 @@ https://javarush.ru/groups/posts/2275-files-path
 public class Solution {
     public static void main(String[] args) throws IOException {
 
-        String path = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101";
-        File resultFileAbsolutePath = new File("/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101/resultFileAbsolutePath.txt");
+//        String path = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101";
+//        File resultFileAbsolutePath = new File("/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3101/resultFileAbsolutePath.txt");
 
-//        String path = args[0];
-//        File resultFileAbsolutePath.txt = new File(args[1]) ;
+        String path = args[0];
+        File resultFileAbsolutePath = new File(args[1]) ;
 
         File allFileContent = new File(resultFileAbsolutePath.getParent() + "/allFilesContent.txt");
         FileUtils.renameFile(resultFileAbsolutePath,allFileContent);

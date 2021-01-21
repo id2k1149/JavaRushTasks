@@ -17,6 +17,12 @@ public class Solution {
         retrieveValue();
         latch.countDown();
         latch.await();
+
+//        java
+//        latch.await();
+//        retrieveValue();
+//        latch.countDown();
+
     }
 
     void retrieveValue() {

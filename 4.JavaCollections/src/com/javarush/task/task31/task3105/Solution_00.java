@@ -44,24 +44,5 @@ public class Solution_00 {
         // закрываем архив
         zip.close();
 
-
-
-//        ZipInputStream zis = new ZipInputStream(new FileInputStream(path_to_zip));
-//        ZipEntry zipEntry1;
-//        while ((zipEntry1 = zis.getNextEntry()) != null) {
-//            System.out.println(zipEntry1.getName());
-//            System.out.println(zipEntry1.getSize());
-//        }
-//        zis.close();
-//
-//        ZipFile zipFile = new ZipFile(path_to_zip);
-//        Enumeration zipEnum = zipFile.entries();
-//        while (zipEnum.hasMoreElements()) {
-//            ZipEntry zipEntry2 = (ZipEntry) zipEnum.nextElement();
-//            System.out.println(zipEntry2.getSize());
-//        }
-
-
-
     }
 }

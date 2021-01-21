@@ -14,15 +14,15 @@ public class Archiver {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("Enter path to archive");
-        String path_to_archive = reader.readLine();
-
-        File archive = new File(path_to_archive);
-        String archive_name = archive.getName();
-        ZipFileManager zipFileManager = new ZipFileManager(Paths.get(archive_name));
-
+//        String path_to_archive = reader.readLine();
+        String path_to_archive = "/Users/mikepol/IdeaProjects/JavaRushTasks/3.JavaMultithreading/src/com/javarush/task/task31/task3110/test.zip";
+        ZipFileManager zipFileManager = new ZipFileManager(Paths.get(path_to_archive));
 
         System.out.println("Enter path to file");
-        String path_to_file = reader.readLine();
+//        String path_to_file = reader.readLine();
+        String path_to_file = "/Users/mikepol/IdeaProjects/JavaRushTasks/3.JavaMultithreading/src/com/javarush/task/task31/task3110/a3110.txt";
+
+
         zipFileManager.createZip(Paths.get(path_to_file));
     }
 }

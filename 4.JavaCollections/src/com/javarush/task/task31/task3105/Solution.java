@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -29,28 +31,60 @@ public class Solution {
 
 
 //        Чтение архивов. ZipInputStream
-        ZipInputStream zin = new ZipInputStream(new FileInputStream(path_to_zip));
+        ZipInputStream inputStream = new ZipInputStream(new FileInputStream(path_to_zip));
 
         ZipEntry entry;
         String name;
 
-        while((entry = zin.getNextEntry()) != null){
+        while((entry = inputStream.getNextEntry()) != null){
 
             name = entry.getName() + "_01"; // получим название файла
 //            System.out.printf("File name: %s \t ", name);
 
-            // распаковка
 
-            String path = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/";
+            Path tempFile = Files.createTempFile("temp-",".tmp");
 
-            FileOutputStream fos = new FileOutputStream(path + name);
-            while (zin.read() != -1) {
-                fos.write(zin.read());
+
+
+//            String path = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/";
+
+//            FileOutputStream outputStream = new FileOutputStream(path + name);
+            while (inputStream.read() != -1) {
+                Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            fos.flush();
-            zin.closeEntry();
-            fos.close();
+            while (inputStream.read() != -1) {
+                Files.copy(inputStream, Paths.get(path_to_file));
+            }
+
+
+            inputStream.closeEntry();
+
+            Path file00 = tempFile;
+            for (String line : Files.readAllLines(file00)) {
+                System.out.println(line);
+            }
+
+            // создаем архив
+            FileOutputStream outputStream = new FileOutputStream(path_to_zip);
+            ZipOutputStream zip = new ZipOutputStream(outputStream);
+
+            ZipEntry entry1 = new ZipEntry(tempFile.getFileName().toString());
+            //кладем в архив ZipEntry – «архивный объект»
+            zip.putNextEntry(entry1);
+
+            //копируем файл «document-for-archive.txt» в архив под именем «document.txt»
+            File file1 = new File(tempFile.toAbsolutePath().toString());
+            Files.copy(file1.toPath(), zip);
+
+
+
+            // закрываем архив
+            zip.close();
+
+
+
+
         }
     }
 }
