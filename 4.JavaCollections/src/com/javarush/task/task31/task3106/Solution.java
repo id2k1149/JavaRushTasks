@@ -1,11 +1,7 @@
 package com.javarush.task.task31.task3106;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.zip.ZipEntry;
+import java.util.*;
 import java.util.zip.ZipInputStream;
 
 /* 
@@ -13,26 +9,27 @@ import java.util.zip.ZipInputStream;
 */
 
 public class Solution {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         String resultFileName = args[0];
-        System.out.println(resultFileName);
 
-        List<String> names_list = new ArrayList<>();
-        int names_number = args.length;
-        for (int i = 1; i < names_number; i++) {
-            names_list.add(args[i]);
-        }
+        Vector<FileInputStream> files = new Vector<>();
+        Arrays.sort(args, 1, args.length);
 
-        Collections.sort(names_list);
-        for (int i = 0; i < names_list.size(); i++) {
-            System.out.println(names_list.get(i));
-        }
+        try {
+            for(int i = 1; i < args.length; i++) {
+                files.addElement(new FileInputStream(args[i]));
+            }
+        } catch (FileNotFoundException exc) {}
 
-        FileOutputStream fos = new FileOutputStream(args[0]);
-
-        FileInputStream zipFile = new FileInputStream(resultFileName);
-        ZipInputStream zip = new ZipInputStream(zipFile);
-
-
+        try (ZipInputStream zip = new ZipInputStream(new SequenceInputStream(files.elements()));
+             FileOutputStream fos = new FileOutputStream(resultFileName)) {
+            byte[] buffer = new byte[2048];
+            int len;
+            while (zip.getNextEntry() != null) {
+                while ((len = zip.read(buffer)) != -1) {
+                    fos.write(buffer, 0, len);
+                }
+            }
+        } catch (IOException exc) {}
     }
 }

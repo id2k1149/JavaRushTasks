@@ -18,9 +18,19 @@ public class Car {
     private boolean driverAvailable;
     private int numberOfPassengers;
 
-    public Car(int type, int numberOfPassengers) {
+    protected Car(int type, int numberOfPassengers) {
         this.type = type;
         this.numberOfPassengers = numberOfPassengers;
+    }
+
+    // https://refactoring.guru/ru/replace-constructor-with-factory-method
+    public static Car create(int type, int numberOfPassengers) {
+        switch (type) {
+            case TRUCK: return new Truck(numberOfPassengers);
+            case SEDAN: return new Sedan(numberOfPassengers);
+            case CABRIOLET: return new Cabriolet(numberOfPassengers);
+            default: return new Car(type, numberOfPassengers);
+        }
     }
 
     public int fill(double numberOfLiters) {

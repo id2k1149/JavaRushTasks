@@ -16,7 +16,7 @@ https://www.youtube.com/watch?v=aE_w3c-rnSo
 
 public class Solution_02 {
     public static void main(String[] args) throws IOException {
-        String path_to_file = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/result.mp3";
+        String path_to_file = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/result.txt";
         File path_to_zip = new File("/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/test.zip");
 
 //        полный путь к файлу fileName.
