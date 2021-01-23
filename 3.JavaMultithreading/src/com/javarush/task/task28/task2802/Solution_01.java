@@ -12,7 +12,7 @@ https://www.youtube.com/watch?v=Bn4XARHucQI
 для трэдов по шаблону "GN-pool-A-thread-B".
 */
 
-public class Solution {
+public class Solution_01 {
 
     public static class AmigoThreadFactory implements ThreadFactory {
         private final ThreadGroup group;
@@ -21,12 +21,13 @@ public class Solution {
 
         public AmigoThreadFactory() {
             group = Thread.currentThread().getThreadGroup();
+
         }
 
         @Override
         public Thread newThread(Runnable r) {
-            Thread thread = new Thread(group, r);
-//            Thread thread = new Thread(r);
+//            Thread thread = new Thread(group, r);
+            Thread thread = new Thread(r);
             if (thread.isDaemon())
                 thread.setDaemon(false);
 
@@ -34,9 +35,7 @@ public class Solution {
                 thread.setPriority(Thread.NORM_PRIORITY);
 
             String GN = group.getName();
-
             int A = poolNumber.getAndIncrement();
-//            if (A > group.getClass())
             int B = threadNumber.getAndIncrement();
 
             String name = GN + "-pool-" + A + "-thread-" + B;
