@@ -20,7 +20,7 @@ public class ReadWriteMap<K, V> {
         try {
             return map.put(key, value);
         } finally {
-
+            writeLock.unlock();
         }
     }
 
@@ -29,7 +29,7 @@ public class ReadWriteMap<K, V> {
         try {
             return map.get(key);
         } finally {
-
+            readLock.unlock();
         }
     }
 }

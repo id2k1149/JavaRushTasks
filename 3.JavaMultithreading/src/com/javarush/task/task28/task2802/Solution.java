@@ -15,32 +15,27 @@ https://www.youtube.com/watch?v=Bn4XARHucQI
 public class Solution {
 
     public static class AmigoThreadFactory implements ThreadFactory {
+
         private final ThreadGroup group;
-        private static final AtomicInteger poolNumber = new AtomicInteger(1);
+        private final static AtomicInteger poolNumber_or_factoryCount = new AtomicInteger(1);
         private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String name;
 
         public AmigoThreadFactory() {
             group = Thread.currentThread().getThreadGroup();
+            String GN = group.getName();
+            int A = poolNumber_or_factoryCount.getAndIncrement();
+            name = GN + "-pool-" + A + "-thread-";
         }
 
         @Override
         public Thread newThread(Runnable r) {
-            Thread thread = new Thread(group, r);
-//            Thread thread = new Thread(r);
+            Thread thread = new Thread(group, r, name + threadNumber.getAndIncrement(), 0);
             if (thread.isDaemon())
                 thread.setDaemon(false);
 
             if (thread.getPriority() != Thread.NORM_PRIORITY)
                 thread.setPriority(Thread.NORM_PRIORITY);
-
-            String GN = group.getName();
-
-            int A = poolNumber.getAndIncrement();
-//            if (A > group.getClass())
-            int B = threadNumber.getAndIncrement();
-
-            String name = GN + "-pool-" + A + "-thread-" + B;
-            thread.setName(name);
 
             return thread;
         }

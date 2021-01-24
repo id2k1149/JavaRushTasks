@@ -9,9 +9,10 @@ public class SnakeGame extends Game {
 
     @Override
     public void initialize() {
-
         //  Создаем игровое поле
         setScreenSize(WIDTH, HEIGHT);
+
+        createGame();
 
         //  Выключаем отображение сетки
 //        showGrid(false);
@@ -19,7 +20,20 @@ public class SnakeGame extends Game {
         //  Меняем фон центральной клетки на синий, и отображаем в ней “Х”
 //        setCellValueEx(1, 1, Color.BLUE, "X", Color.ORANGE, 50);
 
+    }
 
+    // действия, которые нужно выполнить для создания игры
+    private void createGame(){
+        drawScene();
+    }
+
+    private void drawScene(){
+        //  Меняем фон
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                setCellColor(x, y, Color.DARKSEAGREEN);
+            }
+        }
     }
 
 }
