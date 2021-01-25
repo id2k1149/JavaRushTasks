@@ -10,13 +10,8 @@ public class Game2048 extends Game {
     @Override
     public void initialize() {
         setScreenSize(SIDE, SIDE);
-        createGame();
-
-    }
-
-    // действия, которые нужно выполнить для создания игры
-    private void createGame(){
         drawScene();
+
     }
 
     private void drawScene(){

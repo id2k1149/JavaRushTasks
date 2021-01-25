@@ -16,6 +16,26 @@ public class Server {
         private Handler(Socket socket) {
             this.socket = socket;
         }
+
+        private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException {
+            Message request = new Message(MessageType.NAME_REQUEST, "Введите имя: ");
+            Message response;
+            String userName;
+            while (true) {
+                connection.send(request);
+                response = connection.receive();
+                userName = response.getData();
+                if (response.getType() == MessageType.USER_NAME
+                        && !userName.isEmpty()
+                        && !userName.equals("")
+                        && !connectionMap.containsKey(userName)) {
+                    connectionMap.put(userName, connection);
+                    break;
+                }
+            }
+            connection.send(new Message(MessageType.NAME_ACCEPTED, "Вы добавлены в чат!"));
+            return userName;
+        }
     }
 
     public static void sendBroadcastMessage(Message message) {

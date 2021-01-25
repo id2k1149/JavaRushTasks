@@ -59,7 +59,7 @@ public abstract class Car {
         return length * summerFuelConsumption;
     }
 
-    public boolean canPassengersBeTransferred() {
+    private boolean canPassengersBeTransferred() {
         return (isDriverAvailable() && fuel > 0);
     }
 
