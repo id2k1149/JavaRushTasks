@@ -19,5 +19,21 @@ public class Solution {
         logger3.inform("We found a bug", Level.WARN);
         logger3.inform("Database connection error", Level.ERROR);
         logger3.inform("System shut down", Level.FATAL);
+
+        /*
+        Logging to file: Everything is OK
+
+        Logging to console: We found a bug
+        Logging to file: We found a bug
+
+        Send SMS to CEO: Database connection error
+        Logging to console: Database connection error
+        Logging to file: Database connection error
+
+        Call to director: System shut down
+        Send SMS to CEO: System shut down
+        Logging to console: System shut down
+        Logging to file: System shut down
+         */
     }
 }

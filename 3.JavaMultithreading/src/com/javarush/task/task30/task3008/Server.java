@@ -36,6 +36,31 @@ public class Server {
             connection.send(new Message(MessageType.NAME_ACCEPTED, "Вы добавлены в чат!"));
             return userName;
         }
+
+        private void notifyUsers(Connection connection, String userName) throws IOException {
+            for (Map.Entry each: connectionMap.entrySet()) {
+                String name = each.getKey().toString();
+                if (!name.equals(userName)) {
+                    Message message = new Message(MessageType.USER_ADDED, name);
+                    connection.send(message);
+                }
+            }
+        }
+
+        void serverMainLoop(Connection connection, String userName) throws IOException, ClassNotFoundException {
+            while (true) {
+                Message messageReceived = connection.receive();
+                StringBuilder text = new StringBuilder();
+                if (messageReceived.getType() == MessageType.TEXT) {
+                    text.append(userName);
+                    text.append(": ");
+                    text.append(messageReceived.getData());
+                    Message messageToSend = new Message(MessageType.TEXT, text.toString());
+                    sendBroadcastMessage(messageToSend);
+                }
+                else ConsoleHelper.writeMessage("Неверный тип сообщения");
+            }
+        }
     }
 
     public static void sendBroadcastMessage(Message message) {

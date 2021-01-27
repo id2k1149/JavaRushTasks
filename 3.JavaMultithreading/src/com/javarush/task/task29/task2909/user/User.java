@@ -63,14 +63,13 @@ public class User {
     public void setCity(String city) {
         address.setCity(city);
     }
-//
-//    public String getAddress() {
-//        return country + " " + city + " " + house.house;
-//    }
 
+    public String getAddress() {
+        return address.getCountry() + " " + address.getCity() + " " + address.getHouse();
+    }
 
-    public Address getAddress() {
-        return address;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Work getWork() {
@@ -81,8 +80,8 @@ public class User {
         this.work = work;
     }
 
-    public void getBoss(){
-
+    public String getBoss(){
+        return work.getBoss();
     }
 
     public void printInfo() {

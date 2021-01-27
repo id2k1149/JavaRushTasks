@@ -1,6 +1,6 @@
 package com.javarush.task.task31.task3110;
 
-public enum Operation {
+public enum Operation_old {
     CREATE("упаковать файлы в архив"),
     ADD("добавить файл в архив"),
     REMOVE("удалить файл из архива"),
@@ -10,7 +10,7 @@ public enum Operation {
 
     private String comment;
 
-    Operation(String comment) {
+    Operation_old(String comment) {
         this.comment = comment;
     }
 

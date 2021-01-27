@@ -1,32 +1,30 @@
 package com.javarush.task.task31.task3110;
 
 import com.javarush.task.task31.task3110.command.ExitCommand;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
+import com.javarush.task.task31.task3110.exception.WrongZipFileException;
+import java.io.IOException;
 
 public class Archiver {
+    public static Operation askOperation() throws IOException {
+        System.out.println("Выберите операцию:");
+        for(Operation operation : Operation.values())
+            ConsoleHelper.writeMessage(String.format("%s - %s", operation.ordinal(), operation));
+
+        int operationNumber = ConsoleHelper.readInt();
+        return Operation.values()[operationNumber];
+    }
 
     public static void main(String[] args) throws Exception {
-
-        // полный путь архива
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("Enter path to archive");
-        String path_to_archive = reader.readLine();
-//        String path_to_archive = "/Users/mikepol/IdeaProjects/JavaRushTasks/3.JavaMultithreading/src/com/javarush/task/task31/task3110/test.zip";
-
-        ZipFileManager zipFileManager = new ZipFileManager(Paths.get(path_to_archive));
-
-        System.out.println("Enter path to file");
-        String path_to_file = reader.readLine();
-//        String path_to_file = "/Users/mikepol/IdeaProjects/JavaRushTasks/3.JavaMultithreading/src/com/javarush/task/task31/task3110/2.txt";
-
-
-        zipFileManager.createZip(Paths.get(path_to_file));
-
-        ExitCommand exitCommand = new ExitCommand();
-        exitCommand.execute();
+        Operation operation = null;
+        while (operation != Operation.EXIT) {
+            try {
+                operation = askOperation();
+                CommandExecutor.execute(operation);
+            } catch (WrongZipFileException exception) {
+                ConsoleHelper.writeMessage("Вы не выбрали файл архива или выбрали неверный файл.");
+            } catch (Exception e) {
+                ConsoleHelper.writeMessage("Произошла ошибка. Проверьте введенные данные.");
+            }
+        }
     }
 }

@@ -62,7 +62,7 @@ public class UserHelper {
     }
 
     public String getBossName(User user) {
-        Work work = user.getWork();
-        return work.getBoss();
+//        Work work = user.getWork();
+        return user.getBoss();
     }
 }

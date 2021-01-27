@@ -45,6 +45,23 @@ public class Solution {
         return String.valueOf(result);
     }
 
+    //java
+//    public static String getAllNumbersBetween(int a, int b) {
+//        StringBuilder sb = new StringBuilder();
+//        if (a < b) {
+//            for (int i = a; i <= b; i++) {
+//                sb.append(i);
+//                sb.append(" ");
+//            }
+//        } else {
+//            for (int i = a; i >= b; i--) {
+//                sb.append(i);
+//                sb.append(" ");
+//            }
+//        }
+//        return sb.toString().trim();
+//    }
+
     public static void main(String[] args) {
         Random random = new Random();
         numberA = random.nextInt(1000);
