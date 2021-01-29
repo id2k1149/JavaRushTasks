@@ -1,20 +1,14 @@
 package com.javarush.games.snake;
 
-import com.javarush.engine.cell.Color;
-import com.javarush.engine.cell.Game;
+import com.javarush.engine.cell.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Snake {
     private List<GameObject> snakeParts = new ArrayList<>();
-//    private static final String SNAKE_SIGN = "\uD83C\uDF4E";
-//
-//    public void draw(Game game) {
-//        for (GameObject each: snakeParts) {
-//            game.setCellValueEx(each.x, each.y, Color.NONE, SNAKE_SIGN, Color.RED, 75);
-//        }
-//    }
+    private static final String HEAD_SIGN = "\uD83D\uDC7E";
+    private static final String BODY_SIGN = "\u26AB";
 
     public Snake(int x, int y) {
        GameObject part1 = new GameObject(x, y);
@@ -23,5 +17,12 @@ public class Snake {
        snakeParts.add(part2);
        GameObject part3 = new GameObject(x + 2, y);
        snakeParts.add(part3);
+    }
+
+    public void draw(Game game){
+        game.setCellValue(snakeParts.get(0).x, snakeParts.get(0).y, HEAD_SIGN);
+        for (int i = 1; i < snakeParts.size(); i++) {
+            game.setCellValue(snakeParts.get(i).x, snakeParts.get(i).y, BODY_SIGN);
+        }
     }
 }

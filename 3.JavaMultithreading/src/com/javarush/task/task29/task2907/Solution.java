@@ -14,6 +14,8 @@ public class Solution {
 
     public static BigDecimal getValue(double v1, double v2) {
 //        return new BigDecimal(v1).add(new BigDecimal(v2));
-        return BigDecimal.valueOf(v1).add(BigDecimal.valueOf(v2));
+        BigDecimal bigDecimal_1 = new BigDecimal(BigDecimal.valueOf(v2).toString()) ;
+        BigDecimal bigDecimal_2 = new BigDecimal( BigDecimal.valueOf(v1).toString());
+        return bigDecimal_1.add(bigDecimal_2);
     }
 }
