@@ -23,7 +23,7 @@ public class ConsoleHelper {
         }
     }
 
-    static int readInt() {
+    public static int readInt() {
         while (true) {
             try {
                 return Integer.parseInt(readString());

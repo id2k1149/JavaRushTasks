@@ -19,7 +19,7 @@ public class Order {
     public String toString() {
         String yourOrder = "";
         if (dishes.size() != 0 && dishes != null) {
-            yourOrder = "Your order:" + dishes + " of " + tablet;
+            yourOrder = "Your order: " + dishes + " of " + tablet;
         }
         return yourOrder;
     }

@@ -9,6 +9,8 @@ public class Snake {
     private List<GameObject> snakeParts = new ArrayList<>();
     private static final String HEAD_SIGN = "\uD83D\uDC7E";
     private static final String BODY_SIGN = "\u26AB";
+    public boolean isAlive = true;
+    private Direction direction = Direction.LEFT;
 
     public Snake(int x, int y) {
        GameObject part1 = new GameObject(x, y);
@@ -19,10 +21,18 @@ public class Snake {
        snakeParts.add(part3);
     }
 
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public void draw(Game game){
-        game.setCellValue(snakeParts.get(0).x, snakeParts.get(0).y, HEAD_SIGN);
+        Color snakeColor;
+        if (isAlive) snakeColor = Color.RED;
+        else snakeColor = Color.BLACK;
+
+        game.setCellValueEx(snakeParts.get(0).x, snakeParts.get(0).y, Color.NONE, HEAD_SIGN, snakeColor, 75);
         for (int i = 1; i < snakeParts.size(); i++) {
-            game.setCellValue(snakeParts.get(i).x, snakeParts.get(i).y, BODY_SIGN);
+            game.setCellValueEx(snakeParts.get(i).x, snakeParts.get(i).y, Color.NONE, BODY_SIGN, snakeColor, 75);
         }
     }
 }

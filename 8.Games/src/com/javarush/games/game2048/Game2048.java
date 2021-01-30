@@ -2,6 +2,8 @@ package com.javarush.games.game2048;
 
 import com.javarush.engine.cell.*;
 
+import java.util.Arrays;
+
 public class Game2048 extends Game {
     private static final int SIDE = 4;
     private int[][] gameField = new int[SIDE][SIDE];
@@ -12,6 +14,7 @@ public class Game2048 extends Game {
 //        {512, 1024, 2048,   0},
 //        {  2,    4,    8,  16}
 //    };
+
 
     @Override
     public void initialize() {
@@ -76,5 +79,22 @@ public class Game2048 extends Game {
         else {
             setCellValueEx(x, y, cellColor, Integer.toString(value));
         }
+    }
+
+    private boolean compressRow(int[] row) {
+        int[] result = row.clone();
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] == 0) {
+                for (int j = i + 1; j < result.length; j++) {
+                    if (result[j] > 0) {
+                        result[i] = result[j];
+                        result[j] = 0;
+                        System.out.println(Arrays.toString(result));
+                        break;
+                    }
+                }
+            }
+        }
+        return !Arrays.equals(row, result);
     }
 }

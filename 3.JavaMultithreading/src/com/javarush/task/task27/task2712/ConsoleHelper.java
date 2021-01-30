@@ -23,11 +23,11 @@ public class ConsoleHelper {
         List<Dish> newListOfDishes = new ArrayList<>();
         writeMessage("We have:");
         writeMessage(Dish.allDishesToString());
-        writeMessage("Select your dish or write exit");
+        writeMessage("Select your dish or type 'exit' to complete the order");
         while (true) {
             String clientChoice = null;
             try {
-                clientChoice = readString();
+                clientChoice = readString().trim();
                 if (clientChoice.equals("exit")) {
                     break;
                 }

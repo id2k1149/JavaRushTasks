@@ -16,14 +16,17 @@ public class Solution {
     }
 
     private static Set<Integer> getRadix(String number) {
-        StringBuilder stringBuilder = new StringBuilder();
+        Set<Integer> result = new HashSet<>();
         try {
-
-
-
+            int n = Integer.parseInt(number);
+            for (int i = 2; i <= 36; i++) {
+                String string = Integer.toString(n, i);
+                if (string.equals(new StringBuilder(string).reverse().toString())) {
+                    result.add(i);
+                }
+            }
         } catch (NumberFormatException exception) {
-
         }
-        return null;
+        return result;
     }
 }

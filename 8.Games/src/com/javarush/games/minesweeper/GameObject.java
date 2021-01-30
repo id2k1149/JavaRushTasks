@@ -6,6 +6,7 @@ public class GameObject {
     public boolean isMine;
     public  boolean isOpen;
     public int countMineNeighbors;
+    public boolean isFlag;
 
     public GameObject(int x, int y, boolean isMine) {
         // координаты размещения на игровом поле
