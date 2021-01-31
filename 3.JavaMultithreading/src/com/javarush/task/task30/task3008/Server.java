@@ -1,5 +1,7 @@
 package com.javarush.task.task30.task3008;
 
+import com.javarush.task.task30.task3008.client.Client;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.ServerSocket;
@@ -35,16 +37,18 @@ public class Server {
 
 
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(ConsoleHelper.readInt())) {
-            ConsoleHelper.writeMessage("Сервер Запущен");
-            while (true) {
-                Socket socket = serverSocket.accept();
-                Handler handler = new Handler(socket);
-                handler.start();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try (ServerSocket serverSocket = new ServerSocket(ConsoleHelper.readInt())) {
+//            ConsoleHelper.writeMessage("Сервер Запущен");
+//            while (true) {
+//                Socket socket = serverSocket.accept();
+//                Handler handler = new Handler(socket);
+//                handler.start();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        Client client = new Client();
+        client.run();
     }
 
 

@@ -5,6 +5,7 @@ import java.math.BigInteger;
 /* 
 Конвертер систем счислений
 https://streletzcoder.ru/perevod-sistem-schisleniya-s-pomoshhyu-klassa-biginteger-ili-kak-perevesti-chislo-v-druguyu-sistemu-schisleniya-s-pomoshhyu-odnoy-sroki-koda/
+
 */
 
 public class Solution {

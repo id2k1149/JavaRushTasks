@@ -8,11 +8,11 @@ import java.nio.file.Path;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class ZipFileManager_old {
+public class My_ZipFileManager_old {
 
     private Path zipFile;
 
-    public ZipFileManager_old(Path zipFile) {
+    public My_ZipFileManager_old(Path zipFile) {
         this.zipFile = zipFile;
     }
 

@@ -1,10 +1,19 @@
 package com.javarush.games.game2048;
 
-import com.javarush.engine.cell.*;
+import com.javarush.engine.cell.Color;
+import com.javarush.engine.cell.Game;
 
-public class Game2048 extends Game {
+public class Game2048_my extends Game {
     private static final int SIDE = 4;
     private int[][] gameField = new int[SIDE][SIDE];
+//    private int[][] gameField =
+//    {
+//        {  2,    4,    8,  16},
+//        { 32,   64,  128, 256},
+//        {512, 1024, 2048,   0},
+//        {  2,    4,    8,  16}
+//    };
+
 
     @Override
     public void initialize() {
@@ -23,6 +32,7 @@ public class Game2048 extends Game {
         for (int x = 0; x < SIDE; x++) {
             for (int y = 0; y < SIDE; y++) {
                 int value = gameField[y][x];
+//                 setCellColor(x, y, Color.GRAY);
                 setCellColoredNumber(x, y, value);
             }
         }
@@ -84,18 +94,6 @@ public class Game2048 extends Game {
                 }
             }
         } while (repeat);
-        return changes;
-    }
-
-    private boolean mergeRow(int[] row) {
-        boolean changes = false;
-        for (int i = 0; i < row.length - 1; i++) {
-            if (row[i] == row[i + 1] && row[i] > 0) {
-                row[i] *= 2;
-                row[i + 1] = 0;
-                changes = true;
-            }
-        }
         return changes;
     }
 }

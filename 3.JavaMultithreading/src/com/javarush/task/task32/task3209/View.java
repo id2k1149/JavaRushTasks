@@ -41,6 +41,15 @@ public class View extends JFrame implements ActionListener {
         this.plainTextPane = plainTextPane;
     }
 
+    public View(){
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e){
+            ExceptionHandler.log(e);
+        }
+    }
+
+
     public void init() {
         initGui();
         FrameListener frameListener = new FrameListener(this);
@@ -53,7 +62,15 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void initMenuBar() {
-
+        JMenuBar jMenuBar = new JMenuBar();
+        MenuHelper.initFileMenu(this, jMenuBar);
+        MenuHelper.initEditMenu(this, jMenuBar);
+        MenuHelper.initStyleMenu(this, jMenuBar);
+        MenuHelper.initAlignMenu(this, jMenuBar);
+        MenuHelper.initColorMenu(this, jMenuBar);
+        MenuHelper.initFontMenu(this, jMenuBar);
+        MenuHelper.initHelpMenu(this, jMenuBar);
+        getContentPane().add(jMenuBar, BorderLayout.NORTH);
     }
 
     public void initEditor() {

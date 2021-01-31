@@ -27,12 +27,15 @@ public class Snake {
 
     public void draw(Game game){
         Color snakeColor;
-        if (isAlive) snakeColor = Color.RED;
-        else snakeColor = Color.BLACK;
+        if (isAlive) snakeColor = Color.BLACK;
+        else snakeColor = Color.RED;
 
         game.setCellValueEx(snakeParts.get(0).x, snakeParts.get(0).y, Color.NONE, HEAD_SIGN, snakeColor, 75);
         for (int i = 1; i < snakeParts.size(); i++) {
             game.setCellValueEx(snakeParts.get(i).x, snakeParts.get(i).y, Color.NONE, BODY_SIGN, snakeColor, 75);
         }
+    }
+
+    public void move() {
     }
 }

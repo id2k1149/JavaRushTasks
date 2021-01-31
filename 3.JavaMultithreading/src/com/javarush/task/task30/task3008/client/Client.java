@@ -1,6 +1,5 @@
 package com.javarush.task.task30.task3008.client;
 
-
 import com.javarush.task.task30.task3008.Connection;
 import com.javarush.task.task30.task3008.ConsoleHelper;
 import com.javarush.task.task30.task3008.Message;
@@ -45,5 +44,18 @@ public class Client {
             ConsoleHelper.writeMessage("Can't send the message");
             clientConnected = false;
         }
+    }
+
+    public void run() {
+        SocketThread socketThread = getSocketThread();
+        socketThread.setDaemon(true);
+        socketThread.run();
+        try {
+            socketThread.wait();
+        } catch (InterruptedException e) {
+            ConsoleHelper.writeMessage("возникнет исключение");
+
+        }
+
     }
 }

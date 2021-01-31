@@ -12,12 +12,57 @@ public class Solution {
         checkAFlag(new D());
     }
 
+    // #1
+//    public static void checkAFlag(D d) {
+//        if (d.cs.get(0).bs.get(0).as.get(0).flag) {
+//            System.out.println("A's flag is true");
+//        } else { //all other cases
+//            System.out.println("Oops!");
+//        }
+//    }
+
+    // #2
+//    public static void checkAFlag(D d) {
+//        if (d == null) System.out.println("Oops!");
+//        else if (d.cs == null) System.out.println("Oops!");
+//        else if (d.cs.size() == 0) System.out.println("Oops!");
+//        else if (d.cs.get(0).bs == null) System.out.println("Oops!");
+//        else if (d.cs.get(0).bs.size() == 0) System.out.println("Oops!");
+//        else if (d.cs.get(0).bs.get(0) == null) System.out.println("Oops!");
+//        else if (d.cs.get(0).bs.get(0).as.get(0).flag == false) System.out.println("Oops!");
+//        else if (d.cs.get(0).bs.get(0).as.get(0).flag) System.out.println("A's flag is true");
+//        else System.out.println("Oops!");
+//    }
+
+    // #3
     public static void checkAFlag(D d) {
-        if (d.cs.get(0).bs.get(0).as.get(0).flag) {
+        if (d != null
+            && d.cs != null
+            && d.cs.size() > 0
+            && d.cs.get(0).bs != null
+            && d.cs.get(0).bs.size() > 0
+            && d.cs.get(0).bs.get(0) != null
+            && d.cs.get(0).bs.get(0).as != null
+            && d.cs.get(0).bs.get(0).as.size() > 0
+            && d.cs.get(0).bs.get(0).as.get(0).flag) {
             System.out.println("A's flag is true");
-        } else { //all other cases
+        }
+        else {
             System.out.println("Oops!");
         }
+
+        // java
+//        public static void checkAFlag(D d) {
+//            if (d != null && d.cs != null && d.cs.size() > 0
+//                    && d.cs.get(0).bs != null && d.cs.get(0).bs.size() > 0
+//                    && d.cs.get(0).bs.get(0).as != null && d.cs.get(0).bs.get(0).as.size() > 0
+//                    && d.cs.get(0).bs.get(0).as.get(0).flag) {
+//                System.out.println("A's flag is true");
+//            } else { //all other cases
+//                System.out.println("Oops!");
+//            }
+//        }
+
     }
 
     static class A {
