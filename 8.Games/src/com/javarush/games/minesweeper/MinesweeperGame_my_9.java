@@ -1,11 +1,12 @@
 package com.javarush.games.minesweeper;
 
-import com.javarush.engine.cell.*;
+import com.javarush.engine.cell.Color;
+import com.javarush.engine.cell.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinesweeperGame extends Game {
+public class MinesweeperGame_my_9 extends Game {
     private static final int SIDE = 9;
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
     private int countMinesOnField;
@@ -90,25 +91,6 @@ public class MinesweeperGame extends Game {
         setCellColor(x, y, Color.GREEN);
     }
 
-    private void markTile(int x, int y) {
-        if (gameField[y][x].isOpen) return;
-
-        if (!gameField[y][x].isFlag && countFlags == 0) return;
-
-        if (gameField[y][x].isFlag) {
-            gameField[y][x].isFlag = false;
-            countFlags++;
-            setCellValue(x, y, "");
-            setCellColor(x, y, Color.ORANGE);
-        }
-        else {
-            gameField[y][x].isFlag = true;
-            countFlags--;
-            setCellValue(x, y, FLAG);
-            setCellColor(x, y, Color.YELLOW);
-        }
-    }
-
     private void createGame() {
         for (int y = 0; y < SIDE; y++) {
             for (int x = 0; x < SIDE; x++) {
@@ -127,10 +109,5 @@ public class MinesweeperGame extends Game {
     @Override
     public void onMouseLeftClick(int x, int y) {
         openTile(x, y);
-    }
-
-    @Override
-    public void onMouseRightClick(int x, int y) {
-        markTile(x, y);
     }
 }

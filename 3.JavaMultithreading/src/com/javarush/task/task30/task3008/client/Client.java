@@ -11,7 +11,31 @@ public class Client {
     protected Connection connection;
     private volatile boolean clientConnected = false;
 
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.run();
+    }
+
     public class SocketThread extends Thread {
+
+        protected void processIncomingMessage(String message) {
+            ConsoleHelper.writeMessage(message);
+        }
+
+        protected void informAboutAddingNewUser(String userName) {
+            ConsoleHelper.writeMessage(userName + "joined the chat");
+        }
+
+        protected void informAboutDeletingNewUser(String userName) {
+            ConsoleHelper.writeMessage(userName + "left the chat");
+        }
+
+        protected void notifyConnectionStatusChanged(boolean clientConnected) {
+            Client.this.clientConnected = clientConnected;
+            synchronized (Client.this) {
+                Client.this.notify();
+            }
+        }
     }
 
     protected String getServerAddress() {
@@ -49,13 +73,34 @@ public class Client {
     public void run() {
         SocketThread socketThread = getSocketThread();
         socketThread.setDaemon(true);
-        socketThread.run();
-        try {
-            socketThread.wait();
-        } catch (InterruptedException e) {
-            ConsoleHelper.writeMessage("возникнет исключение");
+        socketThread.start();
 
+        synchronized (this) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                ConsoleHelper.writeMessage("Socket thread is interrupted!");
+            }
         }
 
+        if (clientConnected) {
+            ConsoleHelper.writeMessage("Соединение установлено.\n" +  "Для выхода наберите команду 'exit'.");
+        } else {
+            ConsoleHelper.writeMessage("Произошла ошибка во время работы клиента.");
+        }
+
+        // Считывай сообщения с консоли пока клиент подключен
+        String message;
+        while (clientConnected) {
+            message = ConsoleHelper.readString();
+            if (message.equals("exit")) break;
+            // После каждого считывания, если метод shouldSendTextFromConsole() возвращает true,
+            if (shouldSendTextFromConsole()) {
+                // отправь считанный текст с помощью метода sendTextMessage()
+                sendTextMessage(message);
+            }
+        }
     }
+
+
 }

@@ -98,4 +98,42 @@ public class Game2048 extends Game {
         }
         return changes;
     }
+
+    private void moveLeft (){
+
+    }
+
+    private void moveRight (){
+
+    }
+
+    private void moveUp (){
+
+    }
+
+    private void moveDown (){
+
+    }
+
+    @Override
+    public void onKeyPress(Key key) {
+        switch (key) {
+            case LEFT: {
+                moveLeft();
+                break;
+            }
+            case RIGHT: {
+                moveRight();
+                break;
+            }
+            case UP: {
+                moveUp();
+                break;
+            }
+            case DOWN: {
+                moveDown();
+                break;
+            }
+        }
+    }
 }
