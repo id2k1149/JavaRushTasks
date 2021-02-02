@@ -36,6 +36,60 @@ public class Client {
                 Client.this.notify();
             }
         }
+
+        protected void clientHandshake() throws IOException, ClassNotFoundException {
+            Message message;
+            while (true) {
+                message = connection.receive();
+
+                if (message.getType() == null) {
+                    throw new IOException("Unexpected MessageType");
+                }
+
+                switch(message.getType()) {
+                    case NAME_REQUEST:
+                        String userName = getUserName();
+                        connection.send(new Message(MessageType.USER_NAME, userName));
+                        break;
+
+                    case NAME_ACCEPTED:
+                        notifyConnectionStatusChanged(true);
+                        return;
+
+                    default:
+                        throw new IOException("Unexpected MessageType");
+
+                }
+            }
+        }
+
+        protected void clientMainLoop() throws IOException, ClassNotFoundException {
+            Message message;
+            while (true) {
+                message = connection.receive();
+
+                if (message.getType() == null) {
+                    throw new IOException("Unexpected MessageType");
+                }
+
+                switch (message.getType()) {
+                    case TEXT:
+                        processIncomingMessage(message.getData());
+                        break;
+
+                    case USER_ADDED:
+                        informAboutAddingNewUser(message.getData());
+                        break;
+
+                    case USER_REMOVED:
+                        informAboutDeletingNewUser(message.getData());
+                        break;
+
+                    default:
+                        throw new IOException("Unexpected MessageType");
+                }
+            }
+        }
     }
 
     protected String getServerAddress() {
@@ -101,6 +155,4 @@ public class Client {
             }
         }
     }
-
-
 }

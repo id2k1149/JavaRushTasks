@@ -100,7 +100,14 @@ public class Game2048 extends Game {
     }
 
     private void moveLeft (){
-
+        boolean change = false;
+        for (int j = 0; j < SIDE; j++) {
+            if ( compressRow( gameField[j] )) change = true;
+            if ( mergeRow( gameField[j] )) change = true;
+            if ( compressRow( gameField[j] )) change = true;
+        }
+        if( change ) createNewNumber();
+        drawScene();
     }
 
     private void moveRight (){
