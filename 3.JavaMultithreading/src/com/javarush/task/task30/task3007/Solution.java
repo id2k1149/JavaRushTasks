@@ -2,6 +2,7 @@ package com.javarush.task.task30.task3007;
 
 /* 
 Найдем число 2 в максимальной степени
+#3013 Набираем код Ӏ Java Multithreading: 10 уровень, 6 лекция
 */
 
 public class Solution {
@@ -12,7 +13,6 @@ public class Solution {
     }
 
     public static int maxPowerOf2(int x) {
-        // #3013 Набираем код Ӏ Java Multithreading: 10 уровень, 6 лекция
         x |= x >> 1;
         x |= x >> 2;
         x |= x >> 4;

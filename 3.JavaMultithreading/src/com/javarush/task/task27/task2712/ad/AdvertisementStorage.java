@@ -20,8 +20,6 @@ public class AdvertisementStorage {
         videos.add(advertisement3);
     }
 
-
-
     public static AdvertisementStorage getInstance() {
         //если объект еще не создан
         if(instance == null){

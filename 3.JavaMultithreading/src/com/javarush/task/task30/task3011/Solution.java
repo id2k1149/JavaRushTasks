@@ -2,6 +2,7 @@ package com.javarush.task.task30.task3011;
 
 /* 
 Сделай одно изменение кода
+Нужно в выражении if (c != null && c.getName() != null) заменить && на &.
 */
 
 public class Solution {
@@ -48,7 +49,9 @@ public class Solution {
             b.setName("B");
         }
         try {
-            if (c != null && c.getName() != null) {
+            // Необходимо внести одну правку в код программы
+//            if (c != null && c.getName() != null) {
+            if (c != null & c.getName() != null) {
             }
         } catch (NullPointerException e) {
             c = new C();
@@ -62,9 +65,7 @@ public class Solution {
         }
         if (c == null) {
             c = new C();
-// Необходимо внести одну правку в код программы
-//            c.setName("null");
-            c.setName("C");
+            c.setName("null");
         }
         System.out.print(a.getName());
         System.out.print(b.getName());

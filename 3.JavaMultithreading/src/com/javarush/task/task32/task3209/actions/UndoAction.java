@@ -13,5 +13,6 @@ public class UndoAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
+        view.undo();
     }
 }

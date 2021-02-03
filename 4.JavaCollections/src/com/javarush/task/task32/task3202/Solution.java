@@ -12,15 +12,31 @@ public class Solution {
         System.out.println(writer.toString());
     }
 
-    public static StringWriter getAllDataFromInputStream(InputStream is) throws IOException {
-//        StringWriter writer = new StringWriter();
-//        BufferedReader br = new BufferedReader(is);
-//        String line;
+//    public static StringWriter getAllDataFromInputStream(InputStream is) throws IOException {
+//        StringWriter writer;
+//        try {
+//            writer = new StringWriter();
 //
-//        while ((line = br.readLine()) != null) {
-//            writer.write(line);
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+//            String line;
+//
+//            //читаем строку из Reader’а
+//            while ((line = reader.readLine()) != null)
+//            {
+//                //пишем строку в Writer
+//                writer.write(line);
+//            }
+//           reader.close();
+//            return writer;
+//        } catch (Exception exception) {
+//            return new StringWriter();
 //        }
-//
-        return null;
+//    }
+
+    public static StringWriter getAllDataFromInputStream(InputStream is) throws IOException {
+        StringWriter writer = new StringWriter();
+        if (is == null) return writer;
+        while (is.available() > 0) writer.append((char)is.read());
+        return writer;
     }
 }
