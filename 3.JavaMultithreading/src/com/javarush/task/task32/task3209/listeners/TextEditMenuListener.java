@@ -2,8 +2,10 @@ package com.javarush.task.task32.task3209.listeners;
 
 import com.javarush.task.task32.task3209.View;
 
+import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import java.awt.*;
 
 public class TextEditMenuListener implements MenuListener {
     private View view;
@@ -12,12 +14,19 @@ public class TextEditMenuListener implements MenuListener {
         this.view = view;
     }
 
-    public void menuSelected(MenuEvent e) {
+    public void menuSelected(MenuEvent menuEvent) {
+        JMenu jMenu = (JMenu) menuEvent.getSource();
+        Component[] components = jMenu.getMenuComponents();
+        for(Component each: components){
+            each.setEnabled(view.isHtmlTabSelected());
+        }
+
     }
 
-    public void menuDeselected(MenuEvent e) {
+    public void menuDeselected(MenuEvent menuEvent) {
     }
 
-    public void menuCanceled(MenuEvent e) {
+    public void menuCanceled(MenuEvent menuEvent) {
     }
+
 }

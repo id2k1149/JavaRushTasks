@@ -8,6 +8,8 @@ package com.javarush.task.task27.task2712.ad;
 
 import com.javarush.task.task27.task2712.ConsoleHelper;
 
+import java.util.List;
+
 public class AdvertisementManager {
     final AdvertisementStorage storage = AdvertisementStorage.getInstance();
     int timeSeconds;
@@ -17,6 +19,17 @@ public class AdvertisementManager {
     }
 
     public void processVideos() {
-        ConsoleHelper.writeMessage("calling processVideos method");
+//        ConsoleHelper.writeMessage("calling processVideos method");
+        List<Advertisement> playList = storage.list();
+
+        if (playList.isEmpty()) {
+            throw new NoVideoAvailableException();
+        }
+
+//        for (Advertisement ad : playList){
+//
+//            ConsoleHelper.writeMessage(String.format("%s is displaying... %d, %d",
+//                    ad.getName(), ad.getAmountPerOneDisplaying(), ad.getAmountPerOneDisplaying()*1000/ad.getDuration()));
+//        }
     }
 }

@@ -57,8 +57,8 @@ public class Model {
         }
     }
 
-    private void compressTiles(Tile[] tiles) {
-
+    private boolean compressTiles(Tile[] tiles) {
+        boolean changes = false;
         boolean repeat;
         do {
             repeat = false;
@@ -67,19 +67,71 @@ public class Model {
                     tiles[i].value = tiles[i+1].value;
                     tiles[i+1].value = 0;
                     repeat = true;
+                    changes = true;
                 }
             }
         } while (repeat);
+        return changes;
     }
 
-    private void mergeTiles(Tile[] tiles) {
+    private boolean mergeTiles(Tile[] tiles) {
+        boolean changes = false;
         for (int i = 0; i < tiles.length-1; i++) {
             if (tiles[i].value == tiles[i + 1].value && tiles[i].value > 0) {
                 tiles[i].value *= 2;
                 tiles[i + 1].value = 0;
                 if (tiles[i].value > maxTile) maxTile = tiles[i].value;
                 score += tiles[i].value;
+                compressTiles(tiles);
+                changes = true;
             }
         }
+        return changes;
     }
+
+    public void left (){
+        boolean changes = false;
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
+                changes = true;
+            }
+        }
+        if (changes) addTile();
+    }
+
+//    public static void main(String[] args) {
+//        Model model = new Model();
+//        model.gameTiles = new Tile[][]{{new Tile(8), new Tile(0), new Tile(0), new Tile(0)},
+//                {new Tile(4), new Tile(0), new Tile(0), new Tile(4)},
+//                {new Tile(0), new Tile(4), new Tile(4), new Tile(0)},
+//                {new Tile(0), new Tile(2), new Tile(0), new Tile(2)}};
+//
+//        for (int i = 0; i < FIELD_WIDTH; i++) {
+//            for (int j = 0; j < 4; j++) {
+//                System.out.print(model.gameTiles[i][j].value + " ");
+//            }
+//            System.out.println(" ");
+//        }
+//
+//        model.left();
+//        System.out.println("______________");
+
+//        for (int i = 0; i < FIELD_WIDTH; i++) {
+//            model.compressTiles(model.gameTiles[i]);
+//            model.mergeTiles(model.gameTiles[i]);
+//            for (int j = 0; j < 4; j++) {
+//                System.out.print(model.gameTiles[i][j].value + " ");
+//            }
+//            System.out.println(" ");
+//        }
+
+        //После
+//        for (int i = 0; i < FIELD_WIDTH; i++) {
+//            for (int j = 0; j < 4; j++) {
+//                System.out.print(model.gameTiles[i][j].value + " ");
+//            }
+//            System.out.println(" ");
+//        }
+
+//    }
 }
