@@ -8,22 +8,39 @@ package com.javarush.task.task27.task2712.ad;
 
 import com.javarush.task.task27.task2712.ConsoleHelper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AdvertisementManager {
     final AdvertisementStorage storage = AdvertisementStorage.getInstance();
-    int timeSeconds;
+    int timeSeconds; //  время выполнения заказа поваром в секундах.
 
     public AdvertisementManager(int timeSeconds) {
         this.timeSeconds = timeSeconds;
     }
 
     public void processVideos() {
-//        ConsoleHelper.writeMessage("calling processVideos method");
-        List<Advertisement> playList = storage.list();
-
-        if (playList.isEmpty()) {
+        List<Advertisement> storageList = storage.list();
+        if (storageList.isEmpty()) {
             throw new NoVideoAvailableException();
+        }
+        else {
+            List<Advertisement> playList_v1 = new ArrayList<>();
+
+            Collections.sort(storageList, (Comparator.comparingInt(Advertisement::getDuration)));
+            Collections.sort(storageList, ((v1, v2) -> (int) (v1.getAmountPerOneDisplaying() - v2.getAmountPerOneDisplaying())));
+            Collections.reverse(storageList);
+
+            for (Advertisement each: storageList) {
+                System.out.println(each.getDuration() + " " + each.getAmountPerOneDisplaying());
+                if (each.getDuration() < timeSeconds) {
+                    playList_v1.add(each);
+                }
+            }
+
+
         }
 
 //        for (Advertisement ad : playList){

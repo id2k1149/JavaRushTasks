@@ -99,6 +99,48 @@ public class Model {
         if (changes) addTile();
     }
 
+    public void right (){
+        boolean changes = false;
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
+                changes = true;
+            }
+        }
+        if (changes) addTile();
+    }
+
+    public void up (){
+        boolean changes = false;
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
+                changes = true;
+            }
+        }
+        if (changes) addTile();
+    }
+
+    public void down (){
+        boolean changes = false;
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
+                changes = true;
+            }
+        }
+        if (changes) addTile();
+    }
+
+    private Tile[][] rotateClockwise(Tile[][] tiles){
+
+        Tile[][] temp = new Tile[tiles.length][tiles.length];
+
+        for (int j = 0; j < tiles.length; j++){
+            for (int i = 0; i < tiles.length; i++){
+                temp[i][j] = tiles[tiles.length - 1 - j][i];
+            }
+        }
+        return temp;
+    }
+
 //    public static void main(String[] args) {
 //        Model model = new Model();
 //        model.gameTiles = new Tile[][]{{new Tile(8), new Tile(0), new Tile(0), new Tile(0)},
