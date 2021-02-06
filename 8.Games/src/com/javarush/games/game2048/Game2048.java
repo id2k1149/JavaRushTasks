@@ -99,27 +99,67 @@ public class Game2048 extends Game {
         return changes;
     }
 
+//    private int[][] rotateClockwise(){
+//
+//        int[][] temp = new int[SIDE][SIDE];
+//
+//        for (int j = 0; j < SIDE; j++){
+//            for (int i = 0; i < SIDE; i++){
+//                temp[i][j] = gameField[SIDE - 1 - j][i];
+//            }
+//        }
+//        return temp;
+//    }
+
+    private void rotateClockwise() {
+
+        int[][] temp = new int[SIDE][SIDE];
+
+        for (int i = 0; i < SIDE; i++) {
+            for (int j = 0; j < SIDE; j++) {
+                temp[i][j] = gameField[SIDE - 1 - j][i];
+            }
+        }
+
+        for (int i = 0; i < SIDE; i++) {
+            for (int j = 0; j < SIDE; j++) {
+                gameField[i][j] = temp[i][j];
+            }
+        }
+    }
+
     private void moveLeft (){
         boolean change = false;
-        for (int j = 0; j < SIDE; j++) {
-            if ( compressRow( gameField[j] )) change = true;
-            if ( mergeRow( gameField[j] )) change = true;
-            if ( compressRow( gameField[j] )) change = true;
+        for (int i = 0; i < SIDE; i++) {
+            if ( compressRow( gameField[i] )) change = true;
+            if ( mergeRow( gameField[i] )) change = true;
+            if ( compressRow( gameField[i] )) change = true;
         }
         if( change ) createNewNumber();
-        drawScene();
     }
 
     private void moveRight (){
-
+        rotateClockwise();
+        rotateClockwise();
+        moveLeft();
+        rotateClockwise();
+        rotateClockwise();
     }
 
     private void moveUp (){
-
+        rotateClockwise();
+        rotateClockwise();
+        rotateClockwise();
+        moveLeft();
+        rotateClockwise();
     }
 
     private void moveDown (){
-
+        rotateClockwise();
+        moveLeft();
+        rotateClockwise();
+        rotateClockwise();
+        rotateClockwise();
     }
 
     @Override
@@ -127,18 +167,22 @@ public class Game2048 extends Game {
         switch (key) {
             case LEFT: {
                 moveLeft();
+                drawScene();
                 break;
             }
             case RIGHT: {
                 moveRight();
+                drawScene();
                 break;
             }
             case UP: {
                 moveUp();
+                drawScene();
                 break;
             }
             case DOWN: {
                 moveDown();
+                drawScene();
                 break;
             }
         }
