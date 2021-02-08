@@ -8,6 +8,7 @@ public class SnakeGame extends Game {
     public static final int HEIGHT = 15;
     private Snake snake;
     private int turnDelay;
+    private Apple apple;
 
     @Override
     public void initialize() {
@@ -25,16 +26,19 @@ public class SnakeGame extends Game {
 
     // Всё, что должно происходить в игре
     // на протяжении одного хода, описывается здесь
+    // в конце каждого хода нужно проверить,
+    // "живое" ли текущее яблоко, если нет — создать новое.
     @Override
     public void onTurn(int step) {
-        snake.move();
+        snake.move(apple);
+        if (apple.isAlive == false) createNewApple();
         drawScene();
     }
 
     // действия, которые нужно выполнить для создания игры
     private void createGame(){
-        Snake snake = new Snake(WIDTH / 2,HEIGHT / 2);
-        this.snake = snake;
+        snake = new Snake(WIDTH / 2,HEIGHT / 2);
+        createNewApple();
         drawScene();
         turnDelay = 300;
         setTurnTimer(turnDelay);
@@ -48,6 +52,13 @@ public class SnakeGame extends Game {
             }
         }
         snake.draw(this);
+        apple.draw(this);
+    }
+
+    private void createNewApple() {
+        int x = getRandomNumber(WIDTH);
+        int y = getRandomNumber(HEIGHT);
+        apple = new Apple(x, y);
     }
 
     @Override

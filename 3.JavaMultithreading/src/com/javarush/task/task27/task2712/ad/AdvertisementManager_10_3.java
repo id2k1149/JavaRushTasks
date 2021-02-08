@@ -9,17 +9,16 @@ package com.javarush.task.task27.task2712.ad;
 import com.javarush.task.task27.task2712.ConsoleHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class AdvertisementManager {
+public class AdvertisementManager_10_3 {
     final AdvertisementStorage storage = AdvertisementStorage.getInstance();
     int timeSeconds; //  время выполнения заказа поваром в секундах.
     private List<Advertisement> playList; // список видео из доступных,
     // просмотр которых обеспечивает максимальную выгоду
 
-    public AdvertisementManager(int timeSeconds) {
+    public AdvertisementManager_10_3(int timeSeconds) {
         this.timeSeconds = timeSeconds;
     }
 
@@ -48,6 +47,11 @@ public class AdvertisementManager {
                 return o2.getDuration() - o1.getDuration();
             }
         }));
+
+
+//        Collections.sort(playList, (Comparator.comparingInt(Advertisement::getDuration)));
+//        Collections.sort(playList, ((v1, v2) -> (int) (v1.getAmountPerOneDisplaying() - v2.getAmountPerOneDisplaying())));
+//        Collections.reverse(playList);
 
         // First Video is displaying... 50, 277
         // где First Video - название рекламного ролика
@@ -84,7 +88,43 @@ public class AdvertisementManager {
         }
     }
 
-    //проверка листа является ли данный набор лучшим решением задачи
+    /*
+    //проверка, является ли данный набор лучшим решением задачи
+    private void checkList(List<Advertisement> list) {
+        if (playList == null) {
+            if (getTotalTime(list) <= timeSeconds) {
+                playList = list;
+            }
+
+            // сумма денег, полученная от показов,
+            // должна быть максимальной из всех возможных вариантов
+        } else if (getTotalTime(list) <= timeSeconds) {
+            if (getTotalAmount(list) > getTotalAmount(playList)) {
+                playList = list;
+            }
+            // 1.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег, полученной от показов, то должен быть выбран вариант с максимальным суммарным временем.
+
+            // если существует несколько вариантов набора видео-роликов с одинаковой суммой денег,
+        } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(playList) == getTotalAmount(list)) {
+            // выбрать тот вариант, у которого суммарное время максимальное;
+            if (getTotalTime(list) > getTotalTime(playList)) {
+                playList = list;
+            }
+
+            // 2.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег и одинаковым суммарным временем, то должен быть выбран вариант с минимальным количеством роликов
+
+            // если суммарное время у вариантов с одинаковой суммой денег, одинаковое,
+        } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(playList) == getTotalAmount(list) && getTotalTime(list) == getTotalTime(playList)) {
+            // то выбрать вариант с минимальным количеством роликов;
+            if (list.size() < playList.size()) {
+                playList = list;
+            }
+
+        }
+    }
+     */
+
+    //проверка листа
     private void checkList(List<Advertisement> list){
         if (playList == null){
             if (getTotalTime(list) <= timeSeconds){
@@ -92,19 +132,13 @@ public class AdvertisementManager {
             }
         }
         else{
-            // сумма денег, полученная от показов,
-            // должна быть максимальной из всех возможных вариантов
             if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) > getTotalAmount(playList)){
                 playList = list;
 
-        // 1.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег,
-        // полученной от показов, то должен быть выбран вариант с максимальным суммарным временем.
-        } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) == getTotalAmount(playList)){
+            } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) == getTotalAmount(playList)){
                 if (getTotalTime(list) > getTotalTime(playList)){
                     playList = list;
-        // 2.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег
-        // и одинаковым суммарным временем, то должен быть выбран вариант с минимальным количеством роликов
-        }else if (getTotalTime(list) == getTotalTime(playList)){
+                }else if (getTotalTime(list) == getTotalTime(playList)){
                     if (list.size() < playList.size()){
                         playList = list;
                     }

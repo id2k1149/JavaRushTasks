@@ -1,6 +1,6 @@
 package com.javarush.games.spaceinvaders;
 
-import com.javarush.engine.cell.Game;
+import com.javarush.engine.cell.*;
 
 public class SpaceInvadersGame extends Game {
     public static final int WIDTH = 64;
@@ -9,6 +9,17 @@ public class SpaceInvadersGame extends Game {
     @Override
     public void initialize() {
         setScreenSize(WIDTH, HEIGHT);
+        createGame();
+    }
 
+    private void createGame() {
+        drawScene();
+    }
+
+    private void drawScene() {
+        drawField();
+    }
+
+    private void drawField() {
     }
 }

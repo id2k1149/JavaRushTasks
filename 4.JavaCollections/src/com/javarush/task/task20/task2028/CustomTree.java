@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Queue;
 
 /* 
 Построй дерево(1)
@@ -12,8 +13,20 @@ import java.util.List;
 public class CustomTree extends AbstractList<String> implements Cloneable, Serializable {
     Entry<String> root;
 
-    public CustomTree(Entry<String> root) {
-        this.root = root;
+    public CustomTree() {
+        root = new Entry<>("root");
+    }
+
+    public String getParent(String s) {
+        return null;
+    }
+
+
+
+    @Override
+    public boolean add(String s) {
+        Queue<Entry<String>> queue;
+        return true;
     }
 
     @Override
@@ -55,6 +68,7 @@ public class CustomTree extends AbstractList<String> implements Cloneable, Seria
     public boolean addAll(int index, Collection<? extends String> c) {
         throw new UnsupportedOperationException();
     }
+
 
     static class Entry<T> implements Serializable {
         public String elementName;

@@ -5,6 +5,7 @@ import com.javarush.engine.cell.*;
 public class Game2048 extends Game {
     private static final int SIDE = 4;
     private int[][] gameField = new int[SIDE][SIDE];
+    private boolean isGameStopped = false;
 
     @Override
     public void initialize() {
@@ -28,7 +29,13 @@ public class Game2048 extends Game {
         }
     }
 
+    private void win() {
+        isGameStopped = true;
+        showMessageDialog(Color.AZURE, "YOU WIN", Color.BLUE, 70);
+    }
+
     private void createNewNumber() {
+        if (getMaxTileValue() == 128) win();
         int randomX, randomY, randomNumber;
         do {
             randomX = getRandomNumber(SIDE);
@@ -40,6 +47,16 @@ public class Game2048 extends Game {
         if (randomNumber == 9) gameField[randomX][randomY] = 4;
         else gameField[randomX][randomY] = 2;
 
+    }
+
+    private int getMaxTileValue() {
+        int max = 0;
+        for (int i = 0; i < SIDE; i++) {
+            for (int j = 0; j < SIDE; j++) {
+                if (gameField[i][j] > max) max = gameField[i][j];
+            }
+        }
+        return max;
     }
 
     private Color getColorByValue(int value) {
@@ -98,18 +115,6 @@ public class Game2048 extends Game {
         }
         return changes;
     }
-
-//    private int[][] rotateClockwise(){
-//
-//        int[][] temp = new int[SIDE][SIDE];
-//
-//        for (int j = 0; j < SIDE; j++){
-//            for (int i = 0; i < SIDE; i++){
-//                temp[i][j] = gameField[SIDE - 1 - j][i];
-//            }
-//        }
-//        return temp;
-//    }
 
     private void rotateClockwise() {
 

@@ -15,6 +15,26 @@ public class Model {
         resetGameTiles();
     }
 
+    public Tile[][] getGameTiles() {
+        return gameTiles;
+    }
+
+    public boolean canMove() {
+        if (getEmptyTiles().size() > 0) {
+            return true;
+        }
+
+        for (int i = 0; i < FIELD_WIDTH-1; i++) {
+            for (int j = 0; j < FIELD_WIDTH-1; j++) {
+                if (gameTiles[i][j].value == gameTiles[i+1][j].value
+                        || gameTiles[i][j].value == gameTiles[i][j+1].value)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     public void resetGameTiles() {
         gameTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
         score = 0;
@@ -89,6 +109,23 @@ public class Model {
         return changes;
     }
 
+    private void rotateClockwise(){
+
+        Tile[][] temp = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+
+        for (int i = 0; i < FIELD_WIDTH; i++){
+            for (int j = 0; j < FIELD_WIDTH; j++){
+                temp[i][j] = gameTiles[FIELD_WIDTH - 1 - j][i];
+            }
+        }
+
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                gameTiles[i][j] = temp[i][j];
+            }
+        }
+    }
+
     public void left (){
         boolean changes = false;
         for (int i = 0; i < FIELD_WIDTH; i++) {
@@ -100,46 +137,31 @@ public class Model {
     }
 
     public void right (){
-        boolean changes = false;
-        for (int i = 0; i < FIELD_WIDTH; i++) {
-            if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
-                changes = true;
-            }
-        }
-        if (changes) addTile();
+        rotateClockwise();
+        rotateClockwise();
+        left();
+        rotateClockwise();
+        rotateClockwise();
     }
 
     public void up (){
-        boolean changes = false;
-        for (int i = 0; i < FIELD_WIDTH; i++) {
-            if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
-                changes = true;
-            }
-        }
-        if (changes) addTile();
+        rotateClockwise();
+        rotateClockwise();
+        rotateClockwise();
+        left();
+        rotateClockwise();
     }
 
     public void down (){
-        boolean changes = false;
-        for (int i = 0; i < FIELD_WIDTH; i++) {
-            if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
-                changes = true;
-            }
-        }
-        if (changes) addTile();
+        rotateClockwise();
+        left();
+        rotateClockwise();
+        rotateClockwise();
+        rotateClockwise();
     }
 
-    private Tile[][] rotateClockwise(Tile[][] tiles){
 
-        Tile[][] temp = new Tile[tiles.length][tiles.length];
 
-        for (int j = 0; j < tiles.length; j++){
-            for (int i = 0; i < tiles.length; i++){
-                temp[i][j] = tiles[tiles.length - 1 - j][i];
-            }
-        }
-        return temp;
-    }
 
 //    public static void main(String[] args) {
 //        Model model = new Model();

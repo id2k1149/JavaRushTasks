@@ -18,6 +18,5 @@ public class Solution_java {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
