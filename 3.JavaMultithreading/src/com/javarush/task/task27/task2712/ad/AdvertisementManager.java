@@ -7,6 +7,8 @@ package com.javarush.task.task27.task2712.ad;
  */
 
 import com.javarush.task.task27.task2712.ConsoleHelper;
+import com.javarush.task.task27.task2712.statistic.StatisticManager;
+import com.javarush.task.task27.task2712.statistic.event.VideoSelectedEventDataRow;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,7 @@ public class AdvertisementManager {
 
     public AdvertisementManager(int timeSeconds) {
         this.timeSeconds = timeSeconds;
+        playList = new ArrayList<>();
     }
 
     public void processVideos() {
@@ -48,6 +51,12 @@ public class AdvertisementManager {
                 return o2.getDuration() - o1.getDuration();
             }
         }));
+
+        // Перед отображением списка видео должно быть зарегистрировано событие "видео выбрано".
+        //4. Перед отображением видео должно быть зарегистрировано событие "видео выбрано".
+        //5. Зарегистрируй событие "видео выбрано" перед отображением рекламы пользователю.
+        //конструктор: public VideoSelectedEventDataRow(List<Advertisement> optimalVideoSet, long amount, int totalDuration)
+        StatisticManager.getInstance().register(new VideoSelectedEventDataRow(playList, getTotalAmount(playList), getTotalTime(playList)));
 
         // First Video is displaying... 50, 277
         // где First Video - название рекламного ролика

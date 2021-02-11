@@ -33,6 +33,7 @@ public class View extends JPanel {
 
         g.drawString("Score: " + controller.getScore(), 140, 465);
 
+        // вызов этих двух сообщений в класс Controller в метод keyPressed
         if (isGameWon) {
             JOptionPane.showMessageDialog(this, "You've won!");
         } else if (isGameLost) {

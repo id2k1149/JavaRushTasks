@@ -35,7 +35,7 @@ public class Game2048 extends Game {
     }
 
     private void createNewNumber() {
-        if (getMaxTileValue() == 128) win();
+        if (getMaxTileValue() == 2048) win();
         int randomX, randomY, randomNumber;
         do {
             randomX = getRandomNumber(SIDE);
@@ -47,6 +47,22 @@ public class Game2048 extends Game {
         if (randomNumber == 9) gameField[randomX][randomY] = 4;
         else gameField[randomX][randomY] = 2;
 
+    }
+
+    private boolean canUserMove() {
+        for (int i = 0; i < SIDE; i++) {
+            for (int j = 0; j < SIDE; j++) {
+                if (gameField[i][j] == 0) return true;
+            }
+        }
+        for (int i = 0; i < SIDE-1; i++) {
+            for (int j = 0; j < SIDE-1; j++) {
+                if (gameField[i][j] == gameField[i+1][j]
+                        || gameField[i][j] == gameField[i][j+1])
+                    return true;
+            }
+        }
+        return false;
     }
 
     private int getMaxTileValue() {

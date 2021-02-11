@@ -5,6 +5,7 @@ import com.javarush.task.task32.task3209.listeners.TabbedPaneChangeListener;
 import com.javarush.task.task32.task3209.listeners.UndoListener;
 
 import javax.swing.*;
+import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
@@ -108,10 +109,51 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void selectedTabChanged() {
+        String text;
+        switch(tabbedPane.getSelectedIndex()){
+            case 0: {
+                text = plainTextPane.getText();
+                controller.setPlainText(text);
+                break;
+            }
+            case 1: {
+                text = controller.getPlainText();
+                plainTextPane.setText(text);
+                break;
+            }
+        }
+        resetUndo();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent actionEvent) {
+        String command = actionEvent.getActionCommand();
+        switch(command) {
+            case "Новый": {
+                controller.createNewDocument();
+                break;
+            }
+            case "Открыть": {
+                controller.openDocument();
+                break;
+            }
+            case "Сохранить": {
+                controller.saveDocument();
+                break;
+            }
+            case "Сохранить как...": {
+                controller.saveDocumentAs();
+                break;
+            }
+            case "Выход": {
+                controller.exit();
+                break;
+            }
+            case "О программе": {
+                showAbout();
+                break;
+            }
+        }
     }
 
     public boolean canUndo() {
@@ -158,9 +200,7 @@ public class View extends JFrame implements ActionListener {
 
     public void showAbout() {
         Object infoMessage = "диалоговое окно с информацией о программе";
-        String titleBar = "О программме...";
-        JOptionPane optionPane = new JOptionPane();
-        JOptionPane.showMessageDialog(optionPane, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+        String titleBar = "О программме";
+        JOptionPane.showMessageDialog(this, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
-
 }

@@ -76,6 +76,22 @@ public class Controller {
         return stringWriter.toString();
     }
 
+    public void createNewDocument() {
+
+    }
+
+    public void openDocument() {
+
+    }
+
+    public void saveDocument() {
+
+    }
+
+    public void saveDocumentAs() {
+
+    }
+
     public static void main(String[] args) {
         View view = new View();
         Controller controller = new Controller(view);

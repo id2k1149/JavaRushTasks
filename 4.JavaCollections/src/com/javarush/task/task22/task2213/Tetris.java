@@ -22,7 +22,7 @@ public class Tetris {
     }
 
     public static void main(String[] args) {
-        Tetris game = new Tetris();
+        game = new Tetris();
         game.run();
 
     }

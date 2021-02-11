@@ -1,15 +1,19 @@
 package com.javarush.task.task35.task3513;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class Model {
-    private static final int FIELD_WIDTH = 4;
-    private Tile[][] gameTiles;
-    public int score;
-    public int maxTile;
+    private static final int FIELD_WIDTH = 4; // размер поля
+    private Tile[][] gameTiles; // игровое поле
+    public int score; // счет
+    public int maxTile; // значение макимальной плитки
+
+    private Stack<Tile[][]> previousStates = new Stack<>();
+    private Stack<Integer> previousScores = new Stack<>();
+    private boolean isSaveNeeded = true;
 
     public Model() {
         resetGameTiles();
@@ -33,6 +37,29 @@ public class Model {
         }
 
         return false;
+    }
+
+    private void saveState(Tile[][] tiles) {
+        Tile[][] gameToSave = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                gameToSave[i][j] = new Tile(tiles[i][j].value);
+            }
+        }
+        previousStates.push(gameToSave);
+
+        previousScores.push(score);
+
+        isSaveNeeded = false;
+
+    }
+
+    public void rollback(){
+        if (!previousScores.isEmpty() && !previousStates.isEmpty()) {
+            gameTiles = previousStates.pop();
+            score = previousScores.pop();
+        }
     }
 
     public void resetGameTiles() {
@@ -159,43 +186,4 @@ public class Model {
         rotateClockwise();
         rotateClockwise();
     }
-
-
-
-
-//    public static void main(String[] args) {
-//        Model model = new Model();
-//        model.gameTiles = new Tile[][]{{new Tile(8), new Tile(0), new Tile(0), new Tile(0)},
-//                {new Tile(4), new Tile(0), new Tile(0), new Tile(4)},
-//                {new Tile(0), new Tile(4), new Tile(4), new Tile(0)},
-//                {new Tile(0), new Tile(2), new Tile(0), new Tile(2)}};
-//
-//        for (int i = 0; i < FIELD_WIDTH; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                System.out.print(model.gameTiles[i][j].value + " ");
-//            }
-//            System.out.println(" ");
-//        }
-//
-//        model.left();
-//        System.out.println("______________");
-
-//        for (int i = 0; i < FIELD_WIDTH; i++) {
-//            model.compressTiles(model.gameTiles[i]);
-//            model.mergeTiles(model.gameTiles[i]);
-//            for (int j = 0; j < 4; j++) {
-//                System.out.print(model.gameTiles[i][j].value + " ");
-//            }
-//            System.out.println(" ");
-//        }
-
-        //После
-//        for (int i = 0; i < FIELD_WIDTH; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                System.out.print(model.gameTiles[i][j].value + " ");
-//            }
-//            System.out.println(" ");
-//        }
-
-//    }
 }

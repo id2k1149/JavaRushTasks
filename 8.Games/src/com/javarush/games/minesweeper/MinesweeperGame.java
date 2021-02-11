@@ -97,7 +97,7 @@ public class MinesweeperGame extends Game {
     }
 
     private void markTile(int x, int y) {
-        if (isGameStopped == true) return;
+        if (isGameStopped) return;
 
         if (gameField[y][x].isOpen) return;
 
@@ -124,9 +124,9 @@ public class MinesweeperGame extends Game {
     }
 
     private void createGame() {
-        isGameStopped = false;
         for (int y = 0; y < SIDE; y++) {
             for (int x = 0; x < SIDE; x++) {
+                setCellValue(x, y, "");
                 boolean isMine = getRandomNumber(10) < 1;
                 if (isMine) {
                     countMinesOnField++;
@@ -139,9 +139,21 @@ public class MinesweeperGame extends Game {
         countFlags = countMinesOnField;
     }
 
+    private void restart() {
+        isGameStopped = false;
+        countClosedTiles = SIDE * SIDE;
+        score = 0;
+        countMinesOnField = 0;
+        setScore(score);
+        createGame();
+    }
+
     @Override
     public void onMouseLeftClick(int x, int y) {
-        openTile(x, y);
+        if (isGameStopped) {
+            restart();
+        }
+        else openTile(x, y);
     }
 
     @Override
