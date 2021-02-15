@@ -8,7 +8,6 @@ public class Advertisement {
     private long initialAmount; // - начальная сумма, стоимость рекламы в копейках.
     private int hits; // - количество оплаченных показов
     private int duration; // - продолжительность в секундах
-
     private long amountPerOneDisplaying; //стоимости одного показа рекламного объявления в копейках
 
 
@@ -18,7 +17,7 @@ public class Advertisement {
         this.initialAmount = initialAmount;
         this.hits = hits;
         this.duration = duration;
-        if (hits != 0) amountPerOneDisplaying = initialAmount / hits;
+        if (hits > 0) amountPerOneDisplaying = initialAmount / hits;
 
     }
 
@@ -47,14 +46,17 @@ public class Advertisement {
     }
 
     public void revalidate() {
-//        if (hits < 1) throw new UnsupportedOperationException();
-        if (hits < 1) throw new NoVideoAvailableException();
+        if (hits == 0) throw new UnsupportedOperationException();
         hits--;
+
     }
 
     public int getHits() {
         return hits;
     }
 
+    public boolean isActive() {
+        return hits > 0;
+    }
 
 }

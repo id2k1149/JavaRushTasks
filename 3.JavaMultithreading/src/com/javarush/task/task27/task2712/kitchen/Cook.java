@@ -19,21 +19,23 @@ public class Cook extends Observable implements Observer {
         return name;
     }
 
-
     @Override
-    public void update(Observable o, Object order) {
-        Order orderToCook = (Order) order;
+    public void update(Observable o, Object arg) {
+
+        Order order = (Order) arg;
         ConsoleHelper.writeMessage("Start cooking - " + order);
 
-        // Повар во время приготовления еды должен генерировать соответствующее событие.
-        CookedOrderEventDataRow cookedOrderEventDataRow =
-                new CookedOrderEventDataRow(
-                o.toString(),
-                name,
-                orderToCook.getTotalCookingTime()*60,
-                orderToCook.getDishes());
-        StatisticManager.getInstance().register(cookedOrderEventDataRow);
         setChanged();
         notifyObservers(order);
+
+        // Повар во время приготовления еды должен генерировать
+        // соответствующее событие.
+        CookedOrderEventDataRow row = new CookedOrderEventDataRow(
+                order.getTablet().toString(),
+                name,
+                order.getTotalCookingTime() * 60,
+                order.getDishes());
+        StatisticManager.getInstance().register(row);
+
     }
 }

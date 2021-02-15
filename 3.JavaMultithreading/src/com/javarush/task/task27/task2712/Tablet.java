@@ -3,6 +3,7 @@ package com.javarush.task.task27.task2712;
 import com.javarush.task.task27.task2712.ad.AdvertisementManager;
 import com.javarush.task.task27.task2712.ad.NoVideoAvailableException;
 import com.javarush.task.task27.task2712.kitchen.Order;
+import com.javarush.task.task27.task2712.kitchen.TestOrder;
 
 import java.io.IOException;
 import java.util.Observable;
@@ -18,39 +19,50 @@ public class Tablet extends Observable {
     }
 
     public Order createOrder() {
-        Order order;
+        Order order = null;
         try {
             order = new Order(this);
-            if (order.isEmpty()) return null;
-            else
-            {
-                ConsoleHelper.writeMessage(order.toString());
-
-                // запуск рекламного ролика
-                int timeInSec = order.getTotalCookingTime() * 60;
-                AdvertisementManager advertisementManager = new AdvertisementManager(timeInSec);
-                try {
-                    advertisementManager.processVideos();
-                }
-                catch (NoVideoAvailableException e){
-                    logger.log(Level.INFO, "No video is available for the order " + order);
-                }
-
-                setChanged();
-                notifyObservers(order);
-
+            if (order.isEmpty()) {
+                return null;
             }
-
-            return order;
-
+            someActionsWithOrder(order);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Console is unavailable.");
-            return null;
+        } catch (NoVideoAvailableException nve) {
+            logger.log(Level.INFO, "No video is available for the order " + order);
         }
+        return order;
     }
 
-    @Override
+    public void createTestOrder() {
+        TestOrder testOrder = null;
+        try {
+            testOrder = new TestOrder(this);
+            if (testOrder.isEmpty()) {
+                return;
+            }
+            someActionsWithOrder(testOrder);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Console is unavailable.");
+        } catch (NoVideoAvailableException nve) {
+            logger.log(Level.INFO, "No video is available for the order " + testOrder);
+        }
+
+    }
+
+    private void someActionsWithOrder(Order order) {
+        ConsoleHelper.writeMessage(order.toString());
+
+        // запуск рекламного ролика
+        AdvertisementManager advertisementManager = new AdvertisementManager(order.getTotalCookingTime() * 60);
+        advertisementManager.processVideos();
+
+        setChanged();
+        notifyObservers(order);
+    }
+
     public String toString() {
         return "Tablet{number=" + number + "}";
+        // return String.format("Tablet{number=%d}", number);
     }
 }

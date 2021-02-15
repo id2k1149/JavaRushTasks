@@ -6,7 +6,6 @@ package com.javarush.task.task27.task2712.ad;
 и их последовательность для каждого заказа.
  */
 
-import com.javarush.task.task27.task2712.ConsoleHelper;
 import com.javarush.task.task27.task2712.statistic.StatisticManager;
 import com.javarush.task.task27.task2712.statistic.event.VideoSelectedEventDataRow;
 
@@ -16,127 +15,82 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AdvertisementManager {
-    final AdvertisementStorage storage = AdvertisementStorage.getInstance();
-    int timeSeconds; //  время выполнения заказа поваром в секундах.
-    private List<Advertisement> playList; // список видео из доступных,
-    // просмотр которых обеспечивает максимальную выгоду
+    private final AdvertisementStorage storage = AdvertisementStorage.getInstance();
+    private int timeSeconds;
 
     public AdvertisementManager(int timeSeconds) {
         this.timeSeconds = timeSeconds;
-        playList = new ArrayList<>();
     }
 
     public void processVideos() {
-        if (storage.list().isEmpty()) {
+        this.totalTimeSecondsLeft = Integer.MAX_VALUE;
+        obtainOptimalVideoSet(new ArrayList<Advertisement>(), timeSeconds, 0l);
+
+        VideoSelectedEventDataRow row = new VideoSelectedEventDataRow(optimalVideoSet, maxAmount, timeSeconds - totalTimeSecondsLeft);
+        StatisticManager.getInstance().register(row);
+
+        displayAdvertisement();
+    }
+
+    private long maxAmount;
+    private List<Advertisement> optimalVideoSet;
+    private int totalTimeSecondsLeft;
+
+    private void obtainOptimalVideoSet(List<Advertisement> totalList, int currentTimeSecondsLeft, long currentAmount) {
+        if (currentTimeSecondsLeft < 0) {
+            return;
+        } else if (currentAmount > maxAmount
+                || currentAmount == maxAmount && (totalTimeSecondsLeft > currentTimeSecondsLeft
+                || totalTimeSecondsLeft == currentTimeSecondsLeft && totalList.size() < optimalVideoSet.size())) {
+            this.totalTimeSecondsLeft = currentTimeSecondsLeft;
+            this.optimalVideoSet = totalList;
+            this.maxAmount = currentAmount;
+            if (currentTimeSecondsLeft == 0) {
+                return;
+            }
+        }
+
+        ArrayList<Advertisement> tmp = getActualAdvertisements();
+        tmp.removeAll(totalList);
+        for (Advertisement ad : tmp) {
+            if (!ad.isActive()) continue;
+            ArrayList<Advertisement> currentList = new ArrayList<>(totalList);
+            currentList.add(ad);
+            obtainOptimalVideoSet(currentList, currentTimeSecondsLeft - ad.getDuration(), currentAmount + ad.getAmountPerOneDisplaying());
+        }
+    }
+
+    private ArrayList<Advertisement> getActualAdvertisements() {
+        ArrayList<Advertisement> advertisements = new ArrayList<>();
+        for (Advertisement ad : storage.list()) {
+            if (ad.isActive()) {
+                advertisements.add(ad);
+            }
+        }
+        return advertisements;
+    }
+
+    private void displayAdvertisement() {
+        if (optimalVideoSet == null || optimalVideoSet.isEmpty()) {
             throw new NoVideoAvailableException();
         }
 
-        List<Advertisement> storageList = storage.list();
-
-        // В набор должны отбираться только ролики с положительным числом показов.
-        for (Advertisement each: storageList) {
-            if (each.getHits() <= 0 ) storageList.remove(each);
-        }
-
-        getPlayList(storageList);
-
-        playList.sort(new Comparator<Advertisement>() {
+        Collections.sort(optimalVideoSet, new Comparator<Advertisement>() {
             @Override
             public int compare(Advertisement o1, Advertisement o2) {
-                return (int) (o2.getAmountPerOneDisplaying() - o1.getAmountPerOneDisplaying());  //сортировка по уменьшению стоимости показа одного ролика
+                long l = o2.getAmountPerOneDisplaying() - o1.getAmountPerOneDisplaying();
+                return (int) (l != 0 ? l : o2.getDuration() - o1.getDuration());
             }
-        }.thenComparing(new Comparator<Advertisement>() {
-            @Override
-            public int compare(Advertisement o1, Advertisement o2) {        //сортировка по увеличению стоимости показа одной секунды рекламного ролика в тысячных частях копейки
-                return o2.getDuration() - o1.getDuration();
-            }
-        }));
+        });
 
-        // Перед отображением списка видео должно быть зарегистрировано событие "видео выбрано".
-        //4. Перед отображением видео должно быть зарегистрировано событие "видео выбрано".
-        //5. Зарегистрируй событие "видео выбрано" перед отображением рекламы пользователю.
-        //конструктор: public VideoSelectedEventDataRow(List<Advertisement> optimalVideoSet, long amount, int totalDuration)
-        StatisticManager.getInstance().register(new VideoSelectedEventDataRow(playList, getTotalAmount(playList), getTotalTime(playList)));
-
-        // First Video is displaying... 50, 277
-        // где First Video - название рекламного ролика
-        //где 50 - стоимость показа одного рекламного ролика в копейках
-        //где 277 - стоимость показа одной секунды
-        for (Advertisement advertisement : playList) {
-            ConsoleHelper.writeMessage(advertisement.getName() + " is displaying... "
-                    + advertisement.getAmountPerOneDisplaying() + ", "
-                    + advertisement.getAmountPerOneDisplaying() * 1000 / advertisement.getDuration());
-
-            // Уменьшать количество показов.
-            advertisement.revalidate();
+        for (Advertisement ad : optimalVideoSet) {
+            displayInPlayer(ad);
+            ad.revalidate();
         }
     }
 
-    //создание всех наборов перестановок значений
-    /*
-    метод перебирает все возможные наборы (перестановки) предметов для рюкзака.
-     Данный метод рекурсивный.
-     Сначала в наборе все N предметов,
-     затем, при переходе вглубь на один уровень рекурсии,
-     один предмет удаляется.
-     Выход из рекурсии произойдёт, когда список предметов станет пустым.
-     */
-    private void getPlayList(List<Advertisement> list) {
-        if (list.size() > 0) {
-            checkList(list);
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            List<Advertisement> newList = new ArrayList<>(list);
-            newList.remove(i);
-            getPlayList(newList);
-        }
-    }
-
-    //проверка листа является ли данный набор лучшим решением задачи
-    private void checkList(List<Advertisement> list){
-        if (playList == null){
-            if (getTotalTime(list) <= timeSeconds){
-                playList = list;
-            }
-        }
-        else{
-            // сумма денег, полученная от показов,
-            // должна быть максимальной из всех возможных вариантов
-            if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) > getTotalAmount(playList)){
-                playList = list;
-
-        // 1.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег,
-        // полученной от показов, то должен быть выбран вариант с максимальным суммарным временем.
-        } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) == getTotalAmount(playList)){
-                if (getTotalTime(list) > getTotalTime(playList)){
-                    playList = list;
-        // 2.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег
-        // и одинаковым суммарным временем, то должен быть выбран вариант с минимальным количеством роликов
-        }else if (getTotalTime(list) == getTotalTime(playList)){
-                    if (list.size() < playList.size()){
-                        playList = list;
-                    }
-                }
-            }
-        }
-    }
-
-    //вычисляет общее время
-    private int getTotalTime(List<Advertisement> list) {
-        int totalTime = 0;
-        for (Advertisement each : list) {
-            totalTime += each.getDuration();
-        }
-        return totalTime;
-    }
-
-    //вычисляет общую стоимость
-    private long getTotalAmount(List<Advertisement> list) {
-        long totalAmount = 0;
-        for (Advertisement each : list) {
-            totalAmount += each.getAmountPerOneDisplaying();
-        }
-        return totalAmount;
+    private void displayInPlayer(Advertisement advertisement) {
+        System.out.println(advertisement.getName() + " is displaying... " + advertisement.getAmountPerOneDisplaying() +
+                ", " + (1000 * advertisement.getAmountPerOneDisplaying() / advertisement.getDuration()));
     }
 }

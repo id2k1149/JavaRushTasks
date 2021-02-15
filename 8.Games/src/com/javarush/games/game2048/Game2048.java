@@ -15,6 +15,8 @@ public class Game2048 extends Game {
     }
 
     private void createGame() {
+        gameField = new int[SIDE][SIDE];
+        // Создаем 2 случайных числа в матрице
         createNewNumber();
         createNewNumber();
     }
@@ -32,6 +34,11 @@ public class Game2048 extends Game {
     private void win() {
         isGameStopped = true;
         showMessageDialog(Color.AZURE, "YOU WIN", Color.BLUE, 70);
+    }
+
+    private void gameOver() {
+        isGameStopped = true;
+        showMessageDialog(Color.AZURE, "GAME OVER", Color.BLUE, 70);
     }
 
     private void createNewNumber() {
@@ -53,13 +60,14 @@ public class Game2048 extends Game {
         for (int i = 0; i < SIDE; i++) {
             for (int j = 0; j < SIDE; j++) {
                 if (gameField[i][j] == 0) return true;
-            }
-        }
-        for (int i = 0; i < SIDE-1; i++) {
-            for (int j = 0; j < SIDE-1; j++) {
-                if (gameField[i][j] == gameField[i+1][j]
-                        || gameField[i][j] == gameField[i][j+1])
-                    return true;
+                else {
+                    if (i < SIDE - 1) {
+                        if (gameField[i][j] == gameField[i+1][j]) return true;
+                    }
+                    if (j < SIDE - 1 ) {
+                        if (gameField[i][j] == gameField[i][j+1]) return true;
+                    }
+                }
             }
         }
         return false;
@@ -185,6 +193,20 @@ public class Game2048 extends Game {
 
     @Override
     public void onKeyPress(Key key) {
+        if(isGameStopped) {
+            if (key == Key.SPACE) {
+                isGameStopped = false;
+                createGame();
+                drawScene();
+            }
+            else {
+                return;
+            }
+        }
+        if (!canUserMove()) {
+            gameOver();
+            return;
+        }
         switch (key) {
             case LEFT: {
                 moveLeft();
@@ -203,6 +225,12 @@ public class Game2048 extends Game {
             }
             case DOWN: {
                 moveDown();
+                drawScene();
+                break;
+            }
+            case SPACE: {
+                isGameStopped = false;
+                createGame();
                 drawScene();
                 break;
             }

@@ -23,6 +23,14 @@ public class Field {
         matrix = new int[height][width];
     }
 
+    public Integer getValue(int x, int y) {
+        return null;
+    }
+
+    public void setValue(int x, int y, int value) {
+
+    }
+
     public void print() {
 
     }
@@ -31,11 +39,5 @@ public class Field {
 
     }
 
-    public Integer getValue(int x, int y) {
-        return null;
-    }
 
-    public void setValue(int x, int y, int value) {
-
-    }
 }

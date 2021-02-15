@@ -23,7 +23,7 @@ public class ConsoleHelper {
         List<Dish> newListOfDishes = new ArrayList<>();
         writeMessage("We have:");
         writeMessage(Dish.allDishesToString());
-        writeMessage("Select your dish or type 'exit' to complete the order");
+        writeMessage("Please choose a dish or type 'exit'");
         while (true) {
             String clientChoice = null;
             try {

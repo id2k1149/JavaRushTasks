@@ -1,8 +1,7 @@
 package com.javarush.task.task35.task3513;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.awt.event.KeyEvent;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Model {
@@ -47,8 +46,13 @@ public class Model {
                 gameToSave[i][j] = new Tile(tiles[i][j].value);
             }
         }
+
+        // Метод saveState должен сохранять в стек previousStates
+        // новый объект типа Tile[][] с помощью метода push.
         previousStates.push(gameToSave);
 
+        // Метод saveState должен сохранять в стек previousScores
+        // текущее значение поля score с помощью метода push.
         previousScores.push(score);
 
         isSaveNeeded = false;
@@ -74,6 +78,81 @@ public class Model {
         addTile();
         addTile();
     }
+
+    public void randomMove() {
+        int randomN = ((int) (Math.random() * 100)) % 4;
+        switch(randomN) {
+            case 0:
+                left();
+                break;
+            case 1:
+                right();
+                break;
+            case 2:
+                up();
+                break;
+            case 3:
+                down();
+                break;
+        }
+    }
+
+    public boolean hasBoardChanged() {
+        int weightGame = 0;
+        for (int i = 0; i < gameTiles.length; i++){
+            for (int j = 0; j < gameTiles[i].length; j++){
+                weightGame += gameTiles[i][j].value;
+            }
+        }
+
+        int weightStack = 0;
+        Tile[][] tiles = (Tile[][])previousStates.peek();
+        for (int i = 0; i < tiles.length; i++){
+            for (int j = 0; j < tiles[i].length; j++){
+                weightStack += tiles[i][j].value;
+            }
+        }
+
+        if (weightGame != weightStack)
+            return true;
+        return false;
+    }
+
+    public MoveEfficiency getMoveEfficiency(Move move) {
+        move.move();
+        if (hasBoardChanged()){
+            rollback();
+            return new MoveEfficiency(getEmptyTiles().size(), score, move );
+        }
+        rollback();
+        return new MoveEfficiency(-1, 0, move);
+    }
+
+    // метод будет выбирать лучший из возможных ходов и выполнять его
+    public void autoMove() {
+        PriorityQueue<MoveEfficiency> queue = new PriorityQueue<>(4, Collections.reverseOrder());
+
+        queue.offer(getMoveEfficiency(this::left));
+        queue.offer(getMoveEfficiency(this::right));
+        queue.offer(getMoveEfficiency(this::up));
+        queue.offer(getMoveEfficiency(this::down));
+
+        if (queue.peek() != null) {
+            queue.peek().getMove().move();
+        }
+    }
+
+//    public void autoMove() {
+//        PriorityQueue<MoveEfficiency> queue = new PriorityQueue<>(4, Collections.reverseOrder());
+//
+//        queue.add(getMoveEfficiency(() -> left()));
+//        queue.add(getMoveEfficiency(() -> right()));
+//        queue.add(getMoveEfficiency(() -> up()));
+//        queue.add(getMoveEfficiency(() -> down()));;
+//
+//        assert queue.peek() != null;
+//        queue.peek().getMove().move();
+//    }
 
 //    private List<Tile> getEmptyTiles() {
 //        List<Tile> emptyTilesList = new ArrayList<>();
@@ -154,6 +233,7 @@ public class Model {
     }
 
     public void left (){
+        if (isSaveNeeded) saveState(gameTiles);
         boolean changes = false;
         for (int i = 0; i < FIELD_WIDTH; i++) {
             if ( compressTiles(gameTiles[i]) || mergeTiles( gameTiles[i])) {
@@ -161,9 +241,11 @@ public class Model {
             }
         }
         if (changes) addTile();
+        isSaveNeeded = true;
     }
 
     public void right (){
+        saveState(gameTiles);
         rotateClockwise();
         rotateClockwise();
         left();
@@ -172,6 +254,7 @@ public class Model {
     }
 
     public void up (){
+        saveState(gameTiles);
         rotateClockwise();
         rotateClockwise();
         rotateClockwise();
@@ -180,6 +263,7 @@ public class Model {
     }
 
     public void down (){
+        saveState(gameTiles);
         rotateClockwise();
         left();
         rotateClockwise();
