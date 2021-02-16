@@ -31,13 +31,36 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable, Cloneab
         return map.put(e,PRESENT) == null;
     }
 
+    // Метод iterator должен возвращать итератор для множества ключей поля map.
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return map.keySet().iterator();
     }
 
     @Override
     public int size() {
-        return 0;
+        return map.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+
+    // Метод contains должен возвращать true,
+    // если map содержит анализируемый элемент, иначе - false
+    @Override
+    public boolean contains(Object o) {
+        return map.containsKey(o);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return map.remove(o) == null;
     }
 }
