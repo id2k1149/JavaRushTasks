@@ -37,16 +37,15 @@ public class StatisticAdvertisementManager {
         return archivedVideo;
     }
 
-     /* java
-    public List<Advertisement> getVideoSet(boolean isActive) {
-        List<Advertisement> result = new ArrayList<>();
-        for (Advertisement advertisement : advertisementStorage.list()) {
-            if (!isActive ^ advertisement.isActive()) {
-                result.add(advertisement);
-            }
-        }
-        return result;
-    }
-      */
+
+//    public List<Advertisement> getVideoSet(boolean isActive) {
+//        List<Advertisement> result = new ArrayList<>();
+//        for (Advertisement advertisement : advertisementStorage.list()) {
+//            if (!isActive ^ advertisement.isActive()) {
+//                result.add(advertisement);
+//            }
+//        }
+//        return result;
+//    }
 
 }

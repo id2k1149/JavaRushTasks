@@ -1,4 +1,4 @@
-package com.javarush.task.task27.task2712.ad;
+package com.javarush.task.task27.task2712a.ad;
 
 /*
 у каждого планшета будет свой объект менеджера,
@@ -7,23 +7,33 @@ package com.javarush.task.task27.task2712.ad;
  */
 
 import com.javarush.task.task27.task2712.ConsoleHelper;
+import com.javarush.task.task27.task2712.ad.Advertisement;
+import com.javarush.task.task27.task2712.ad.AdvertisementStorage;
+import com.javarush.task.task27.task2712.ad.NoVideoAvailableException;
+import com.javarush.task.task27.task2712.statistic.StatisticManager;
+import com.javarush.task.task27.task2712.statistic.event.NoAvailableVideoEventDataRow;
+import com.javarush.task.task27.task2712.statistic.event.VideoSelectedEventDataRow;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class AdvertisementManager_10_3 {
+public class AdvertisementManager_14 {
     final AdvertisementStorage storage = AdvertisementStorage.getInstance();
     int timeSeconds; //  время выполнения заказа поваром в секундах.
     private List<Advertisement> playList; // список видео из доступных,
     // просмотр которых обеспечивает максимальную выгоду
 
-    public AdvertisementManager_10_3(int timeSeconds) {
+    public AdvertisementManager_14(int timeSeconds) {
         this.timeSeconds = timeSeconds;
+        playList = new ArrayList<>();
     }
 
     public void processVideos() {
         if (storage.list().isEmpty()) {
+            NoAvailableVideoEventDataRow noEventDataRow = new NoAvailableVideoEventDataRow(timeSeconds);
+            StatisticManager.getInstance().register(noEventDataRow);
+
             throw new NoVideoAvailableException();
         }
 
@@ -48,10 +58,12 @@ public class AdvertisementManager_10_3 {
             }
         }));
 
+        //4. Перед отображением списка видео должно быть зарегистрировано событие "видео выбрано".
+        //конструктор: public VideoSelectedEventDataRow(List<Advertisement> optimalVideoSet, long amount, int totalDuration)
+        VideoSelectedEventDataRow eventVideoSelected = new VideoSelectedEventDataRow(playList, getTotalAmount(playList), getTotalTime(playList));
 
-//        Collections.sort(playList, (Comparator.comparingInt(Advertisement::getDuration)));
-//        Collections.sort(playList, ((v1, v2) -> (int) (v1.getAmountPerOneDisplaying() - v2.getAmountPerOneDisplaying())));
-//        Collections.reverse(playList);
+        //5. Зарегистрируй событие "видео выбрано" перед отображением рекламы пользователю.
+        StatisticManager.getInstance().register(eventVideoSelected);
 
         // First Video is displaying... 50, 277
         // где First Video - название рекламного ролика
@@ -88,43 +100,7 @@ public class AdvertisementManager_10_3 {
         }
     }
 
-    /*
-    //проверка, является ли данный набор лучшим решением задачи
-    private void checkList(List<Advertisement> list) {
-        if (playList == null) {
-            if (getTotalTime(list) <= timeSeconds) {
-                playList = list;
-            }
-
-            // сумма денег, полученная от показов,
-            // должна быть максимальной из всех возможных вариантов
-        } else if (getTotalTime(list) <= timeSeconds) {
-            if (getTotalAmount(list) > getTotalAmount(playList)) {
-                playList = list;
-            }
-            // 1.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег, полученной от показов, то должен быть выбран вариант с максимальным суммарным временем.
-
-            // если существует несколько вариантов набора видео-роликов с одинаковой суммой денег,
-        } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(playList) == getTotalAmount(list)) {
-            // выбрать тот вариант, у которого суммарное время максимальное;
-            if (getTotalTime(list) > getTotalTime(playList)) {
-                playList = list;
-            }
-
-            // 2.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег и одинаковым суммарным временем, то должен быть выбран вариант с минимальным количеством роликов
-
-            // если суммарное время у вариантов с одинаковой суммой денег, одинаковое,
-        } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(playList) == getTotalAmount(list) && getTotalTime(list) == getTotalTime(playList)) {
-            // то выбрать вариант с минимальным количеством роликов;
-            if (list.size() < playList.size()) {
-                playList = list;
-            }
-
-        }
-    }
-     */
-
-    //проверка листа
+    //проверка листа является ли данный набор лучшим решением задачи
     private void checkList(List<Advertisement> list){
         if (playList == null){
             if (getTotalTime(list) <= timeSeconds){
@@ -132,13 +108,19 @@ public class AdvertisementManager_10_3 {
             }
         }
         else{
+            // сумма денег, полученная от показов,
+            // должна быть максимальной из всех возможных вариантов
             if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) > getTotalAmount(playList)){
                 playList = list;
 
-            } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) == getTotalAmount(playList)){
+        // 1.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег,
+        // полученной от показов, то должен быть выбран вариант с максимальным суммарным временем.
+        } else if (getTotalTime(list) <= timeSeconds && getTotalAmount(list) == getTotalAmount(playList)){
                 if (getTotalTime(list) > getTotalTime(playList)){
                     playList = list;
-                }else if (getTotalTime(list) == getTotalTime(playList)){
+        // 2.Если существует несколько вариантов набора видео-роликов с одинаковой суммой денег
+        // и одинаковым суммарным временем, то должен быть выбран вариант с минимальным количеством роликов
+        }else if (getTotalTime(list) == getTotalTime(playList)){
                     if (list.size() < playList.size()){
                         playList = list;
                     }

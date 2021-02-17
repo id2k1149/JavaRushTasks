@@ -6,6 +6,7 @@ public class Game2048 extends Game {
     private static final int SIDE = 4;
     private int[][] gameField = new int[SIDE][SIDE];
     private boolean isGameStopped = false;
+    private int score;
 
     @Override
     public void initialize() {
@@ -15,6 +16,7 @@ public class Game2048 extends Game {
     }
 
     private void createGame() {
+        setScore(0);
         gameField = new int[SIDE][SIDE];
         // Создаем 2 случайных числа в матрице
         createNewNumber();
@@ -134,6 +136,8 @@ public class Game2048 extends Game {
             if (row[i] == row[i + 1] && row[i] > 0) {
                 row[i] *= 2;
                 row[i + 1] = 0;
+                score += row[i];
+                setScore(score);
                 changes = true;
             }
         }
@@ -225,12 +229,6 @@ public class Game2048 extends Game {
             }
             case DOWN: {
                 moveDown();
-                drawScene();
-                break;
-            }
-            case SPACE: {
-                isGameStopped = false;
-                createGame();
                 drawScene();
                 break;
             }

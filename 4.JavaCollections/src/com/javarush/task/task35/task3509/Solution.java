@@ -23,7 +23,7 @@ public class Solution {
     }
 
 //    public static <T> ArrayList<T> newArrayList(T... elements) {
-        //напишите тут ваш код
+        //напишите тут ваш код (option 2)
 //        return new ArrayList<>(Arrays.asList(elements));
 //    }
 

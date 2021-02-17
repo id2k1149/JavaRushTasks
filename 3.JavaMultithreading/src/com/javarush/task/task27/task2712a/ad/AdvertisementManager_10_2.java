@@ -1,4 +1,4 @@
-package com.javarush.task.task27.task2712.ad;
+package com.javarush.task.task27.task2712a.ad;
 
 /*
 у каждого планшета будет свой объект менеджера,
@@ -7,19 +7,22 @@ package com.javarush.task.task27.task2712.ad;
  */
 
 import com.javarush.task.task27.task2712.ConsoleHelper;
+import com.javarush.task.task27.task2712.ad.Advertisement;
+import com.javarush.task.task27.task2712.ad.AdvertisementStorage;
+import com.javarush.task.task27.task2712.ad.NoVideoAvailableException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class AdvertisementManager_10 {
+public class AdvertisementManager_10_2 {
     final AdvertisementStorage storage = AdvertisementStorage.getInstance();
     int timeSeconds; //  время выполнения заказа поваром в секундах.
     private List<Advertisement> playList; // список видео из доступных,
     // просмотр которых обеспечивает максимальную выгоду
 
-    public AdvertisementManager_10(int timeSeconds) {
+    public AdvertisementManager_10_2(int timeSeconds) {
         this.timeSeconds = timeSeconds;
     }
 

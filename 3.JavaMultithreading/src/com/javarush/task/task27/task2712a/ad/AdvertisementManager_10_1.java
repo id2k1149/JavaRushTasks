@@ -1,4 +1,4 @@
-package com.javarush.task.task27.task2712.ad;
+package com.javarush.task.task27.task2712a.ad;
 
 /*
 у каждого планшета будет свой объект менеджера,
@@ -7,6 +7,9 @@ package com.javarush.task.task27.task2712.ad;
  */
 
 import com.javarush.task.task27.task2712.ConsoleHelper;
+import com.javarush.task.task27.task2712.ad.Advertisement;
+import com.javarush.task.task27.task2712.ad.AdvertisementStorage;
+import com.javarush.task.task27.task2712.ad.NoVideoAvailableException;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,90 +1,55 @@
 package com.javarush.task.task31.task3105;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-/* 
+/*
 Добавление файла в архив
-https://www.youtube.com/watch?v=aE_w3c-rnSo
 */
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        String path_to_file = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/result.txt";
-        File path_to_zip = new File("/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/test.zip");
+        Path fileName = Paths.get(args[0]);
+        Path newFile = Paths.get("new\\" + fileName.getFileName().toString());
 
-//        полный путь к файлу fileName.
-//        String path_to_file = args[0];
-//        путь к zip-архиву.
-//        File path_to_zip = args[1];
+        FileInputStream fileInputStream = new FileInputStream(args[1]);
+        ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
 
-
-//        Чтение архивов. ZipInputStream
-        ZipInputStream inputStream = new ZipInputStream(new FileInputStream(path_to_zip));
-
-        ZipEntry entry;
-        String name;
-
-        while((entry = inputStream.getNextEntry()) != null){
-
-            name = entry.getName() + "_01"; // получим название файла
-//            System.out.printf("File name: %s \t ", name);
-
-
-            Path tempFile = Files.createTempFile("temp-",".tmp");
-
-
-
-//            String path = "/Users/mikepol/IdeaProjects/JavaRushTasks/4.JavaCollections/src/com/javarush/task/task31/task3105/";
-
-//            FileOutputStream outputStream = new FileOutputStream(path + name);
-            while (inputStream.read() != -1) {
-                Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
+        HashMap<ZipEntry, ByteArrayOutputStream> hashMap = new HashMap<>();
+        ZipEntry zipEntry;
+        while ((zipEntry = zipInputStream.getNextEntry())!=null){
+            if (!zipEntry.getName().equals(newFile.toString())){
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int count = 0;
+                while ((count = zipInputStream.read(buffer)) != -1){
+                    byteArrayOutputStream.write(buffer, 0, count);
+                }
+                byteArrayOutputStream.close();
+                hashMap.put(zipEntry,byteArrayOutputStream);
             }
-
-            while (inputStream.read() != -1) {
-                Files.copy(inputStream, Paths.get(path_to_file));
-            }
-
-
-            inputStream.closeEntry();
-
-            Path file00 = tempFile;
-            for (String line : Files.readAllLines(file00)) {
-                System.out.println(line);
-            }
-
-            // создаем архив
-            FileOutputStream outputStream = new FileOutputStream(path_to_zip);
-            ZipOutputStream zip = new ZipOutputStream(outputStream);
-
-            ZipEntry entry1 = new ZipEntry(tempFile.getFileName().toString());
-            //кладем в архив ZipEntry – «архивный объект»
-            zip.putNextEntry(entry1);
-
-            //копируем файл «document-for-archive.txt» в архив под именем «document.txt»
-            File file1 = new File(tempFile.toAbsolutePath().toString());
-            Files.copy(file1.toPath(), zip);
-
-
-
-            // закрываем архив
-            zip.close();
-
-
-
-
         }
+        zipInputStream.close();
+
+        FileOutputStream fileOutputStream = new FileOutputStream(args[1]);
+        ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
+        for (HashMap.Entry<ZipEntry,ByteArrayOutputStream> entry: hashMap.entrySet()){
+            zipOutputStream.putNextEntry(new ZipEntry(entry.getKey().getName()));
+            zipOutputStream.write(entry.getValue().toByteArray());
+        }
+
+        ZipEntry newEntry = new ZipEntry(newFile.toString());
+        zipOutputStream.putNextEntry(newEntry);
+        Files.copy(fileName,zipOutputStream);
+        zipOutputStream.close();
     }
 }

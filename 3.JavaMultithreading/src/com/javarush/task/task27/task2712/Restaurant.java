@@ -38,14 +38,15 @@ public class Restaurant {
         cook_1.addObserver(waiter);
         cook_2.addObserver(waiter);
 
+        // OrderManager, который будет Observer для планшетов.
+        OrderManager orderManager = new OrderManager();
+
         // должно быть создано 5 планшетов.
         List<Tablet> tablets = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Tablet tablet = new Tablet(i+1);
             tablets.add(tablet);
-            // Оба повара должны быть добавлены каждому планшету в качестве наблюдателей.
-            tablet.addObserver(cook_1);
-            tablet.addObserver(cook_2);
+            tablet.addObserver(orderManager);
         }
 
         // создан и запущен тред на основе RandomOrderGeneratorTask.
@@ -60,12 +61,6 @@ public class Restaurant {
         }
 
         thread.interrupt();
-
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-//            e.printStackTrace();
-        }
 
         DirectorTablet directorTablet = new DirectorTablet();
 

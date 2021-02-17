@@ -16,6 +16,8 @@ public class DirectorTablet {
         // в убывающем порядке даты
         Collections.sort(list);
 
+        ConsoleHelper.writeMessage("");
+        ConsoleHelper.writeMessage("какую сумму заработали на рекламе по дням");
         for (String key : list) {
             double amount = 1.0 * profitMap.get(key) / 100;
             System.out.println(key + " - " + String.format(Locale.ENGLISH, "%.2f", amount));
@@ -56,6 +58,8 @@ public class DirectorTablet {
             }
         });
 
+        ConsoleHelper.writeMessage("");
+        ConsoleHelper.writeMessage("список активных роликов и оставшееся количество показов");
         for (Advertisement advertisement : advertisements) {
             ConsoleHelper.writeMessage(advertisement.getName() + " - " + advertisement.getHits());
         }
@@ -73,39 +77,39 @@ public class DirectorTablet {
             }
         });
 
+        ConsoleHelper.writeMessage("");
+        ConsoleHelper.writeMessage("список неактивных роликов (с оставшемся количеством показов равным 0)");
         for (Advertisement advertisement : advertisements) {
             ConsoleHelper.writeMessage(advertisement.getName());
         }
     }
 
-    /* java
-    public void printActiveVideoSet() {
-        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(true);
-        Collections.sort(videoSet, new Comparator<Advertisement>() {
-            @Override
-            public int compare(Advertisement o1, Advertisement o2) {
-                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
-            }
-        });
 
-        for (Advertisement advertisement : videoSet) {
-            System.out.println(advertisement.getName() + " - " + advertisement.getHits());
-        }
-    }
+//    public void printActiveVideoSet() {
+//        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(true);
+//        Collections.sort(videoSet, new Comparator<Advertisement>() {
+//            @Override
+//            public int compare(Advertisement o1, Advertisement o2) {
+//                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+//            }
+//        });
+//
+//        for (Advertisement advertisement : videoSet) {
+//            System.out.println(advertisement.getName() + " - " + advertisement.getHits());
+//        }
+//    }
 
-    public void printArchivedVideoSet() {
-        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(false);
-        Collections.sort(videoSet, new Comparator<Advertisement>() {
-            @Override
-            public int compare(Advertisement o1, Advertisement o2) {
-                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
-            }
-        });
-
-        for (Advertisement advertisement : videoSet) {
-            System.out.println(advertisement.getName());
-        }
-    }
-     */
-
+//    public void printArchivedVideoSet() {
+//        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(false);
+//        Collections.sort(videoSet, new Comparator<Advertisement>() {
+//            @Override
+//            public int compare(Advertisement o1, Advertisement o2) {
+//                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+//            }
+//        });
+//
+//        for (Advertisement advertisement : videoSet) {
+//            System.out.println(advertisement.getName());
+//        }
+//    }
 }
