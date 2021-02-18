@@ -12,7 +12,6 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable, Cloneab
     }
 
     public AmigoSet(Collection<? extends E> collection) {
-
         // Вычисли свою Capacity по такой формуле:
         // максимальное из двух чисел:
         // 16 и округленного в большую сторону значения (collection.size()/.75f)
@@ -21,6 +20,21 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable, Cloneab
         for (E e: collection){
             map.put(e, PRESENT);
         }
+    }
+
+    // метод clone(), поверхностное клонирование.
+    public Object clone() {
+        AmigoSet amigoClone = null;
+        try {
+            // Клонируй множество
+            amigoClone = (AmigoSet) super.clone();
+            // клонируй map
+            amigoClone.map = (HashMap) map.clone();
+
+        } catch (Exception e) {
+            throw new InternalError();
+        }
+        return amigoClone;
     }
 
     // должен возвращать true в случае,

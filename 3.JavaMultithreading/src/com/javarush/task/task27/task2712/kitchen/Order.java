@@ -44,6 +44,7 @@ public class Order {
     public String toString() {
         String yourOrder = "";
         if (dishes.size() != 0 && dishes != null) {
+            ConsoleHelper.writeMessage("");
             yourOrder = "Your order: " + dishes + " of " + tablet +
             ", cooking time " + getTotalCookingTime() + "min";
         }

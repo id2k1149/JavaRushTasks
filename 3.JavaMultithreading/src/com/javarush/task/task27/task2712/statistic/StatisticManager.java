@@ -27,6 +27,10 @@ public class StatisticManager {
         return instance;
     }
 
+    public Set<Cook> getCooks() {
+        return cooks;
+    }
+
     // будет регистрировать событие в хранилище.
     public void register(EventDataRow data) {
         //5. В StatisticManager создадим публичный метод void register(EventDataRow data),

@@ -16,6 +16,7 @@ public class Game2048 extends Game {
     }
 
     private void createGame() {
+        score = 0;
         setScore(0);
         gameField = new int[SIDE][SIDE];
         // Создаем 2 случайных числа в матрице

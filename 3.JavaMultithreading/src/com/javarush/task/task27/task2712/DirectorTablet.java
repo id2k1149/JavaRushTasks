@@ -20,7 +20,7 @@ public class DirectorTablet {
         ConsoleHelper.writeMessage("какую сумму заработали на рекламе по дням");
         for (String key : list) {
             double amount = 1.0 * profitMap.get(key) / 100;
-            System.out.println(key + " - " + String.format(Locale.ENGLISH, "%.2f", amount));
+            ConsoleHelper.writeMessage(key + " - " + String.format(Locale.ENGLISH, "%.2f", amount));
         }
     }
 
@@ -34,16 +34,17 @@ public class DirectorTablet {
 
         for (String key : list) {
             Map<String, Integer> cookMap = cookWorkloadingMap.get(key);
-            System.out.println(key);
+            ConsoleHelper.writeMessage("");
+            ConsoleHelper.writeMessage("загрузка (рабочее время) повара, сгруппировать по дням");
+            ConsoleHelper.writeMessage(key);
 
             // Поваров сортировать по имени
             ArrayList<String> cookNames = new ArrayList(cookMap.keySet());
             Collections.sort(cookNames);
-            for (String cookName : cookNames) {
-                System.out.println(cookName + " - " + ((cookMap.get(cookName) + 59) / 60) + " min");
-            }
 
-            System.out.println();
+            for (String cookName : cookNames) {
+                ConsoleHelper.writeMessage(cookName + " - " + ((cookMap.get(cookName) + 59) / 60) + " min");
+            }
         }
     }
 

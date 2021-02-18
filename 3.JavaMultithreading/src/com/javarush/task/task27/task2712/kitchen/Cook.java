@@ -8,6 +8,11 @@ import java.util.Observable;
 
 public class Cook extends Observable {
     private String name;
+    private boolean busy;
+
+    public boolean isBusy() {
+        return busy;
+    }
 
     public Cook(String name) {
         this.name = name;
@@ -19,7 +24,8 @@ public class Cook extends Observable {
     }
 
     public void startCookingOrder(Order order) {
-        ConsoleHelper.writeMessage("Start cooking - " + order);
+        busy = true;
+        ConsoleHelper.writeMessage(name + " starts cooking - " + order);
 
         // Повар во время приготовления еды должен генерировать
         // соответствующее событие.
@@ -30,7 +36,15 @@ public class Cook extends Observable {
                 order.getDishes());
         StatisticManager.getInstance().register(row);
 
+        // задержка при приготовлении блюда
+        try {
+            Thread.sleep(order.getTotalCookingTime() * 10);
+        } catch (InterruptedException e) {
+
+        }
+
         setChanged();
         notifyObservers(order);
+        busy = false;
     }
 }
