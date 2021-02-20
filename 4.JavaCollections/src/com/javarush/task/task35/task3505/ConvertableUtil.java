@@ -15,4 +15,16 @@ public class ConvertableUtil {
         return result;
     }
 
+    //java
+    /*
+    public static <Key, E extends Convertable<Key>> Map<Key, E> convert(List<E> list) {
+        Map<Key, E> result = new HashMap();
+        for (E element : list) {
+            Key key = element.getKey();
+            result.put(key, element);
+        }
+        return result;
+    }
+     */
+
 }

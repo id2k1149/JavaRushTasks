@@ -6,13 +6,18 @@ import com.javarush.task.task27.task2712.kitchen.Order;
 import com.javarush.task.task27.task2712.kitchen.TestOrder;
 
 import java.io.IOException;
-import java.util.Observable;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Tablet extends Observable {
+public class Tablet {
     private final int number;
     private static Logger logger = Logger.getLogger(Tablet.class.getName());
+    private LinkedBlockingQueue queue;
+
+    public void setQueue(LinkedBlockingQueue queue) {
+        this.queue = queue;
+    }
 
     public Tablet(int number) {
         this.number = number;
@@ -53,12 +58,18 @@ public class Tablet extends Observable {
     private void someActionsWithOrder(Order order) {
         ConsoleHelper.writeMessage(order.toString());
 
+        // добавляет заказ в очередь.
+        try {
+            queue.put(order);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // запуск рекламного ролика
         AdvertisementManager advertisementManager = new AdvertisementManager(order.getTotalCookingTime() * 60);
         advertisementManager.processVideos();
 
-        setChanged();
-        notifyObservers(order);
+
     }
 
     public String toString() {

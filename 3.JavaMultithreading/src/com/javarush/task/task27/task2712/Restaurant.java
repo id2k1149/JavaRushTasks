@@ -1,14 +1,17 @@
 package com.javarush.task.task27.task2712;
 
 import com.javarush.task.task27.task2712.kitchen.Cook;
+import com.javarush.task.task27.task2712.kitchen.Order;
 import com.javarush.task.task27.task2712.kitchen.Waiter;
-import com.javarush.task.task27.task2712.statistic.StatisticManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Restaurant {
     private static final int ORDER_CREATING_INTERVAL = 100;
+    private static final LinkedBlockingQueue<Order> ORDER_QUEUE = new LinkedBlockingQueue<>();
+
 
     public static void main(String[] args) {
 
@@ -26,27 +29,47 @@ public class Restaurant {
 //        cook_2.addObserver(waiter_2);
 //        tablet_2.createOrder();
 
-        // должно быть создано 2 повара.
-        Cook cook_1 = new Cook("Amigo");
-        Cook cook_2 = new Cook("Hans Noodles");
-
-        // Повара должны быть зарегистрированы в множестве поваров в StatisticManager.
-        StatisticManager.getInstance().register(cook_1);
-        StatisticManager.getInstance().register(cook_2);
-
         Waiter waiter = new Waiter();
-        cook_1.addObserver(waiter);
-        cook_2.addObserver(waiter);
+
+        // должно быть создано 2 повара.
+        int cooksNumber = 2;
+        String[] cookName = {"Amigo", "Hans Noodles"};
+
+        for (int i = 0; i < cooksNumber; i++) {
+            Cook cook = new Cook(cookName[i]);
+
+            // сразу после создания повара, установи ему константу
+            // orderQueue в качестве значения для созданного поля.
+            cook.setQueue(ORDER_QUEUE);
+
+            // Повара должны быть зарегистрированы в множестве поваров в StatisticManager.
+            // Task 22 - Из класса StatisticManager удали сет поваров,
+            // его геттер и метод register(Cook cook).
+//        StatisticManager.getInstance().register(cook);
+
+            cook.addObserver(waiter);
+
+            // создай и запусти трэды на основании тасок Cook.
+            Thread threadCook = new Thread(cook);
+            threadCook.setDaemon(true);
+            threadCook.start();
+        }
 
         // OrderManager, который будет Observer для планшетов.
-        OrderManager orderManager = new OrderManager();
+        // only in task 21
+//        OrderManager orderManager = new OrderManager();
+
 
         // должно быть создано 5 планшетов.
         List<Tablet> tablets = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Tablet tablet = new Tablet(i+1);
+
+            // при создании планшета
+            // установи ссылку на очередь orderQueue
+            tablet.setQueue(ORDER_QUEUE);
+
             tablets.add(tablet);
-            tablet.addObserver(orderManager);
         }
 
         // создан и запущен тред на основе RandomOrderGeneratorTask.

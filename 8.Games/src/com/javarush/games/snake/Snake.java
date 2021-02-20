@@ -53,7 +53,8 @@ public class Snake {
     public void move(Apple apple) {
         if (isAlive) {
             GameObject newHead = createNewHead();
-            if (newHead.x < 0 || newHead.x > SnakeGame.WIDTH - 1 ||
+            if (checkCollision(newHead)) isAlive = false;
+            else if (newHead.x < 0 || newHead.x > SnakeGame.WIDTH - 1 ||
                     newHead.y < 0 || newHead.y > SnakeGame.HEIGHT - 1) isAlive = false;
             else {
                 snakeParts.add(0, newHead);
@@ -62,7 +63,6 @@ public class Snake {
                 }
                 else removeTail();
             }
-
         }
     }
 
@@ -84,5 +84,16 @@ public class Snake {
 
     public void removeTail() {
         snakeParts.remove(snakeParts.size() - 1);
+    }
+
+    // должен возвращать true, если координаты переданного объекта
+    // совпадают с координатами одного из элементов тела змейки.
+    public boolean checkCollision(GameObject gameObject) {
+        for (GameObject each: snakeParts) {
+            if (each.x == gameObject.x && each.y == gameObject.y) {
+                return true;
+            }
+        }
+        return false;
     }
 }

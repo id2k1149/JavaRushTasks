@@ -1,5 +1,6 @@
-package com.javarush.task.task27.task2712;
+package com.javarush.task.task27.task2712a;
 
+/*
 import com.javarush.task.task27.task2712.kitchen.Cook;
 import com.javarush.task.task27.task2712.kitchen.Order;
 import com.javarush.task.task27.task2712.statistic.StatisticManager;
@@ -72,3 +73,5 @@ public class OrderManager implements Observer {
         orderQueue.offer(order);
     }
 }
+
+ */

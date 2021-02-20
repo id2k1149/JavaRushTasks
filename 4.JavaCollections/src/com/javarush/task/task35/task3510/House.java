@@ -5,6 +5,7 @@ import java.util.List;
 
 /* 
 Вход воспрещен!
+https://javarush.ru/groups/posts/2324-wildcards-v-generics
 */
 
 public class House<T> {

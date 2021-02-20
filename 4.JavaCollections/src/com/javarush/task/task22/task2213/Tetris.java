@@ -68,7 +68,7 @@ public class Tetris {
 
             step();             //делаем очередной шаг
             field.print();      //печатаем состояние "поля"
-            Thread.sleep(300);  //пауза 300 миллисекунд - 1/3 секунды
+            Thread.sleep(3000);  //пауза 300 миллисекунд - 1/3 секунды
         }
 
         //Выводим сообщение "Game Over"
@@ -80,13 +80,22 @@ public class Tetris {
      */
     public void step() {
         //опускам фигурку вниз
+        figure.down();
 
         //если разместить фигурку на текущем месте невозможно:
-        //поднимаем обратно
-        //приземляем
-        //удаляем заполненные линии
-        //создаем новую фигурку
+        if (!figure.isCurrentPositionAvailable()) {
+            //поднимаем обратно
+            figure.up();
 
+            //приземляем
+            figure.landed();
+
+            //удаляем заполненные линии
+            field.removeFullLines();
+
+            //создаем новую фигурку
+            figure = FigureFactory.createRandomFigure(field.getWidth() / 2, 0);
+        }
     }
 
     /**
