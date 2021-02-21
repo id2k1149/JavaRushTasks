@@ -1,9 +1,9 @@
 package com.javarush.task.task22.task2213;
 
 public class Figure {
-    private int x;
+    private int x; //  координаты
     private int y;
-    private int[][] matrix;
+    private int[][] matrix; // форма
 
     public int getX() {
         return x;
@@ -24,19 +24,21 @@ public class Figure {
     }
 
     public void left() {
-
+        x--;
+        if (!isCurrentPositionAvailable()) x++;
     }
 
     public void right() {
-
+        x++;
+        if (!isCurrentPositionAvailable()) x--;
     }
 
     public void down() {
-
+        y++;
     }
 
     public void up() {
-
+        y--;
     }
 
     // для поворота фигурки вокруг главной диагонали.

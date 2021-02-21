@@ -1,22 +1,26 @@
 package com.javarush.task.task35.task3512;
 
 public class Generator<T> {
-    private Class<T> clazz;
+    private Class<T> aClass;
 
-
-    public Generator(Class<T> clazz) {
-        this.clazz = clazz;
+    public Generator(Class<T> aClass) {
+        this.aClass = aClass;
     }
 
     T newInstance() {
         T newInstanceT = null;
         try {
-            newInstanceT = clazz.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+            newInstanceT = aClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return newInstanceT;
     }
+
+    /*
+    java
+    T newInstance() throws IllegalAccessException, InstantiationException {
+        return aClass.newInstance();
+    }
+     */
 }

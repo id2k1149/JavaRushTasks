@@ -39,11 +39,30 @@ public class Canvas {
             for (int j = 0; j < matrix[0].length; j++) {
                 if (matrix[i][j] != 0) setPoint(intX+j, intY+i, c);
             }
-
-
         }
-
     }
 
+    // метод будет очищать матрицу, чтобы на ней снова можно было рисовать.
+    public void clear() {
+        matrix = new char[height][width];
 
+//        for (int i = 0; i < matrix.length; i++) {
+//            for (int j = 0; j < matrix[0].length; j++) {
+//                matrix[i][j] = ' ';
+//            }
+//        }
+    }
+
+    // метод отрисовывает матрицу на экран
+    public void print() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                System.out.print(matrix[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+
+    }
 }

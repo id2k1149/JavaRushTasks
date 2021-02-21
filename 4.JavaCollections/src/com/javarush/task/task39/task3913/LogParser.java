@@ -1,6 +1,7 @@
 package com.javarush.task.task39.task3913;
 
 import com.javarush.task.task39.task3913.query.IPQuery;
+import com.javarush.task.task39.task3913.query.UserQuery;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class LogParser implements IPQuery {
+public class LogParser implements IPQuery, UserQuery {
     private List<Record> records;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
@@ -160,5 +161,64 @@ public class LogParser implements IPQuery {
         }
 
         return ips;
+    }
+
+/*
+    UserQuery implementation
+*/
+
+    @Override
+    public Set<String> getAllUsers() {
+        return null;
+    }
+
+    @Override
+    public int getNumberOfUsers(Date after, Date before) {
+        return 0;
+    }
+
+    @Override
+    public int getNumberOfUserEvents(String user, Date after, Date before) {
+        return 0;
+    }
+
+    @Override
+    public Set<String> getUsersForIP(String ip, Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getLoggedUsers(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getDownloadedPluginUsers(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getWroteMessageUsers(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getSolvedTaskUsers(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getSolvedTaskUsers(Date after, Date before, int task) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getDoneTaskUsers(Date after, Date before) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getDoneTaskUsers(Date after, Date before, int task) {
+        return null;
     }
 }
