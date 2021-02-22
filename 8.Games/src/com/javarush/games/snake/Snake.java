@@ -96,4 +96,9 @@ public class Snake {
         }
         return false;
     }
+
+    // Для определения текущего размера змейки
+    public int getLength() {
+        return snakeParts.size();
+    }
 }

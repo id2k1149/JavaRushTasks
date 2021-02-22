@@ -10,6 +10,7 @@ public class Space {
     private List<Ufo> ufos = new ArrayList<>(); // список для хранения всех НЛО
     private List<Rocket> rockets = new ArrayList<>(); // список для хранения всех ракет
     private List<Bomb> bombs = new ArrayList<>(); // список для хранения всех бомб
+    public static Space game; // Создай в классе нашу игру
 
     public void setShip(SpaceShip ship) {
         this.ship = ship;
