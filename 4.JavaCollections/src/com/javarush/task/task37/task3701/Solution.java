@@ -9,12 +9,8 @@ import java.util.Iterator;
 Круговой итератор
 */
 
+// Класс Solution должен быть потомком класса ArrayList.
 public class Solution<T> extends ArrayList<T> {
-    @Override
-    public Iterator<T> iterator() {
-        return super.iterator();
-    }
-
     public static void main(String[] args) {
         Solution<Integer> list = new Solution<>();
         list.add(1);
@@ -32,7 +28,36 @@ public class Solution<T> extends ArrayList<T> {
         }
     }
 
-    public class RoundIterator {
-        Iterator<T> iter = Solution.super.iterator();
+    @Override
+    // Метод iterator() в классе Solution
+    // должен возвращать объект типа RoundIterator.
+    public Iterator<T> iterator() {
+        return new RoundIterator();
+    }
+
+    public class RoundIterator implements Iterator<T> {
+        Iterator<T> roundIterator = Solution.super.iterator();
+
+        @Override
+        public boolean hasNext() {
+            if (size() == 0) {
+                return false;
+            }
+            if (!roundIterator.hasNext()) {
+                roundIterator = Solution.super.iterator();
+            }
+            return true;
+        }
+
+        @Override
+        public T next() {
+            return roundIterator.next();
+        }
+
+        @Override
+        // Метод remove без параметров должен удалять текущий элемент.
+        public void remove() {
+            roundIterator.remove();
+        }
     }
 }

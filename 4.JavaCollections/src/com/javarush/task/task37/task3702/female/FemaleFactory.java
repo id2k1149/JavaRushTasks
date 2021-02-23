@@ -5,10 +5,12 @@ import com.javarush.task.task37.task3702.Human;
 
 public class FemaleFactory implements AbstractFactory {
     public Human getPerson(int age) {
+        Human human;
         if (age <= KidGirl.MAX_AGE) {
-            return new KidGirl();
+            human = new KidGirl();
         } else if (age <= TeenGirl.MAX_AGE) {
-            return new TeenGirl();
-        } else return new Woman();
+            human = new TeenGirl();
+        } else human = new Woman();
+        return human;
     }
 }

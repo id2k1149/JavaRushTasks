@@ -15,7 +15,8 @@ public class FactoryProducer {
                 return new MaleFactory();
             case FEMALE:
                 return new FemaleFactory();
+            default:
+                return null;
         }
-        return null;
     }
 }

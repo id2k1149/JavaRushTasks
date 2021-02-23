@@ -1,6 +1,5 @@
 package com.javarush.games.snake;
 
-import com.javarush.engine.cell.Game;
 import com.javarush.engine.cell.*;
 
 public class SnakeGame extends Game {
@@ -61,9 +60,12 @@ public class SnakeGame extends Game {
     }
 
     private void createNewApple() {
-        int x = getRandomNumber(WIDTH);
-        int y = getRandomNumber(HEIGHT);
-        apple = new Apple(x, y);
+        while (true) {
+            int x = getRandomNumber(WIDTH);
+            int y = getRandomNumber(HEIGHT);
+            apple = new Apple(x, y);
+            if (!snake.checkCollision(apple)) break;
+        }
     }
 
     private void gameOver() {
@@ -95,6 +97,10 @@ public class SnakeGame extends Game {
             }
             case DOWN: {
                 snake.setDirection(Direction.DOWN);
+                break;
+            }
+            case SPACE: {
+                if (isGameStopped) createGame();
                 break;
             }
         }

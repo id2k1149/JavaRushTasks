@@ -7,6 +7,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* 
 Поиск класса по описанию
 https://habr.com/en/company/luxoft/blog/157273/
+1. ClassNameToBeReplaced - имя класса,
+потокобезопасный аналог ArrayList,
+в котором все операции изменения (mutative operations)
+используют новую копию основного массива.
 */
 
 public class Solution {

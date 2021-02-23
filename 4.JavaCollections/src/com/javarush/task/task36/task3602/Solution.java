@@ -11,6 +11,9 @@ import java.util.List;
 
 /* 
 Найти класс по описанию Ӏ Java Collections: 6 уровень, 6 лекция
+1. Реализует интерфейс List;
+2. Является приватным статическим классом внутри популярного утилитного класса;
+3. Доступ по индексу запрещен - кидается исключение IndexOutOfBoundsException.
 */
 
 public class Solution {
@@ -18,6 +21,7 @@ public class Solution {
         System.out.println(getExpectedClass());
     }
 
+    // Используя рефлекшн (метод getDeclaredClasses), верни подходящий тип в методе
     public static Class getExpectedClass() {
         Class<?>[] classes = Collections.class.getDeclaredClasses();
 
