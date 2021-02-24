@@ -1,7 +1,6 @@
 package com.javarush.games.snake;
 
 import com.javarush.engine.cell.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +23,19 @@ public class Snake {
     public void setDirection(Direction direction) {
         switch (direction){
             case RIGHT:
+                if (snakeParts.get(0).y == snakeParts.get(1).y) return;
                 if (this.direction == Direction.LEFT) return;
                 else this.direction = direction; break;
             case LEFT:
+                if (snakeParts.get(0).y == snakeParts.get(1).y) return;
                 if (this.direction == Direction.RIGHT) return;
                 else this.direction = direction; break;
             case UP:
+                if (snakeParts.get(0).x == snakeParts.get(1).x) return;
                 if (this.direction == Direction.DOWN) return;
                 else this.direction = direction; break;
             case DOWN:
+                if (snakeParts.get(0).x == snakeParts.get(1).x) return;
                 if (this.direction == Direction.UP) return;
                 else this.direction = direction; break;
         }

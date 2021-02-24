@@ -20,6 +20,18 @@ public class MyMultiMap<K, V> extends HashMap<K, V> implements Cloneable, Serial
         return values().size();
     }
 
+    /*
+    java
+    @Override
+    public int size() {
+        int size = 0;
+        for (List<V> list : map.values()) {
+            size += list.size();
+        }
+        return size;
+    }
+     */
+
     @Override
     public V put(K key, V value) {
         List<V> valuesList = new ArrayList<>();

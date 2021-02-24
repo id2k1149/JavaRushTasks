@@ -45,6 +45,21 @@ public class Solution {
         } catch (Exception ignored) {}
     }
 
+    /*
+    java
+    public void scanFileSystem() throws ClassNotFoundException {
+        File dir = new File(packageName);
+        ClassLoader classLoader = Solution.class.getClassLoader();
+        for (String fileName : dir.list()) {
+            if (fileName.endsWith(".class")) {
+                String className = packageName.replaceAll("[/\\\\]", ".").substring(packageName.indexOf("com")) + "." + fileName.substring(0, fileName.length() - 6);
+                Class<?> aClass = classLoader.loadClass(className);
+                hiddenClasses.add(aClass);
+            }
+        }
+    }
+     */
+
     private class HiddenClassClassLoader extends ClassLoader {
         Class<?> loadClass(Path path) {
             try {

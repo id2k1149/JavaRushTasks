@@ -22,7 +22,7 @@ public class Solution {
         testRetriever(new OriginalRetriever(storage));
 
         System.out.println("\n\n\n\n\n\n\n\n\n\nTesting CachingProxyRetriever: ");
-//        testRetriever(new CachingProxyRetriever(storage));
+        testRetriever(new CachingProxyRetriever(storage));
     }
 
     private static void fillStorage(Storage storage) {
