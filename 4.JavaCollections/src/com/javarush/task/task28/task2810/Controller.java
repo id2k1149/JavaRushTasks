@@ -18,8 +18,8 @@ public class Controller {
 
     @Override
     public String toString() {
-        return "Controller {" +
-                "providers = " + Arrays.toString(providers) +
-                "}";
+        return "Controller{" +
+                "providers=" + Arrays.toString(providers) +
+                '}';
     }
 }
