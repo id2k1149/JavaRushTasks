@@ -9,7 +9,7 @@ public class RedShapeDecorator extends ShapeDecorator {
 
     private void setBorderColor(Shape shape) {
         String xxx = shape.getClass().getSimpleName();
-        System.out.println("Setting the border color for " + xxx + " to red");
+        System.out.println("Setting the border color for " + xxx + " to red.");
     }
 
     @Override

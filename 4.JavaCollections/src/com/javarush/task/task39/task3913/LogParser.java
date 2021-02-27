@@ -104,7 +104,6 @@ public class LogParser implements IPQuery, UserQuery {
     // должен возвращать количество уникальных IP адресов за выбранный период
     public int getNumberOfUniqueIPs(Date after, Date before) {
         Set<String> ips = getUniqueIPs(after, before);
-
         return ips.size();
     }
 
@@ -168,7 +167,9 @@ public class LogParser implements IPQuery, UserQuery {
 */
 
     @Override
+    // Метод должен возвращать множество содержащее всех пользователей.
     public Set<String> getAllUsers() {
+        Set<String> allUsers = new HashSet<>();
         return null;
     }
 
