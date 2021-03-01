@@ -1,5 +1,7 @@
 package com.javarush.task.task28.task2810.vo;
 
+import java.util.Objects;
+
 public class Vacancy {
     private String title; // Название
     private String salary; // зарплата
@@ -54,5 +56,23 @@ public class Vacancy {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vacancy)) return false;
+        Vacancy vacancy = (Vacancy) o;
+        return getTitle().equals(vacancy.getTitle()) &&
+                getSalary().equals(vacancy.getSalary()) &&
+                getCity().equals(vacancy.getCity()) &&
+                getCompanyName().equals(vacancy.getCompanyName()) &&
+                getSiteName().equals(vacancy.getSiteName()) &&
+                getUrl().equals(vacancy.getUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getSalary(), getCity(), getCompanyName(), getSiteName(), getUrl());
     }
 }

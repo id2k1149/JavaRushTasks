@@ -5,7 +5,6 @@ package com.javarush.task.task38.task3807;
 https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html
 */
 
-@Deprecated
 public class Solution {
 
     @Deprecated

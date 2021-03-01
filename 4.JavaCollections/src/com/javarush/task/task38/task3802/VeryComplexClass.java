@@ -12,15 +12,10 @@ import java.io.InputStream;
 public class VeryComplexClass {
     public void veryComplexMethod() throws Exception {
         //напишите тут ваш код
-        try {
-            File file = new File(" ");
-            InputStream input = new FileInputStream(file);
-        } catch (Exception exception) {
-        }
+        File file = new File(" ");
+        InputStream input = new FileInputStream(file);
     }
 
     public static void main(String[] args) {
-
-
     }
 }
