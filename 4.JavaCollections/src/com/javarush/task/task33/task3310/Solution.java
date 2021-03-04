@@ -1,22 +1,27 @@
 package com.javarush.task.task33.task3310;
 
-import com.javarush.task.task33.task3310.strategy.HashMapStorageStrategy;
-import com.javarush.task.task33.task3310.strategy.OurHashMapStorageStrategy;
-import com.javarush.task.task33.task3310.strategy.StorageStrategy;
+import com.javarush.task.task33.task3310.strategy.*;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Solution {
 
     public static void main(String[] args) {
-        long elementsNumber = 10000;
+        long elementsNumber = 500;
+        // стратегия #1
         testStrategy(new HashMapStorageStrategy(), elementsNumber);
+        // стратегия #2
         testStrategy(new OurHashMapStorageStrategy(), elementsNumber);
-    }
+        // стратегия #3
+        testStrategy(new FileStorageStrategy(), elementsNumber);
+        // стратегия #4
+        testStrategy(new OurHashBiMapStorageStrategy(), elementsNumber);
+        // стратегия #5
+        testStrategy(new HashBiMapStorageStrategy(), elementsNumber);
 
+    }
 
     // метод должен для переданного множества строк
     // возвращать множество идентификаторов.
@@ -81,5 +86,6 @@ public class Solution {
         } else {
             Helper.printMessage("Тест не пройден.");
         }
+        Helper.printMessage("-------------");
     }
 }

@@ -100,6 +100,10 @@ public class LogParser implements IPQuery, UserQuery {
                 (before == null || date.before(before) || date.equals(before));
     }
 
+    /*
+    IPQuery implementation
+    */
+
     @Override
     // должен возвращать количество уникальных IP адресов за выбранный период
     public int getNumberOfUniqueIPs(Date after, Date before) {

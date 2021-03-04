@@ -101,4 +101,16 @@ public class EnemyFleet {
         }
          */
     }
+
+    public Bullet fire(Game game) {
+        if (ships.isEmpty()) {
+            return null;
+        }
+        if (game.getRandomNumber(100 / SpaceInvadersGame.COMPLEXITY) > 0) {
+            return null;
+        }
+        int shipNumber = game.getRandomNumber(ships.size());
+        EnemyShip ship = ships.get(shipNumber);
+        return ship.fire();
+    }
 }

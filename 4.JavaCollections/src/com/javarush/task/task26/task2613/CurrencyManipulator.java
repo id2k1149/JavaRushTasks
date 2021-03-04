@@ -15,4 +15,20 @@ public class CurrencyManipulator {
         this.currencyCode = currencyCode;
         denominations = new HashMap<>();
     }
+
+    public void addAmount(int denomination, int count) {
+        if (denominations.containsKey(denomination)) {
+            denominations.put(denomination, denominations.get(denomination) + count);
+        } else {
+            denominations.put(denomination, count);
+        }
+    }
+
+    public int getTotalAmount() {
+        int totalAmount = 0;
+        for (Map.Entry<Integer, Integer> entry : denominations.entrySet()) {
+            totalAmount += entry.getKey() * entry.getValue();
+        }
+        return totalAmount;
+    }
 }

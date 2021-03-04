@@ -1,6 +1,7 @@
 package com.javarush.games.spaceinvaders;
 
 import com.javarush.engine.cell.*;
+import com.javarush.games.spaceinvaders.gameobjects.Bullet;
 import com.javarush.games.spaceinvaders.gameobjects.EnemyFleet;
 import com.javarush.games.spaceinvaders.gameobjects.Star;
 
@@ -12,6 +13,8 @@ public class SpaceInvadersGame extends Game {
     public static final int HEIGHT = 64;
     private List<Star> stars;
     private EnemyFleet enemyFleet;
+    public static final int COMPLEXITY = 5;
+    private List<Bullet> enemyBullets;
 
     @Override
     public void initialize() {
@@ -22,12 +25,16 @@ public class SpaceInvadersGame extends Game {
     private void createGame() {
         createStars();
         enemyFleet = new EnemyFleet();
+        enemyBullets = new ArrayList<>();
         drawScene();
         setTurnTimer(40);
     }
 
     private void drawScene() {
         drawField();
+        for (Bullet each: enemyBullets) {
+            each.draw(this);
+        }
         enemyFleet.draw(this);
     }
 
@@ -54,11 +61,40 @@ public class SpaceInvadersGame extends Game {
 
     private void moveSpaceObjects() {
         enemyFleet.move();
+        for (Bullet each: enemyBullets) {
+            each.move();
+        }
+    }
+
+    private void removeDeadBullets() {
+        List<Bullet> copyList = enemyBullets;
+        for (int i = 0; i < copyList.size(); i++) {
+            if ((copyList.get(i).y >= HEIGHT - 1) || copyList.get(i).isAlive == false) {
+                enemyBullets.remove(i);
+            }
+        }
+
+        /*
+        Iterator<Bullet> iterator = enemyBullets.iterator();
+
+        while (iterator.hasNext()) {
+            Bullet tmp = iterator.next();
+            if ((tmp.y >= HEIGHT - 1) || (tmp.isAlive == false)) {
+                iterator.remove();
+            }
+
+        }
+         */
+    }
+
+    private void check() {
+        removeDeadBullets();
     }
 
     @Override
     public void onTurn(int step) {
         moveSpaceObjects();
+        check();
         drawScene();
     }
 }

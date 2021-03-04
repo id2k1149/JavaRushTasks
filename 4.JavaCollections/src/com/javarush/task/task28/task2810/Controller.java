@@ -30,7 +30,7 @@ public class Controller {
         List<Vacancy> vacancies = new ArrayList<>();
         try {
             for (Provider provider : providers)
-                vacancies.addAll(provider.getJavaVacancies("omsk"));
+                vacancies.addAll(provider.getJavaVacancies("odessa"));
         } catch (NullPointerException e) { }
 
         System.out.println(vacancies.size());
