@@ -20,6 +20,8 @@ public class Solution {
         testStrategy(new OurHashBiMapStorageStrategy(), elementsNumber);
         // стратегия #5
         testStrategy(new HashBiMapStorageStrategy(), elementsNumber);
+        // стратегия #6
+        testStrategy(new DualHashBidiMapStorageStrategy(), elementsNumber);
 
     }
 

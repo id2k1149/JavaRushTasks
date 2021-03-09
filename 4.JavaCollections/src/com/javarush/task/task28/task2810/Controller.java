@@ -1,38 +1,18 @@
 package com.javarush.task.task28.task2810;
 
-import com.javarush.task.task28.task2810.model.Provider;
-import com.javarush.task.task28.task2810.vo.Vacancy;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.javarush.task.task28.task2810.model.Model;
 
 public class Controller {
-    private Provider[] providers;
+    private Model model;
 
-    // конструктор принимает столько провайдеров,
-    // сколько в него передадут для обработки.
-    public Controller(Provider... providers) {
-        if (providers == null || providers.length == 0) {
-            throw new IllegalArgumentException();
+    public Controller(Model model) {
+        if (model == null) {
+            throw new IllegalArgumentException("Model can not be null");
         }
-        this.providers = providers;
+        this.model = model;
     }
 
-    @Override
-    public String toString() {
-        return "Controller{" +
-                "providers=" + Arrays.toString(providers) +
-                '}';
-    }
-
-    public void scan() {
-        List<Vacancy> vacancies = new ArrayList<>();
-        try {
-            for (Provider provider : providers)
-                vacancies.addAll(provider.getJavaVacancies("odessa"));
-        } catch (NullPointerException e) { }
-
-        System.out.println(vacancies.size());
+    public void onCitySelect(String cityName) {
+        model.selectCity(cityName);
     }
 }

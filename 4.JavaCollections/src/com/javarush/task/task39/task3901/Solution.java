@@ -3,6 +3,7 @@ package com.javarush.task.task39.task3901;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,17 +26,30 @@ public class Solution {
             return 0;
         }
 
-        char[] charArray = s.toCharArray();
-        HashSet<Character> characterSet = new HashSet<>();
-        StringBuilder currentSubstring = new StringBuilder();
+        int maxLongestLength = 1;
+        int currentLength = 0;
+        StringBuilder currentUniqueSubstring = new StringBuilder();
 
-        for (int i = 0; i < charArray.length; i++) {
-            for (int j = i; j < charArray.length; j++) {
+        for (int i = 0; i < s.length(); i++) {
 
+            for (int j = i; j < s.length(); j++) {
+                String currentChar = String.valueOf(s.charAt(j));
+
+                if ( ! currentUniqueSubstring.toString().contains(currentChar)) {
+                    currentUniqueSubstring.append(currentChar);
+                    currentLength++;
+
+                } else {
+                    currentUniqueSubstring = new StringBuilder();
+                    currentLength = 0;
+                    break;
+                }
+
+                if (currentLength > maxLongestLength) {
+                    maxLongestLength = currentLength;
+                }
             }
-
         }
-
-        return characterSet.size();
+        return maxLongestLength;
     }
 }
