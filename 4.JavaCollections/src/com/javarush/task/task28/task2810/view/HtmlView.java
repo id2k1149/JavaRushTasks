@@ -15,39 +15,74 @@ public class HtmlView implements View {
             + this.getClass().getPackage().getName().replace('.', '/')
             + "/vacancies.html";
 
-    public void userCitySelectEmulationMethod() {
-        controller.onCitySelect("Odessa");
-    }
-
     @Override
     public void update(List<Vacancy> vacancies) {
         System.out.println(vacancies.size());
         try {
-            updateFile(getUpdatedFileContent(vacancies));
+            String newContent = getUpdatedFileContent(vacancies);
+            updateFile(newContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void updateFile(String stringContent) {
-        File file = new File(filePath);
-
-        try(Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)))) {
-
-            writer.write(stringContent);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private String getUpdatedFileContent(List<Vacancy> vacancyList) {
-        return null;
     }
 
     @Override
     public void setController(Controller controller) {
         this.controller = controller;
     }
+
+    public void userCitySelectEmulationMethod() {
+        controller.onCitySelect("Odessa");
+    }
+
+    private void updateFile(String stringContent) {
+        File file = new File(filePath);
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            outputStream.write(stringContent.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private String getUpdatedFileContent(List<Vacancy> vacancies) {
+        Document document;
+        try {
+            document = getDocument();
+
+            Element templateOriginal = document.getElementsByClass("template").first();
+            Element copyTemplate = templateOriginal.clone();
+
+            copyTemplate.removeAttr("style");
+            copyTemplate.removeClass("template");
+
+            document.select("tr[class=vacancy]").remove().not("tr[class=vacancy template");
+
+            for (Vacancy vacancy : vacancies) {
+                Element localClone = copyTemplate.clone();
+
+                localClone.getElementsByClass("city").first().text(vacancy.getCity());
+                localClone.getElementsByClass("companyName").first().text(vacancy.getCompanyName());
+                localClone.getElementsByClass("salary").first().text(vacancy.getSalary());
+
+                Element link =localClone.getElementsByTag("a").first();
+
+                link.text(vacancy.getTitle());
+                link.attr("href", vacancy.getUrl());
+
+                templateOriginal.before(localClone.outerHtml());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Some exception occurred";
+        }
+        return document.html();
+    }
+
+    protected Document getDocument() throws IOException {
+        return Jsoup.parse(new File(filePath), "UTF-8");
+    }
+
+
 }

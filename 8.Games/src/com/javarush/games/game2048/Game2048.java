@@ -36,7 +36,7 @@ public class Game2048 extends Game {
 
     private void win() {
         isGameStopped = true;
-        showMessageDialog(Color.AZURE, "YOU WIN", Color.BLUE, 70);
+        showMessageDialog(Color.AZURE, "YOU WON", Color.BLUE, 70);
     }
 
     private void gameOver() {

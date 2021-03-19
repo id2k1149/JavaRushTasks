@@ -6,6 +6,10 @@ import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 import java.util.Locale;
 
 public class CashMachine {
+    public static final String RESOURCE_PATH =
+            CashMachine.class.getPackage().getName()
+            + ".resources.";
+
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.ENGLISH);
@@ -21,7 +25,7 @@ public class CashMachine {
             while (operation != Operation.EXIT);
 
         } catch (InterruptOperationException interrupt) {
-            ConsoleHelper.writeMessage("See you soon...");
+            ConsoleHelper.printExitMessage();
         }
     }
 }

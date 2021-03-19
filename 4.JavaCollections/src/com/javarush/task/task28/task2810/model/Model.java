@@ -4,6 +4,7 @@ import com.javarush.task.task28.task2810.view.View;
 import com.javarush.task.task28.task2810.vo.Vacancy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Model {
@@ -28,7 +29,7 @@ public class Model {
     }
 
     public void selectCity(String city) {
-        ArrayList<Vacancy> vacancies = new ArrayList<>();
+        List<Vacancy> vacancies = new ArrayList<>();
 
         for (Provider provider: providers) {
             vacancies.addAll(provider.getJavaVacancies(city))  ;

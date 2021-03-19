@@ -11,12 +11,13 @@ public class Home extends GameObject {
 
     @Override
     public void draw(Graphics graphics) {
-        int width = getWidth();
-        int height = getHeight();
-        int x = getX() - width / 2;
-        int y = getY() - height / 2;
-
         graphics.setColor(Color.RED);
-        graphics.fillOval(x, y, width, height);
+
+        int xHome = getX();
+        int yHome = getY();
+        int height = getHeight();
+        int width = getWidth();
+
+        graphics.drawOval(xHome - width / 2, yHome - height / 2, width, height);
     }
 }

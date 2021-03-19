@@ -12,6 +12,7 @@ import java.util.List;
 
 public class HHStrategy implements Strategy {
     private static final String URL_FORMAT = "https://hh.ru/search/vacancy?text=java+%s&page=%d";
+
 //    private static final String URL_FORMAT = "https://javarush.ru/testdata/big28data.html";
 
     @Override

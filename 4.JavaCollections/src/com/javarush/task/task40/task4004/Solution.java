@@ -31,9 +31,34 @@ public class Solution {
 
     public static boolean isPointInPolygon(Point point, List<Point> polygon) {
         //напишите тут ваш код
+        boolean result = false;
+        int j=polygon.size()-1;
 
-        return true;
+        for (int i = 0; i < polygon.size(); i++) {
+            if ((((polygon.get(i).y < point.y) && (point.y < polygon.get(j).y)) || ((polygon.get(j).y <= point.y) && (point.y < polygon.get(i).y))) &&
+                    (point.x > (polygon.get(j).x - polygon.get(i).x) * (point.y - polygon.get(i).y) / (polygon.get(j).y - polygon.get(i).y) + polygon.get(i).x))
+                result = !result;
+            j=i;
+        }
+
+        return result;
     }
+
+    /* java
+    public static boolean isPointInPolygon(Point point, List<Point> polygon) {
+        int i;
+        int j;
+        boolean result = false;
+        for (i = 0, j = polygon.size() - 1; i < polygon.size(); j = i++) {
+            if ((polygon.get(i).y > point.y) != (polygon.get(j).y > point.y) &&
+                    (point.x < (polygon.get(j).x - polygon.get(i).x) * (point.y - polygon.get(i).y) / (polygon.get(j).y - polygon.get(i).y) + polygon.get(i).x)) {
+                result = !result;
+            }
+        }
+        return result;
+    }
+
+     */
 
 }
 

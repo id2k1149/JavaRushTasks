@@ -2,13 +2,23 @@ package com.javarush.task.task34.task3410.model;
 
 import java.awt.*;
 
-public abstract class GameObject {
+abstract public class GameObject {
     protected int x;
     protected int y;
-    protected int width;
-    protected int height;
+    protected int width = Model.FIELD_CELL_SIZE;
+    protected int height = Model.FIELD_CELL_SIZE;
 
-    public abstract void draw(Graphics graphics);
+    public GameObject(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public GameObject(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
 
     public int getX() {
         return x;
@@ -30,30 +40,10 @@ public abstract class GameObject {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
+    abstract public void draw(Graphics graphics);
 
-    public GameObject(int x, int y) {
-        this.x = x;
-        this.y = y;
-        width = Model.FIELD_CELL_SIZE;
-        height = Model.FIELD_CELL_SIZE;
-
-    }
-
-    public GameObject(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
 }

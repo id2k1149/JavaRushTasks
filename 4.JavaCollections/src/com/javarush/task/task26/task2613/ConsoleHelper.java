@@ -5,8 +5,13 @@ import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ResourceBundle;
 
 public class ConsoleHelper {
+    private static ResourceBundle res = ResourceBundle
+            .getBundle(CashMachine.class.getPackage().getName()
+                    + ".resources.common_en");
+
     private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
 
     public static void writeMessage(String message) {
@@ -28,6 +33,10 @@ public class ConsoleHelper {
         return text;
     }
 
+    public static void printExitMessage() {
+        writeMessage("See you soon...");
+    }
+
     /**
      * Спросить у пользователя операцию.
      * Если пользователь вводит 1, то выбирается команда INFO, 2 - DEPOSIT, 3 - WITHDRAW, 4 - EXIT;
@@ -37,15 +46,15 @@ public class ConsoleHelper {
      */
     public static Operation askOperation() throws InterruptOperationException  {
         while (true) {
-            writeMessage("Please choose an operation");
-            writeMessage("1 - INFO");
-            writeMessage("2 - DEPOSIT");
-            writeMessage("3 - WITHDRAW");
-            writeMessage("4 - EXIT");
+            writeMessage(res.getString("choose.operation"));
+            writeMessage("1 - " + res.getString("operation.INFO"));
+            writeMessage("2 - " + res.getString("operation.DEPOSIT"));
+            writeMessage("3 - " + res.getString("operation.WITHDRAW"));
+            writeMessage("4 - " + res.getString("operation.EXIT"));
             while (true) {
                 String userInput = readString();
                 if (userInput == null || ! userInput.matches("[1-4]")) {
-                    ConsoleHelper.writeMessage("Please specify valid data.");
+                    ConsoleHelper.writeMessage(res.getString("invalid.data"));
                 }
                 else {
                     int operationNumber = Integer.parseInt(userInput);
@@ -81,10 +90,10 @@ public class ConsoleHelper {
      */
     public static String askCurrencyCode() throws InterruptOperationException  {
         while (true) {
-            ConsoleHelper.writeMessage("Please choose a currency code, for example USD");
+            ConsoleHelper.writeMessage(res.getString("choose.currency.code"));
             String currencyCode = ConsoleHelper.readString();
             if (currencyCode == null || currencyCode.trim().length() != 3) {
-                ConsoleHelper.writeMessage("Please specify valid data.");
+                ConsoleHelper.writeMessage(res.getString("invalid.data"));
                 continue;
             }
             return currencyCode.trim().toUpperCase();
@@ -101,17 +110,17 @@ public class ConsoleHelper {
      */
     public static String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException  {
         while (true) {
-            ConsoleHelper.writeMessage(String.format("Please specify integer denomination and integer count. For example '10 3' means 30 %s", currencyCode));
+            ConsoleHelper.writeMessage(String.format(res.getString("choose.denomination.and.count.format"), "conventional units" ));
             String s = ConsoleHelper.readString();
             String[] split;
             if (s == null || (split = s.split(" ")).length != 2) {
-                ConsoleHelper.writeMessage("Please specify valid data.");
+                ConsoleHelper.writeMessage(res.getString("invalid.data"));
             } else {
                 try {
                     if (Integer.parseInt(split[0]) <= 0 || Integer.parseInt(split[1]) <= 0)
-                        ConsoleHelper.writeMessage("Please specify valid data.");
+                        ConsoleHelper.writeMessage(res.getString("invalid.data"));
                 } catch (NumberFormatException e) {
-                    ConsoleHelper.writeMessage("Please specify valid data.");
+                    ConsoleHelper.writeMessage(res.getString("invalid.data"));
                     continue;
                 }
                 return split;
