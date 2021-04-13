@@ -1,0 +1,5 @@
+In this example we are converting the double
+value to integer value using Math.round() method.
+This method rounds of the number to nearest integer.
+As you can see in the output that the double value 99.99
+is rounded of to the nearest int value 100.
